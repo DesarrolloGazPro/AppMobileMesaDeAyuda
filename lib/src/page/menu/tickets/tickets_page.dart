@@ -2,6 +2,8 @@ import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
+import 'package:mesadeayuda/src/models/area_servicios.dart';
+import 'package:mesadeayuda/src/models/fallas.dart';
 import 'package:mesadeayuda/src/models/personal.dart';
 import 'package:mesadeayuda/src/page/menu/tickets/tickets_controller.dart';
 import 'package:mesadeayuda/src/utils/my_colors.dart';
@@ -141,34 +143,59 @@ class _TicketsPageState extends State<TicketsPage> {
                   const SizedBox(height: 5),
                   _dropCambiarestatus(),
                   const SizedBox(height: 5),
-                  _dropAtendio(),
-                  const SizedBox(height: 5),
+                  _visbleAtendioYfechaHora(),
                   const SizedBox(height: 10),
-                  const Center(
-                    child: Text('Fecha y hora', style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    )),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _dropFecha(),
-
-                        _hora(),
-                      ],
-                    ),
-                  ),
-
-                  SizedBox(height: 30),
+                  _visibleSelectArefalla(),
+                  const SizedBox(height: 10),
                   _imagen(),
                 ],
               )
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _visibleSelectArefalla(){
+    return Visibility(
+      visible: false,
+      child: Column(
+        children: [
+          _dropArea(),
+          _dropFalla(),
+          _AreaEncargada(),
+          _Prioridad(),
+        ],
+      ),
+    );
+  }
+
+  Widget _visbleAtendioYfechaHora()
+  {// solo se debe de mostrar cuando ele status es cerrado
+    return Visibility(
+      visible: false,
+      child: Column(
+        children: [
+          _dropAtendio(),
+          const SizedBox(height: 10),
+          const Center(
+            child: Text('Fecha y hora', style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            )),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 10, right: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _dropFecha(),
+                _hora(),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -254,7 +281,7 @@ class _TicketsPageState extends State<TicketsPage> {
   }
 
   Widget _dropAtendio(){
-    String dropdownValue = (_con.personal.isNotEmpty) ? _con.personal.first.nombre : '';
+    String dropdownValue = (_con.listaPersonal.isNotEmpty) ? _con.listaPersonal.first.nombre : '';
     return Column(
       children: [
         const Text('Atendió' , style: TextStyle(
@@ -281,7 +308,7 @@ class _TicketsPageState extends State<TicketsPage> {
 
             },
             isExpanded: true,
-            items: _con.personal.map<DropdownMenuItem<String>>((Personal personal) {
+            items: _con.listaPersonal.map<DropdownMenuItem<String>>((Personal personal) {
               return DropdownMenuItem<String>(
                 value: personal.nombre,
                 child: Text(personal.nombre, style:  TextStyle(fontSize: 20)),
@@ -293,6 +320,90 @@ class _TicketsPageState extends State<TicketsPage> {
     );
   }
 
+
+  Widget _dropArea(){
+    String dropdownValue = (_con.listaareaServicio.isNotEmpty) ? _con.listaareaServicio.first.clave : '';
+    return Column(
+      children: [
+        const Text('Área' , style: TextStyle(
+            color: Colors.black, height: 2,
+            fontWeight: FontWeight.bold,
+            fontSize: 20
+        ),),
+        Container(
+          margin: const EdgeInsets.only(left: 10, right: 10),
+          decoration: BoxDecoration(
+            color:MyColors.primaryOpacityColor,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: DropdownButton<String>(
+            value: _con.valorAreaServicio,
+            icon: const Icon(Icons.arrow_downward),
+            elevation: 16,
+            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+
+            onChanged: (String? value) {
+              refresh();
+              _con.valorAreaServicio = value!;
+              _con.txtareencargada.text =  _con.valorAreaServicio;
+
+
+            },
+            isExpanded: true,
+            items: _con.listaareaServicio.map<DropdownMenuItem<String>>((AreaServicios area) {
+              return DropdownMenuItem<String>(
+                value: area.clave,
+                child: Text(area.clave, style:  TextStyle(fontSize: 20)),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _dropFalla(){
+    String dropdownValue = (_con.listafallas.isNotEmpty) ? _con.listafallas.first.falla : '';
+    return Column(
+      children: [
+        const Text('Falla' , style: TextStyle(
+            color: Colors.black, height: 2,
+            fontWeight: FontWeight.bold,
+            fontSize: 20
+        ),),
+        Container(
+          margin: const EdgeInsets.only(left: 10, right: 10),
+          decoration: BoxDecoration(
+            color:MyColors.primaryOpacityColor,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: DropdownButton<String>(
+            value: _con.valorFalla,
+            icon: const Icon(Icons.arrow_downward),
+            elevation: 16,
+            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+
+            onChanged: (String? value) {
+              refresh();
+              _con.valorFalla = value!;
+
+              _con.txtprioridad.text = _con.listaprioridad.firstWhere((p) => p.id == _con.listafallas.firstWhere((f) => f.falla == _con.valorFalla).prioridad).clave;
+
+            },
+            isExpanded: true,
+            items: _con.listafallas.map<DropdownMenuItem<String>>((Fallas falla) {
+              return DropdownMenuItem<String>(
+                value: falla.falla,
+                child: Text(falla.falla, style:  TextStyle(fontSize: 20)),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
+    );
+  }
 
   Widget _dropFecha() {
     return Row(
@@ -513,6 +624,66 @@ class _TicketsPageState extends State<TicketsPage> {
           },
         ),
       ],
+    );
+  }
+
+  Widget _AreaEncargada(){
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      decoration: BoxDecoration(
+        color:Colors.white,
+        borderRadius: BorderRadius.circular(30),
+
+      ),
+      child:  TextField(
+        enabled: false,
+        controller: _con.txtareencargada,
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+            hintText: 'Correo electronico',
+            border: InputBorder.none,
+            contentPadding: const EdgeInsets.all(15),
+            hintStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 20
+            ),
+            prefixIcon: Icon(
+              Icons.area_chart,
+              color: MyColors.primaryColor,
+            )
+        ),
+        style: TextStyle( fontSize: 20),
+      ),
+    );
+  }
+
+  Widget _Prioridad(){
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      decoration: BoxDecoration(
+        color:Colors.white,
+        borderRadius: BorderRadius.circular(30),
+
+      ),
+      child:  TextField(
+         enabled: false,
+         controller: _con.txtprioridad,
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+            hintText: 'Correo electronico',
+            border: InputBorder.none,
+            contentPadding: const EdgeInsets.all(15),
+            hintStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 20
+            ),
+            prefixIcon: Icon(
+              Icons.priority_high,
+              color: MyColors.primaryColor,
+            )
+        ),
+        style: TextStyle( fontSize: 20),
+      ),
     );
   }
 

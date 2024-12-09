@@ -1,5 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:mesadeayuda/src/models/Prioridad.dart';
+import 'package:mesadeayuda/src/models/area_servicios.dart';
+import 'package:mesadeayuda/src/models/fallas.dart';
 import 'package:mesadeayuda/src/models/personal.dart';
 import 'package:mesadeayuda/src/models/user_respuesta_login.dart';
 import 'package:mesadeayuda/src/utils/shared_pref.dart';
@@ -19,7 +22,13 @@ class TicketsController {
   String valorReasignar='No';
   String valorcambiarEstatus='Abierto';
   String valorAtendio='Selecciona';
-  List<Personal> personal = [Personal(nombre: "Selecciona", departamento: "Selecciona")];
+  String valorAreaServicio='Sistemas operaciones';
+  String valorFalla='Apagon General'; // en al cinsulta aplcia run order by para que depues concuerde
+
+  List<Personal> listaPersonal = [Personal(nombre: "Selecciona", departamento: "Selecciona")];
+  List<AreaServicios> listaareaServicio = [AreaServicios(id: 12, clave: "Sistemas operaciones")];
+  List<Fallas> listafallas = [Fallas(id: 1, falla: 'Apagon General', prioridad: 2, tiempo: 4, departamentoId: 1, categoriaId: 42, clasificacionId: 12)];
+  List<Prioridad> listaprioridad = [];
 
   List<Message> messageList = [
     Message(text: 'Hola como estas!', fromWho: 'ella'),
@@ -28,6 +37,8 @@ class TicketsController {
   ];
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
+  TextEditingController txtareencargada = TextEditingController();
+  TextEditingController txtprioridad = TextEditingController();
 
   late UserRespuestaLogin userLogin;
   TicketsProviders ticketsProviders = new TicketsProviders();
@@ -36,6 +47,11 @@ class TicketsController {
      this.refresh=refresh;
      await ticketsProviders.init(context);
      consultarPersonal();
+     consultarArea();
+     consultaFallas();
+     prioridades();
+     txtareencargada.text = valorAreaServicio;
+     txtprioridad.text = listaprioridad.first.clave;
      refresh();
 
   }
@@ -97,9 +113,35 @@ class TicketsController {
   }
 
   void consultarPersonal() async {
-    personal.clear();
-    personal = await ticketsProviders.consulTaPersonal('Gerencia de Desarrollo');
-    if (personal.isEmpty){
+    listaPersonal.clear();
+    listaPersonal = await ticketsProviders.consulTaPersonal('Gerencia de Desarrollo');
+    if (listaPersonal.isEmpty){
+      MySnackBar.show(context, 'No existen datos');
+    }
+    refresh();
+  }
+
+  void consultarArea() async {
+    listaareaServicio.clear();
+    listaareaServicio = await ticketsProviders.consulTaArea();
+    if (listaareaServicio.isEmpty){
+      MySnackBar.show(context, 'No existen datos');
+    }
+    refresh();
+  }
+  void consultaFallas() async {
+    listafallas.clear();
+    listafallas = await ticketsProviders.consulTaFallas(12);
+    if (listafallas.isEmpty){
+      MySnackBar.show(context, 'No existen datos');
+    }
+    refresh();
+  }
+
+  void prioridades() async {
+    listaprioridad.clear();
+    listaprioridad = await ticketsProviders.consulTaPrioridades();
+    if (listaprioridad.isEmpty){
       MySnackBar.show(context, 'No existen datos');
     }
     refresh();
