@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
 
 
         'menu/tickets/list' : (BuildContext context) => const ListTicketsPage(),
-        'menu/list/test' : (BuildContext context) =>  TimePickerWidget(),
+        'menu/list/test' : (BuildContext context) =>  Testtest(),
 
         'menu/tickets' : (BuildContext context) =>  TicketsPage(clave: 'Gerencia de Desarrollo',),
 

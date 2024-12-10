@@ -41,6 +41,7 @@ class TicketsController {
   TextEditingController txtprioridad = TextEditingController();
   bool mostrarAtendido=false;
   bool mostrarArea =false;
+  bool mostrarReasignarTicket =false;
 
   late UserRespuestaLogin userLogin;
   TicketsProviders ticketsProviders = new TicketsProviders();
@@ -52,8 +53,8 @@ class TicketsController {
      consultarArea();
      consultaFallas();
      prioridades();
-     txtareencargada.text = valorAreaServicio;
-     txtprioridad.text = listaprioridad.first.clave;
+   //  txtareencargada.text = valorAreaServicio;
+  //   txtprioridad.text = listaprioridad.first.clave;
      mostraAtendidoFecha();
      mostraAreaFalla();
      refresh();
@@ -154,14 +155,16 @@ class TicketsController {
   void mostraAtendidoFecha(){
     if(valorcambiarEstatus == 'Cerrado'){
        mostrarAtendido=true;
+       mostrarReasignarTicket=false;
     }else{
       mostrarAtendido=false;
+      mostrarReasignarTicket=true;
     }
     refresh;
   }
 
   void mostraAreaFalla(){
-    if(valorReasignar == 'Si'){
+    if(valorReasignar == 'Si' && valorcambiarEstatus != 'Cerrado'){
       mostrarArea=true;
     }else{
       mostrarArea=false;

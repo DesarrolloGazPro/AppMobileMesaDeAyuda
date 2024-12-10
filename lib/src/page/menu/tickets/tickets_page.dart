@@ -142,7 +142,7 @@ class _TicketsPageState extends State<TicketsPage> {
                   _dropCambiarestatus(),
                   const SizedBox(height: 5),
                   _dropReasignarTiket(),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 10),
                   _visbleAtendioYfechaHora(),
                   const SizedBox(height: 10),
                   _visibleSelectAreafalla(),
@@ -163,7 +163,7 @@ class _TicketsPageState extends State<TicketsPage> {
       child: Column(
         children: [
           _dropArea(),
-          const SizedBox(height: 5),
+          const SizedBox(height: 30),
           _dropFalla(),
           const SizedBox(height: 5),
           _AreaEncargada(),
@@ -181,7 +181,7 @@ class _TicketsPageState extends State<TicketsPage> {
       child: Column(
         children: [
           _dropAtendio(),
-          const SizedBox(height: 10),
+          const SizedBox(height: 30),
           const Center(
             child: Text('Fecha y hora', style: TextStyle(
               fontWeight: FontWeight.bold,
@@ -205,42 +205,45 @@ class _TicketsPageState extends State<TicketsPage> {
 
   Widget _dropReasignarTiket(){
     String dropdownValue = _con.reasignarTicket.first;
-    return Column(
-      children: [
-        const Text('Reasignar ticket' , style: TextStyle(
-            color: Colors.black, height: 2,
-            fontWeight: FontWeight.bold,
-            fontSize: 20
-        ),),
-        Container(
-          margin: const EdgeInsets.only(left: 10, right: 10),
-           decoration: BoxDecoration(
-             color:MyColors.primaryOpacityColor,
-             borderRadius: BorderRadius.circular(30),
-           ),
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: DropdownButton<String>(
-           value: _con.valorReasignar,
-           icon: const Icon(Icons.arrow_downward),
-           elevation: 16,
-           style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            borderRadius: BorderRadius.zero,
-           onChanged: (String? value) {
-               refresh();
-               _con.valorReasignar = value!;
-               _con.mostraAreaFalla();
-
-           },
-            isExpanded: true,
-           items: _con.reasignarTicket.map<DropdownMenuItem<String>>((String value) {
-             return DropdownMenuItem<String>(
-               value: value,
-               child: Text(value , style: TextStyle(fontSize: 20),),
-             );
-           }).toList(),
+    return Visibility(
+    visible: _con.mostrarReasignarTicket,
+      child: Column(
+        children: [
+          const Text('Reasignar ticket' , style: TextStyle(
+              color: Colors.black, height: 2,
+              fontWeight: FontWeight.bold,
+              fontSize: 20
+          ),),
+          Container(
+            margin: const EdgeInsets.only(left: 10, right: 10),
+             decoration: BoxDecoration(
+               color:MyColors.primaryOpacityColor,
+               borderRadius: BorderRadius.circular(30),
              ),
-        ),
-      ],
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: DropdownButton<String>(
+             value: _con.valorReasignar,
+             icon: const Icon(Icons.arrow_downward),
+             elevation: 16,
+             style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              borderRadius: BorderRadius.zero,
+             onChanged: (String? value) {
+                 refresh();
+                 _con.valorReasignar = value!;
+                 _con.mostraAreaFalla();
+
+             },
+              isExpanded: true,
+             items: _con.reasignarTicket.map<DropdownMenuItem<String>>((String value) {
+               return DropdownMenuItem<String>(
+                 value: value,
+                 child: Text(value , style: TextStyle(fontSize: 20),),
+               );
+             }).toList(),
+               ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -270,6 +273,8 @@ class _TicketsPageState extends State<TicketsPage> {
               refresh();
               _con.valorcambiarEstatus = value!;
               _con.mostraAtendidoFecha();
+             
+
 
             },
             isExpanded: true,
@@ -643,21 +648,16 @@ class _TicketsPageState extends State<TicketsPage> {
       child:  TextField(
         enabled: false,
         controller: _con.txtareencargada,
-        keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
-            hintText: 'Correo electronico',
             border: InputBorder.none,
             contentPadding: const EdgeInsets.all(15),
-            hintStyle: TextStyle(
-                color: Colors.white,
-                fontSize: 20
-            ),
             prefixIcon: Icon(
               Icons.area_chart,
               color: MyColors.primaryColor,
             )
         ),
-        style: TextStyle( fontSize: 20),
+        style: TextStyle( fontSize: 20, color: Colors.orange.shade900),
+
       ),
     );
   }
@@ -671,23 +671,19 @@ class _TicketsPageState extends State<TicketsPage> {
 
       ),
       child:  TextField(
+
          enabled: false,
          controller: _con.txtprioridad,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
-            hintText: 'Correo electronico',
             border: InputBorder.none,
             contentPadding: const EdgeInsets.all(15),
-            hintStyle: TextStyle(
-                color: Colors.white,
-                fontSize: 20
-            ),
             prefixIcon: Icon(
               Icons.priority_high,
               color: MyColors.primaryColor,
             )
         ),
-        style: TextStyle( fontSize: 20),
+        style: TextStyle( fontSize: 20, color: Colors.orange.shade900),
       ),
     );
   }

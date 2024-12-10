@@ -221,7 +221,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
       child: Stack(
         children: [
           Container(
-            margin: const EdgeInsets.only(right: 15, top: 32),
+            margin: const EdgeInsets.only(right: 15),
             child: const Icon(
               Icons.refresh,
               color: Colors.white,
@@ -233,7 +233,6 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
       ),
     );
   }
-
 
   void refresh(){
     setState(() {});
@@ -256,16 +255,16 @@ class TicketTile extends StatelessWidget {
         ));
       },
       child: Container(
+        color: Colors.white,
         height: 150,
         child: Card(
-          elevation: 15,
-          color: Colors.white60,
+          elevation: 5,
+          color: Colors.white,
           margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: ListTile(
-
-            title: Text('Clave: ${ticket.clave ?? ''}', style: TextStyle(fontSize: 20)),
-            subtitle: Text('Descripción: ${ticket.falla ?? ''}', style: TextStyle(fontSize: 17)),
-            trailing: Icon(Icons.info_outline, color: MyColors.primaryColor),
+            title: Text('Clave: ${ticket.clave ?? ''}', style: TextStyle(fontSize: 20, color: Colors.black)),
+            subtitle: Text('Descripción: ${ticket.falla ?? ''}', style: TextStyle(fontSize: 20, color: Colors.black)),
+            trailing: Icon(Icons.info, color: Colors.orange),
           ),
         ),
       ),
