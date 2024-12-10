@@ -39,6 +39,8 @@ class TicketsController {
   TimeOfDay? selectedTime;
   TextEditingController txtareencargada = TextEditingController();
   TextEditingController txtprioridad = TextEditingController();
+  bool mostrarAtendido=false;
+  bool mostrarArea =false;
 
   late UserRespuestaLogin userLogin;
   TicketsProviders ticketsProviders = new TicketsProviders();
@@ -52,6 +54,8 @@ class TicketsController {
      prioridades();
      txtareencargada.text = valorAreaServicio;
      txtprioridad.text = listaprioridad.first.clave;
+     mostraAtendidoFecha();
+     mostraAreaFalla();
      refresh();
 
   }
@@ -145,5 +149,23 @@ class TicketsController {
       MySnackBar.show(context, 'No existen datos');
     }
     refresh();
+  }
+
+  void mostraAtendidoFecha(){
+    if(valorcambiarEstatus == 'Cerrado'){
+       mostrarAtendido=true;
+    }else{
+      mostrarAtendido=false;
+    }
+    refresh;
+  }
+
+  void mostraAreaFalla(){
+    if(valorReasignar == 'Si'){
+      mostrarArea=true;
+    }else{
+      mostrarArea=false;
+    }
+    refresh;
   }
 }

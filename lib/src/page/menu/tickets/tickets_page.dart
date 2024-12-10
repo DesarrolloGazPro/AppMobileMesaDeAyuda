@@ -139,13 +139,13 @@ class _TicketsPageState extends State<TicketsPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _dropReasignarTiket(),
-                  const SizedBox(height: 5),
                   _dropCambiarestatus(),
+                  const SizedBox(height: 5),
+                  _dropReasignarTiket(),
                   const SizedBox(height: 5),
                   _visbleAtendioYfechaHora(),
                   const SizedBox(height: 10),
-                  _visibleSelectArefalla(),
+                  _visibleSelectAreafalla(),
                   const SizedBox(height: 10),
                   _imagen(),
                 ],
@@ -157,14 +157,17 @@ class _TicketsPageState extends State<TicketsPage> {
     );
   }
 
-  Widget _visibleSelectArefalla(){
+  Widget _visibleSelectAreafalla(){
     return Visibility(
-      visible: false,
+      visible: _con.mostrarArea,
       child: Column(
         children: [
           _dropArea(),
+          const SizedBox(height: 5),
           _dropFalla(),
+          const SizedBox(height: 5),
           _AreaEncargada(),
+          const SizedBox(height: 5),
           _Prioridad(),
         ],
       ),
@@ -174,7 +177,7 @@ class _TicketsPageState extends State<TicketsPage> {
   Widget _visbleAtendioYfechaHora()
   {// solo se debe de mostrar cuando ele status es cerrado
     return Visibility(
-      visible: false,
+      visible: _con.mostrarAtendido,
       child: Column(
         children: [
           _dropAtendio(),
@@ -225,6 +228,7 @@ class _TicketsPageState extends State<TicketsPage> {
            onChanged: (String? value) {
                refresh();
                _con.valorReasignar = value!;
+               _con.mostraAreaFalla();
 
            },
             isExpanded: true,
@@ -265,6 +269,7 @@ class _TicketsPageState extends State<TicketsPage> {
             onChanged: (String? value) {
               refresh();
               _con.valorcambiarEstatus = value!;
+              _con.mostraAtendidoFecha();
 
             },
             isExpanded: true,
