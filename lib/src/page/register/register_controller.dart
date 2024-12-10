@@ -120,7 +120,7 @@ class RegisterController {
       builder: (BuildContext context){
        return alertDialog;
       });
- }
+    }
  void back(){
   Navigator.pop(context);
  }

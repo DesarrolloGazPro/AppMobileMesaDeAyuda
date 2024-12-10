@@ -5,6 +5,7 @@ import 'package:mesadeayuda/src/models/user_respuesta_login.dart';
 import 'package:mesadeayuda/src/providers/tickets_providers.dart';
 import 'package:mesadeayuda/src/utils/shared_pref.dart';
 
+import '../../../../models/usuario.dart';
 import '../../../../utils/my_snackbar.dart';
 
 
@@ -17,14 +18,15 @@ class ListTicketsController {
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
   List<Tickets> tickets = [Tickets(id: 0, clave: "1", falla: "1")];
   List<Tickets> ticketsList = [Tickets(id: 0, clave: "1", falla: "1")];
-
+  late Usuario user;
   TextEditingController searchController = TextEditingController();
   late UserRespuestaLogin userLogin;
   Future<void> init(BuildContext context, Function refresh) async {
     this.context=context;
     this.refresh=refresh;
     await ticketsProviders.init(context);
-    consultarTickets();
+    user = Usuario.fromJson(await _sharedPref.read('userLogin'));
+    consultarTickets(user.usuarios!.departamentoClave);
     refresh();
   }
   void logout(){
@@ -36,9 +38,9 @@ class ListTicketsController {
   }
 
 
-  void consultarTickets() async {
+  void consultarTickets(String departamento) async {
     tickets.clear();
-    tickets = await ticketsProviders.consultarTickets();
+    tickets = await ticketsProviders.consultarTickets(departamento);
     ticketsList.clear();
     ticketsList=tickets;
 

@@ -22,10 +22,10 @@ class TicketsProviders {
     this.context= context;
   }
 
-  Future<List<Tickets>> consultarTickets() async {
+  Future<List<Tickets>> consultarTickets(departamento) async {
     try {
       List<Tickets> tickets = [];
-      String url = '$_url$_api/consultaTikets';
+      String url = '$_url$_api/consultaTikets/$departamento';
       Map<String, dynamic> headers = {
         'Content-type': 'application/json',
       };

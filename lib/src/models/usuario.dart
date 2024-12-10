@@ -34,6 +34,7 @@ class Usuarios {
   String estatus;
   String departamentoClave;
   String perfilClave;
+  String depto_biotime;
 
   Usuarios({
     required this.id,
@@ -45,30 +46,8 @@ class Usuarios {
     required this.estatus,
     required this.departamentoClave,
     required this.perfilClave,
+    required this.depto_biotime,
   });
-
-  Usuarios copyWith({
-    int? id,
-    int? empleadoId,
-    String? usuario,
-    String? nombre,
-    dynamic contrasena,
-    String? correo,
-    String? estatus,
-    String? departamentoClave,
-    String? perfilClave,
-  }) =>
-      Usuarios(
-        id: id ?? this.id,
-        empleadoId: empleadoId ?? this.empleadoId,
-        usuario: usuario ?? this.usuario,
-        nombre: nombre ?? this.nombre,
-        contrasena: contrasena ?? this.contrasena,
-        correo: correo ?? this.correo,
-        estatus: estatus ?? this.estatus,
-        departamentoClave: departamentoClave ?? this.departamentoClave,
-        perfilClave: perfilClave ?? this.perfilClave,
-      );
 
   factory Usuarios.fromJson(Map<String, dynamic> json) => Usuarios(
     id: json["id"],
@@ -80,6 +59,7 @@ class Usuarios {
     estatus: json["estatus"],
     departamentoClave: json["departamento_clave"],
     perfilClave: json["perfil_clave"],
+    depto_biotime: json["depto_biotime"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -92,5 +72,6 @@ class Usuarios {
     "estatus": estatus,
     "departamento_clave": departamentoClave,
     "perfil_clave": perfilClave,
+    "depto_biotime": depto_biotime,
   };
 }

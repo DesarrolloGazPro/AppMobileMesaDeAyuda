@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
             color: MyColors.primaryColor,
           )
         ),
-       style: TextStyle( fontSize: 20),
+       style: TextStyle( fontSize: 20, color: Colors.white),
       ),
    );
   }
@@ -162,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
 
         ),
-         style: TextStyle( fontSize: 20),
+         style: TextStyle( fontSize: 20, color: Colors.white),
       ),
     );
   }

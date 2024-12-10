@@ -148,6 +148,7 @@ class _TicketsPageState extends State<TicketsPage> {
                   _visibleSelectAreafalla(),
                   const SizedBox(height: 10),
                   _imagen(),
+                  const SizedBox(height: 10),
                 ],
               )
             ],
@@ -688,16 +689,28 @@ class _TicketsPageState extends State<TicketsPage> {
     );
   }
 
-  Widget _imagen(){
-    return Center(
-      child: CircleAvatar(
-        backgroundImage:  AssetImage('assets/img/no-image.png'),
-        radius: 50,
-        backgroundColor: Colors.grey.shade200,
+  Widget _imagen() {
+    return GestureDetector(
+      onTap: _con.showAlertDialog,
+      child: Center(
+        child: Container(
+          width: 250, // Ancho del cuadrado
+          height: 200, // Altura del cuadrado
+          decoration: BoxDecoration(
+            color: Colors.grey.shade200,
+            borderRadius: BorderRadius.circular(20), // Opcional: Bordes redondeados
+            image: DecorationImage(
+              image: _con.imageFile != null
+                  ? FileImage(_con.imageFile!)
+                  : const AssetImage('assets/img/user_profile_2.png') as ImageProvider,
+              fit: BoxFit.cover, // Asegura que la imagen cubra todo el cuadrado
+            ),
+          ),
+        ),
       ),
     );
-
   }
+
   void refresh(){
     setState(() {});
   }

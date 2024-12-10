@@ -1,5 +1,8 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mesadeayuda/src/models/Prioridad.dart';
 import 'package:mesadeayuda/src/models/area_servicios.dart';
 import 'package:mesadeayuda/src/models/fallas.dart';
@@ -45,6 +48,10 @@ class TicketsController {
 
   late UserRespuestaLogin userLogin;
   TicketsProviders ticketsProviders = new TicketsProviders();
+  XFile? pickedFile;
+  File? imageFile;
+
+
   Future<void> init(BuildContext context, Function refresh) async {
      this.context=context;
      this.refresh=refresh;
@@ -156,6 +163,7 @@ class TicketsController {
     if(valorcambiarEstatus == 'Cerrado'){
        mostrarAtendido=true;
        mostrarReasignarTicket=false;
+       mostrarArea=false;
     }else{
       mostrarAtendido=false;
       mostrarReasignarTicket=true;
@@ -170,5 +178,54 @@ class TicketsController {
       mostrarArea=false;
     }
     refresh;
+  }
+
+
+
+  Future selectImage(ImageSource imageSource) async{
+    pickedFile = await ImagePicker().pickImage(source: imageSource);
+
+    if(pickedFile != null){
+      imageFile=File(pickedFile!.path);
+    }
+
+    Navigator.pop(context);
+
+    refresh();
+  }
+
+  void showAlertDialog(){
+    // Widget galleryButton= ElevatedButton(
+    //     onPressed: (){
+    //       selectImage(ImageSource.gallery);
+    //     },
+    //     child: Text('GALERIA')
+    // );
+
+    Widget camaraButton= IconButton(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.orange.shade900,
+            foregroundColor: Colors.white,
+        ),
+        onPressed: (){
+          selectImage(ImageSource.camera);
+
+        },
+        icon: const Icon(Icons.camera_alt, weight: 50,),
+    );
+
+    AlertDialog alertDialog = AlertDialog(
+      title: Text('Selecciona tu imagen'),
+      actions: [
+        //galleryButton,
+        camaraButton
+      ],
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return alertDialog;
+        });
   }
 }

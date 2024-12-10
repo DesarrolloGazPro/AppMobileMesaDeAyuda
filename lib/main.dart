@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Mesa de Ayuda',
       color: MyColors.primaryColor,
       debugShowCheckedModeBanner: false,
-      initialRoute: 'menu/tickets',
+      initialRoute: 'login',
       routes: {
         'login' : (BuildContext context) => const LoginPage(),
         'register' : (BuildContext context) => const RegisterPage(),
