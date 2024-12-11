@@ -23,7 +23,6 @@ class ListTicketsController {
   late UserRespuestaLogin userLogin;
   String departamentoClave="";
 
-
   Future<void> init(BuildContext context, Function refresh) async {
     this.context=context;
     this.refresh=refresh;
@@ -65,8 +64,6 @@ class ListTicketsController {
     }
     refresh();
   }
-
-
 
   void openDrawer(){
     key.currentState?.openDrawer();
