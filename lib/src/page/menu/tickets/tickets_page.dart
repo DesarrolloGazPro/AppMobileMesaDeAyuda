@@ -199,7 +199,7 @@ class _TicketsPageState extends State<TicketsPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _dropFecha(),
+                _Fecha(),
                 _hora(),
               ],
             ),
@@ -338,7 +338,6 @@ class _TicketsPageState extends State<TicketsPage> {
 
 
   Widget _dropArea(){
-    String dropdownValue = (_con.listaareaServicio.isNotEmpty) ? _con.listaareaServicio.first.clave : '';
     return Column(
       children: [
         const Text('Área' , style: TextStyle(
@@ -354,7 +353,11 @@ class _TicketsPageState extends State<TicketsPage> {
           ),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: DropdownButton<String>(
-            value: _con.valorAreaServicio,
+            value: (_con.valorAreaServicio != null && _con.valorAreaServicio.isNotEmpty)
+                     ? _con.valorAreaServicio
+                     : 'Selecciona',
+           
+
             icon: const Icon(Icons.arrow_downward),
             elevation: 16,
             style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -363,6 +366,13 @@ class _TicketsPageState extends State<TicketsPage> {
               refresh();
               _con.valorAreaServicio = value!;
               _con.txtareencargada.text =  _con.valorAreaServicio;
+
+              _con.valorAreaServicioId =  _con.listaareaServicio
+                  .firstWhere((area) => area.clave == value)
+                  .id.toString();
+
+              _con.consultaFallas(_con.valorAreaServicioId);
+              _con.valorFalla='Selecciona';
 
 
             },
@@ -380,7 +390,6 @@ class _TicketsPageState extends State<TicketsPage> {
   }
 
   Widget _dropFalla(){
-    String dropdownValue = (_con.listafallas.isNotEmpty) ? _con.listafallas.first.falla : '';
     return Column(
       children: [
         const Text('Falla' , style: TextStyle(
@@ -396,7 +405,10 @@ class _TicketsPageState extends State<TicketsPage> {
           ),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: DropdownButton<String>(
-            value: _con.valorFalla,
+            value:  (_con.valorFalla != null && _con.valorFalla.isNotEmpty)
+                     ? _con.valorFalla
+                     : 'Selecciona'
+            ,
             icon: const Icon(Icons.arrow_downward),
             elevation: 16,
             style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -421,7 +433,7 @@ class _TicketsPageState extends State<TicketsPage> {
     );
   }
 
-  Widget _dropFecha() {
+  Widget _Fecha() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

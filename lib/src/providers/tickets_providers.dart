@@ -105,7 +105,7 @@ class TicketsProviders {
     }
   }
 
-  Future<List<Fallas>> consulTaFallas(int clasificacion) async {
+  Future<List<Fallas>> consulTaFallas(String clasificacion) async {
     try {
       List<Fallas> fallas = [];
       String url = '$_url$_api/fallas/$clasificacion';

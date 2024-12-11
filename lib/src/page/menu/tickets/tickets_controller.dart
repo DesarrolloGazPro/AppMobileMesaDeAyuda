@@ -2,6 +2,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:mesadeayuda/src/models/Prioridad.dart';
 import 'package:mesadeayuda/src/models/area_servicios.dart';
 import 'package:mesadeayuda/src/models/fallas.dart';
@@ -23,23 +24,22 @@ class TicketsController {
   late Function refresh;
   List<String> taps = ['Detalles', 'Chat'];
   List<String> reasignarTicket = <String>['No','Si'];
-  List<String> cambiarEstatus = <String>['Abierto','Cerrado','Respondido','Reabierto'];
+  List<String> cambiarEstatus = <String>['abierto','cerrado','respondido','reabierto'];
   String valorReasignar='No';
-  String valorcambiarEstatus='Abierto';
+  String valorcambiarEstatus='abierto';
   String valorAtendio='Selecciona';
-  String valorAreaServicio='Sistemas operaciones';
-  String valorFalla='Apagon General'; // en al cinsulta aplcia run order by para que depues concuerde
+  String valorAreaServicio='Selecciona';
+  String valorAreaServicioId='0';
+  String valorFalla='Selecciona'; // en al cinsulta aplcia run order by para que depues concuerde
 
   List<Personal> listaPersonal = [Personal(nombre: "Selecciona", departamento: "Selecciona")];
-  List<AreaServicios> listaareaServicio = [AreaServicios(id: 12, clave: "Sistemas operaciones")];
-  List<Fallas> listafallas = [Fallas(id: 1, falla: 'Apagon General', prioridad: 2, tiempo: 4, departamentoId: 1, categoriaId: 42, clasificacionId: 12)];
+  List<AreaServicios> listaareaServicio = [AreaServicios(id: 0, clave: "Selecciona")];
+  List<Fallas> listafallas = [Fallas(id: 0, falla: 'Selecciona', prioridad: 0, tiempo: 0, departamentoId: 0, categoriaId: 0, clasificacionId: 0)];
   List<Prioridad> listaprioridad = [];
 
   late TicketsInfo ticket;
 
   List<TicketDetalle> ticketDetalle = [];
-
-
 
   List<Message> messageList = [
     Message(text: 'Hola como estas!', fromWho: 'ella'),
@@ -66,13 +66,8 @@ class TicketsController {
      await ticketsProviders.init(context);
      consultarTicket(clave, idTicket);
      consultarPersonal();
-     consultarArea();
-     consultaFallas();
+     consultarArea();     
      prioridades();
-   //  txtareencargada.text = valorAreaServicio;
-  //   txtprioridad.text = listaprioridad.first.clave;
-
-
      mostraAtendidoFecha();
      mostraAreaFalla();
      refresh();
@@ -82,6 +77,49 @@ class TicketsController {
   void consultarTicket(String clave, String ticketId) async {
     ticketDetalle.clear();
     ticketDetalle = await ticketsProviders.consultarTicket(clave,ticketId);
+    valorcambiarEstatus= ticketDetalle[0].tickets[0].estatus;
+    valorAtendio = (ticketDetalle[0].tickets[0].atendio != null && ticketDetalle[0].tickets[0].atendio.isNotEmpty)
+        ? ticketDetalle[0].tickets[0].atendio
+        : 'Selecciona';
+
+    selectedDate = (ticketDetalle[0].tickets[0].fecha_atendido != null &&
+        ticketDetalle[0].tickets[0].fecha_atendido.isNotEmpty)
+        ? DateTime.parse(ticketDetalle[0].tickets[0].fecha_atendido)
+        : DateTime.now();
+
+    selectedTime = (ticketDetalle[0].tickets[0].fecha_atendido != null &&
+        ticketDetalle[0].tickets[0].fecha_atendido.isNotEmpty)
+        ? TimeOfDay.fromDateTime(DateTime.parse(ticketDetalle[0].tickets[0].fecha_atendido))
+        : TimeOfDay.fromDateTime(DateTime.now());
+
+    valorAreaServicio=(ticketDetalle[0].tickets[0].servicio != null &&
+                      ticketDetalle[0].tickets[0].servicio.isNotEmpty)
+                  ? ticketDetalle[0].tickets[0].servicio
+                      : 'Selecciona';
+
+
+    valorAreaServicioId = listaareaServicio
+        .firstWhere((area) => area.clave == valorAreaServicio)
+        .id.toString();
+
+    consultaFallas(valorAreaServicioId);
+
+    valorFalla=(ticketDetalle[0].tickets[0].falla != null &&
+                      ticketDetalle[0].tickets[0].falla.isNotEmpty)
+                  ? ticketDetalle[0].tickets[0].falla
+                      : 'Selecciona';
+
+
+    txtareencargada.text= valorAreaServicio;
+    txtprioridad.text = (ticketDetalle[0].tickets[0].prioridad != null &&
+                      ticketDetalle[0].tickets[0].prioridad.isNotEmpty)
+                  ? ticketDetalle[0].tickets[0].prioridad
+                      : '';
+
+
+     //  txtareencargada.text = valorAreaServicio;
+  //   txtprioridad.text = listaprioridad.first.clave;
+
 
     if (ticketDetalle.isEmpty){
       MySnackBar.show(context, 'No existen ticket');
@@ -164,9 +202,9 @@ class TicketsController {
     }
     refresh();
   }
-  void consultaFallas() async {
+  void consultaFallas(String clasificacion) async {
     listafallas.clear();
-    listafallas = await ticketsProviders.consulTaFallas(12);
+    listafallas = await ticketsProviders.consulTaFallas(clasificacion);
     if (listafallas.isEmpty){
       MySnackBar.show(context, 'No existen datos');
     }
@@ -183,7 +221,7 @@ class TicketsController {
   }
 
   void mostraAtendidoFecha(){
-    if(valorcambiarEstatus == 'Cerrado'){
+    if(valorcambiarEstatus == 'cerrado'){
        mostrarAtendido=true;
        mostrarReasignarTicket=false;
        mostrarArea=false;
@@ -195,7 +233,7 @@ class TicketsController {
   }
 
   void mostraAreaFalla(){
-    if(valorReasignar == 'Si' && valorcambiarEstatus != 'Cerrado'){
+    if(valorReasignar == 'Si' && valorcambiarEstatus != 'cerrado'){
       mostrarArea=true;
     }else{
       mostrarArea=false;

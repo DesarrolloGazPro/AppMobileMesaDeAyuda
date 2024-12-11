@@ -24,7 +24,7 @@ class LoginController {
 
      if(login.token != null){
        if (context.mounted) {
-         Navigator.pushNamedAndRemoveUntil(context, 'menu/tickets', (route) => false);
+         Navigator.pushNamedAndRemoveUntil(context, 'menu/tickets/list', (route) => false);
        }
      }
   }

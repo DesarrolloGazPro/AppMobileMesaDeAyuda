@@ -73,6 +73,8 @@ class Ticket {
   String reabierto;
   String condicion;
   String nivel;
+  String atendio;
+  String fecha_atendido;
 
   Ticket({
     required this.id,
@@ -87,6 +89,8 @@ class Ticket {
     required this.reabierto,
     required this.condicion,
     required this.nivel,
+    required this.atendio,
+    required this.fecha_atendido,
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) => Ticket(
@@ -101,7 +105,9 @@ class Ticket {
     usuario: json["usuario"] ?? "",  // Valor por defecto si es null
     reabierto: json["reabierto"] ?? "",  // Valor por defecto si es null
     condicion: json["condicion"] ?? "",  // Valor por defecto si es null
-    nivel: json["nivel"] ?? "",  // Valor por defecto si es null
+    nivel: json["nivel"] ?? "",
+    atendio: json["atendio"] ?? "",
+    fecha_atendido: json["fecha_atendido"] ?? "",// Valor por defecto si es null
   );
 
   Map<String, dynamic> toJson() => {
@@ -117,6 +123,8 @@ class Ticket {
     "reabierto": reabierto,
     "condicion": condicion,
     "nivel": nivel,
+    "atendio": atendio,
+    "fecha_atendido": fecha_atendido,
   };
 }
 
