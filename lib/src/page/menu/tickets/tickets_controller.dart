@@ -9,9 +9,11 @@ import 'package:mesadeayuda/src/models/fallas.dart';
 import 'package:mesadeayuda/src/models/personal.dart';
 import 'package:mesadeayuda/src/models/user_respuesta_login.dart';
 import 'package:mesadeayuda/src/utils/shared_pref.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
 
 import '../../../models/Message.dart';
 import '../../../models/TicketsInfo.dart';
+import '../../../models/solicitud_atendio.dart';
 import '../../../models/ticket_detalle.dart';
 import '../../../providers/tickets_providers.dart';
 import '../../../utils/my_snackbar.dart';
@@ -59,11 +61,15 @@ class TicketsController {
   XFile? pickedFile;
   File? imageFile;
 
-
+  String idticket='';
+  late ProgressDialog _progressDialog;
+  bool isEnable = true;
   Future<void> init(BuildContext context, Function refresh, String clave, String idTicket) async {
      this.context=context;
      this.refresh=refresh;
+     idticket=idTicket;
      await ticketsProviders.init(context);
+     _progressDialog=ProgressDialog(context: context);
      consultarTicket(clave, idTicket);
      consultarPersonal();
      consultarArea();     
@@ -74,6 +80,42 @@ class TicketsController {
 
   }
 
+  void guardar() async {
+    String id = idticket;
+    String dropEstatus = valorcambiarEstatus;
+    String dropAtendio = valorAtendio;
+    String fecha = selectedDate.toString();
+    String hora = selectedTime.toString();
+
+    if (dropEstatus == 'Selecciona' || dropAtendio== 'Selecciona'||
+        fecha == '' || hora == '') {
+      MySnackBar.show(context, 'Debes ingresar todos los campos');
+      return;
+    }
+
+
+
+    SolicitudAtendio solicitudAtendio = new SolicitudAtendio(
+        id: id,
+        estatus: dropEstatus,
+        atendio: dropAtendio,
+        fecha: fecha,
+        hora: fecha
+    );
+    _progressDialog.show(max: 100, msg: 'Espera un momento...');
+
+    final res =  await ticketsProviders.updateTicket(solicitudAtendio);
+    if (res){
+      _progressDialog.close();
+      MySnackBar.show(context, 'Usuarioa agregado correctamente');
+      isEnable=true;
+    }else{
+      _progressDialog.close();
+      isEnable=true;
+      MySnackBar.show(context, 'Ocurrio un error al actulizar el ticket');
+    }
+
+  }
   void consultarTicket(String clave, String ticketId) async {
     ticketDetalle.clear();
     ticketDetalle = await ticketsProviders.consultarTicket(clave,ticketId);
@@ -115,10 +157,6 @@ class TicketsController {
                       ticketDetalle[0].tickets[0].prioridad.isNotEmpty)
                   ? ticketDetalle[0].tickets[0].prioridad
                       : '';
-
-
-     //  txtareencargada.text = valorAreaServicio;
-  //   txtprioridad.text = listaprioridad.first.clave;
 
 
     if (ticketDetalle.isEmpty){

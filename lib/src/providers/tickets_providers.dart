@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mesadeayuda/src/api/environment.dart';
@@ -5,6 +7,7 @@ import 'package:mesadeayuda/src/models/Prioridad.dart';
 import 'package:mesadeayuda/src/models/area_servicios.dart';
 import 'package:mesadeayuda/src/models/fallas.dart';
 import 'package:mesadeayuda/src/models/personal.dart';
+import 'package:mesadeayuda/src/models/solicitud_atendio.dart';
 import '../models/TicketsInfo.dart';
 import '../models/ticket_detalle.dart';
 
@@ -140,6 +143,24 @@ class TicketsProviders {
       return prioridades;
     } catch (e) {
       return [];
+    }
+  }
+
+  Future<bool> updateTicket(SolicitudAtendio solicitudAtendio) async {
+    try{
+      String url = '$_url$_api/updateTicket';
+      String bodyParams = json.encode(solicitudAtendio.toJson());
+      Map<String, dynamic> headers = {
+        'Content-type': 'application/json',
+      };
+      var res = await dio.post(url, data: bodyParams, options: Options(headers: headers));
+      if (res.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    }catch(e){
+      return false;
     }
   }
 

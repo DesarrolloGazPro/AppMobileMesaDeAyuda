@@ -71,11 +71,10 @@ class _TicketsPageState extends State<TicketsPage> {
 
             ],
           ),
-        bottomNavigationBar: _buttonRegister(),
       ),
     );
   }
-  Widget _buttonRegister(){
+  Widget _btnEnviar(){
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
@@ -89,6 +88,25 @@ class _TicketsPageState extends State<TicketsPage> {
             padding: const EdgeInsets.symmetric(vertical: 15)
         ),
         child:  const Text('Enviar', style: TextStyle(fontSize: 20)),
+
+      ),
+    );
+  }
+
+  Widget _btnGuardar(){
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+      child: ElevatedButton(
+        onPressed: _con.isEnable ? _con.guardar : null,
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red.shade900,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30)),
+            padding: const EdgeInsets.symmetric(vertical: 15)
+        ),
+        child:  const Text('Guardar', style: TextStyle(fontSize: 20)),
 
       ),
     );
@@ -121,7 +139,11 @@ class _TicketsPageState extends State<TicketsPage> {
                               : _mensajeUser(replacedMessage );
                           })),
                 const SizedBox(height: 10),
-                _MessageFieldBox()
+                _MessageFieldBox(),
+                const SizedBox(height: 20),
+                _imagen(),
+                const SizedBox(height: 10),
+                _btnEnviar(),
 
               ],
             )
@@ -152,8 +174,7 @@ class _TicketsPageState extends State<TicketsPage> {
                   const SizedBox(height: 10),
                   _visibleSelectAreafalla(),
                   const SizedBox(height: 10),
-                  _imagen(),
-                  const SizedBox(height: 10),
+                  _btnGuardar(),
                 ],
               )
             ],
@@ -713,8 +734,8 @@ class _TicketsPageState extends State<TicketsPage> {
       onTap: _con.showAlertDialog,
       child: Center(
         child: Container(
-          width: 250, // Ancho del cuadrado
-          height: 200, // Altura del cuadrado
+          width: 50, // Ancho del cuadrado
+          height: 50, // Altura del cuadrado
           decoration: BoxDecoration(
             color: Colors.grey.shade200,
             borderRadius: BorderRadius.circular(20), // Opcional: Bordes redondeados
