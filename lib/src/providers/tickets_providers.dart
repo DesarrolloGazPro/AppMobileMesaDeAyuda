@@ -1,15 +1,12 @@
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mesadeayuda/src/api/environment.dart';
 import 'package:mesadeayuda/src/models/Prioridad.dart';
-import 'package:mesadeayuda/src/models/Tickets.dart';
 import 'package:mesadeayuda/src/models/area_servicios.dart';
 import 'package:mesadeayuda/src/models/fallas.dart';
 import 'package:mesadeayuda/src/models/personal.dart';
-import 'package:mesadeayuda/src/models/user_login.dart';
-
-
+import '../models/TicketsInfo.dart';
+import '../models/ticket_detalle.dart';
 
 class TicketsProviders {
   Dio dio = Dio();
@@ -22,9 +19,38 @@ class TicketsProviders {
     this.context= context;
   }
 
-  Future<List<Tickets>> consultarTickets(departamento) async {
+  Future<List<TicketDetalle>> consultarTicket(String clave, String ticketId) async {
     try {
-      List<Tickets> tickets = [];
+      List<TicketDetalle> ticket =[];
+      String url = '$_url$_api/consultaTiket/$clave/$ticketId';
+      Map<String, dynamic> headers = {
+        'Content-type': 'application/json',
+      };
+      var res = await dio.get(url, options: Options(headers: headers));
+
+      if(res.statusCode == 200){
+        dynamic data = res.data;
+        var ticketsList = List<Ticket>.from(data['tickets'].map((item) => Ticket.fromJson(item)));
+        var ticketsMensajesList = List<TicketsMensaje>.from(data['ticketsMensajes'].map((item) => TicketsMensaje.fromJson(item)));
+        var archivosTicketsList = List<ArchivosTicket>.from(data['archivosTickets'].map((item) => ArchivosTicket.fromJson(item)));
+
+        ticket = [
+          TicketDetalle(
+              tickets: ticketsList,
+              ticketsMensajes: ticketsMensajesList,
+              archivosTickets: archivosTicketsList
+          )
+        ];
+      }
+      return ticket;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<List<TicketsInfo>> consultarTickets(departamento) async {
+    try {
+      List<TicketsInfo> tickets = [];
       String url = '$_url$_api/consultaTikets/$departamento';
       Map<String, dynamic> headers = {
         'Content-type': 'application/json',
@@ -33,7 +59,7 @@ class TicketsProviders {
 
       if(res.statusCode == 200){
        List<dynamic> data = res.data;
-       tickets = data.map((item) => Tickets.fromJson(item)).toList();
+       tickets = data.map((item) => TicketsInfo.fromJson(item)).toList();
      }
      return tickets;
     } catch (e) {

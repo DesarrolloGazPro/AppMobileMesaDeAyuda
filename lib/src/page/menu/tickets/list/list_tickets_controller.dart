@@ -1,10 +1,10 @@
 
 import 'package:flutter/material.dart';
-import 'package:mesadeayuda/src/models/Tickets.dart';
 import 'package:mesadeayuda/src/models/user_respuesta_login.dart';
 import 'package:mesadeayuda/src/providers/tickets_providers.dart';
 import 'package:mesadeayuda/src/utils/shared_pref.dart';
 
+import '../../../../models/TicketsInfo.dart';
 import '../../../../models/usuario.dart';
 import '../../../../utils/my_snackbar.dart';
 
@@ -16,8 +16,8 @@ class ListTicketsController {
   SharedPref _sharedPref  = new SharedPref();
   late Function refresh;
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
-  List<Tickets> tickets = [Tickets(id: 0, clave: "1", falla: "1")];
-  List<Tickets> ticketsList = [Tickets(id: 0, clave: "1", falla: "1")];
+  List<TicketsInfo> tickets = [TicketsInfo(id: 0, clave: "1", falla: "1")];
+  List<TicketsInfo> ticketsList = [TicketsInfo(id: 0, clave: "1", falla: "1")];
   late Usuario user;
   TextEditingController searchController = TextEditingController();
   late UserRespuestaLogin userLogin;

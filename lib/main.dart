@@ -33,11 +33,8 @@ class _MyAppState extends State<MyApp> {
         'menu/list/tickets' : (BuildContext context) => const MenuListTicketsPage(),
         'menu/list/update' : (BuildContext context) => const TicketsUpdatePage(),
 
-
         'menu/tickets/list' : (BuildContext context) => const ListTicketsPage(),
-        'menu/list/test' : (BuildContext context) =>  Testtest(),
 
-        'menu/tickets' : (BuildContext context) =>  TicketsPage(clave: 'Gerencia de Desarrollo',),
 
 
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:mesadeayuda/src/models/Tickets.dart';
+import 'package:mesadeayuda/src/models/TicketsInfo.dart';
 import 'package:mesadeayuda/src/page/menu/tickets/tickets_page.dart';
 import 'package:mesadeayuda/src/utils/my_colors.dart';
 
@@ -32,7 +32,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
         child: AppBar(
           title: Container(
             alignment: Alignment.center,
-            child: Text('Tickes', style: TextStyle(
+            child: const Text('Tickes', style: TextStyle(
               color: Colors.white
             ),),
           ),
@@ -54,7 +54,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
 
               Text(
             'Total Abiertos: ${_con.tickets.length}',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 20
@@ -87,7 +87,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),
             blurRadius: 5,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
 
           ),
         ],
@@ -241,7 +241,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
 
 
 class TicketTile extends StatelessWidget {
-  final Tickets ticket;
+  final TicketsInfo ticket;
 
   TicketTile({required this.ticket});
 
@@ -250,7 +250,7 @@ class TicketTile extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(
-            builder: (context) => TicketsPage(clave: ticket.clave,)
+            builder: (context) => TicketsPage(clave: ticket.clave, idTicket: ticket.id.toString(),)
 
         ));
       },
@@ -262,9 +262,9 @@ class TicketTile extends StatelessWidget {
           color: Colors.white,
           margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: ListTile(
-            title: Text('Clave: ${ticket.clave ?? ''}', style: TextStyle(fontSize: 20, color: Colors.black)),
-            subtitle: Text('Descripción: ${ticket.falla ?? ''}', style: TextStyle(fontSize: 20, color: Colors.black)),
-            trailing: Icon(Icons.info, color: Colors.orange),
+            title: Text('Clave: ${ticket.clave ?? ''}', style: TextStyle(fontSize: 20, color: Colors.blue.shade900)),
+            subtitle: Text('Descripción: ${ticket.falla ?? ''}', style: TextStyle(fontSize: 20, color: Colors.green.shade900)),
+            trailing: Icon(Icons.info, color: Colors.orange.shade900),
           ),
         ),
       ),

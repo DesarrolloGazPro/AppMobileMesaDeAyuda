@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                   _textFieldEmail(),
                   _textFieldPassword(),
                   _buttonLogin(),
-                  _textDontHaveAccount()
+
                 ],
               ),
             ),
@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
    return Container(
      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
      decoration: BoxDecoration(
-       color:MyColors.colortext,
+       color:Colors.orange.shade700,
        borderRadius: BorderRadius.circular(30),
 
      ),
@@ -129,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           prefixIcon: Icon(
             Icons.email,
-            color: MyColors.primaryColor,
+            color: Colors.black,
           )
         ),
        style: TextStyle( fontSize: 20, color: Colors.white),
@@ -141,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
-        color:MyColors.colortext,
+        color:Colors.orange.shade700,
         borderRadius: BorderRadius.circular(30),
 
       ),
@@ -158,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             prefixIcon: Icon(
               Icons.lock_outline,
-              color: MyColors.primaryColor,
+              color: Colors.black,
             ),
 
         ),
@@ -188,32 +188,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _textDontHaveAccount(){
-    return  Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text('No tienes cuenta?',
-          style: TextStyle(
-            color: MyColors.primaryColor,
-              fontSize: 17
-          ),
-        ),
-        const SizedBox(width: 7,),
-        GestureDetector(
-          onTap: (){
-             _con.gotToRegisterPage();
-          },
-          child: Text('Registrate',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: MyColors.primaryColor,
-                 fontSize: 17
 
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 
 }

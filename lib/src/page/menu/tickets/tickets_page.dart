@@ -9,11 +9,15 @@ import 'package:mesadeayuda/src/page/menu/tickets/tickets_controller.dart';
 import 'package:mesadeayuda/src/utils/my_colors.dart';
 
 import '../../../models/FromWho.dart';
+import 'package:html/parser.dart' show parse;
 
 class TicketsPage extends StatefulWidget {
   String clave;
+  String idTicket;
   TicketsPage({Key? key,
-    required this.clave}) : super(key: key);
+    required this.clave,
+    required this.idTicket
+  }) : super(key: key);
 
   @override
   State<TicketsPage> createState() => _TicketsPageState();
@@ -25,7 +29,7 @@ class _TicketsPageState extends State<TicketsPage> {
   void initState(){
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _con.init(context,refresh);
+      _con.init(context,refresh, widget.clave, widget.idTicket);
     });
 
   }
@@ -108,14 +112,16 @@ class _TicketsPageState extends State<TicketsPage> {
                 Container(child: _chatScreen()),
                 Expanded(
                     child: ListView.builder(
-                      itemCount: _con.messageList.length,
+                      itemCount: _con.ticketDetalle[0].ticketsMensajes.length,
                         itemBuilder:(context, index) {
-                          final message = _con.messageList[index];
-
-                          return (message.fromWho == 'ella')
-                              ? _mensajeSoporte(message.text)
-                              : _mensajeUser(message.text );
+                          final message = _con.ticketDetalle[0].ticketsMensajes[index];
+                          String decodedMessage = decodeHtml(message.mensaje);
+                          String replacedMessage = decodedMessage.replaceAll('<br/>', '\n');
+                          return (message.esMensajeSoporte == 'SI')
+                              ? _mensajeSoporte(replacedMessage)
+                              : _mensajeUser(replacedMessage );
                           })),
+                SizedBox(height: 10),
                 _MessageFieldBox()
 
               ],
@@ -546,9 +552,10 @@ class _TicketsPageState extends State<TicketsPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(height: 10,),
           Container(
             decoration: BoxDecoration(
-                color: Colors.orange, borderRadius: BorderRadius.circular(20)),
+                color: Colors.black, borderRadius: BorderRadius.circular(20)),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
@@ -570,9 +577,11 @@ class _TicketsPageState extends State<TicketsPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          SizedBox(height: 20,),
+
           Container(
             decoration: BoxDecoration(
-                color: Colors.red, borderRadius: BorderRadius.circular(20)),
+                color: Colors.orange, borderRadius: BorderRadius.circular(20)),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
@@ -702,7 +711,7 @@ class _TicketsPageState extends State<TicketsPage> {
             image: DecorationImage(
               image: _con.imageFile != null
                   ? FileImage(_con.imageFile!)
-                  : const AssetImage('assets/img/user_profile_2.png') as ImageProvider,
+                  : const AssetImage('assets/img/no-image.jpg') as ImageProvider,
               fit: BoxFit.cover, // Asegura que la imagen cubra todo el cuadrado
             ),
           ),
@@ -710,7 +719,9 @@ class _TicketsPageState extends State<TicketsPage> {
       ),
     );
   }
-
+  String decodeHtml(String htmlText) {
+    return parse(htmlText).documentElement?.text ?? htmlText;
+  }
   void refresh(){
     setState(() {});
   }

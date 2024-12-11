@@ -1,6 +1,5 @@
 
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mesadeayuda/src/models/Prioridad.dart';
@@ -11,8 +10,11 @@ import 'package:mesadeayuda/src/models/user_respuesta_login.dart';
 import 'package:mesadeayuda/src/utils/shared_pref.dart';
 
 import '../../../models/Message.dart';
+import '../../../models/TicketsInfo.dart';
+import '../../../models/ticket_detalle.dart';
 import '../../../providers/tickets_providers.dart';
 import '../../../utils/my_snackbar.dart';
+
 
 class TicketsController {
   late BuildContext context;
@@ -33,6 +35,12 @@ class TicketsController {
   List<Fallas> listafallas = [Fallas(id: 1, falla: 'Apagon General', prioridad: 2, tiempo: 4, departamentoId: 1, categoriaId: 42, clasificacionId: 12)];
   List<Prioridad> listaprioridad = [];
 
+  late TicketsInfo ticket;
+
+  List<TicketDetalle> ticketDetalle = [];
+
+
+
   List<Message> messageList = [
     Message(text: 'Hola como estas!', fromWho: 'ella'),
     Message(text: 'Bine y tu!', fromWho: 'yo'),
@@ -52,21 +60,36 @@ class TicketsController {
   File? imageFile;
 
 
-  Future<void> init(BuildContext context, Function refresh) async {
+  Future<void> init(BuildContext context, Function refresh, String clave, String idTicket) async {
      this.context=context;
      this.refresh=refresh;
      await ticketsProviders.init(context);
+     consultarTicket(clave, idTicket);
      consultarPersonal();
      consultarArea();
      consultaFallas();
      prioridades();
    //  txtareencargada.text = valorAreaServicio;
   //   txtprioridad.text = listaprioridad.first.clave;
+
+
      mostraAtendidoFecha();
      mostraAreaFalla();
      refresh();
 
   }
+
+  void consultarTicket(String clave, String ticketId) async {
+    ticketDetalle.clear();
+    ticketDetalle = await ticketsProviders.consultarTicket(clave,ticketId);
+
+    if (ticketDetalle.isEmpty){
+      MySnackBar.show(context, 'No existen ticket');
+    }
+    refresh();
+  }
+
+
   void logout(){
   _sharedPref.logout(context);
   }
