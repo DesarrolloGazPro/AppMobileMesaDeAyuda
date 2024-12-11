@@ -28,7 +28,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
     return Scaffold(
       key: _con.key,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(170),
+        preferredSize: const Size.fromHeight(170),
         child: AppBar(
           title: Container(
             alignment: Alignment.center,
@@ -217,7 +217,9 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
 
   Widget _recargar(){
     return GestureDetector(
-      onTap: refresh,
+      onTap: (){
+        _con.consultarTickets(_con.departamentoClave);
+      },
       child: Stack(
         children: [
           Container(

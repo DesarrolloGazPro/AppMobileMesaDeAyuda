@@ -21,12 +21,16 @@ class ListTicketsController {
   late Usuario user;
   TextEditingController searchController = TextEditingController();
   late UserRespuestaLogin userLogin;
+  String departamentoClave="";
+
+
   Future<void> init(BuildContext context, Function refresh) async {
     this.context=context;
     this.refresh=refresh;
     await ticketsProviders.init(context);
     user = Usuario.fromJson(await _sharedPref.read('userLogin'));
-    consultarTickets(user.usuarios!.departamentoClave);
+    departamentoClave=user.usuarios!.departamentoClave;
+    consultarTickets(departamentoClave);
     refresh();
   }
   void logout(){

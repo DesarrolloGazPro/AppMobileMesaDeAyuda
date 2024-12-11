@@ -1,4 +1,3 @@
-import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
@@ -8,7 +7,6 @@ import 'package:mesadeayuda/src/models/personal.dart';
 import 'package:mesadeayuda/src/page/menu/tickets/tickets_controller.dart';
 import 'package:mesadeayuda/src/utils/my_colors.dart';
 
-import '../../../models/FromWho.dart';
 import 'package:html/parser.dart' show parse;
 
 class TicketsPage extends StatefulWidget {
@@ -40,14 +38,14 @@ class _TicketsPageState extends State<TicketsPage> {
       child: Scaffold(
         key: _con.key,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(90),
+          preferredSize: const Size.fromHeight(90),
           child: AppBar(
             leading:  _Atras(),
             automaticallyImplyLeading: false,
             backgroundColor: MyColors.primaryColor,
 
             bottom: TabBar(
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold
               ),
@@ -56,7 +54,6 @@ class _TicketsPageState extends State<TicketsPage> {
               unselectedLabelColor: Colors.grey,
               isScrollable: true,
                 tabs: List<Widget>.generate(2, (index) {
-                  // numero de grficas
                   return Tab(
                     child: _con.taps.isNotEmpty
                         ? Text(_con.taps[index].toString())
@@ -81,7 +78,7 @@ class _TicketsPageState extends State<TicketsPage> {
   Widget _buttonRegister(){
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton(
         onPressed:(){},
         style: ElevatedButton.styleFrom(
@@ -89,7 +86,7 @@ class _TicketsPageState extends State<TicketsPage> {
             foregroundColor: Colors.white,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            padding: EdgeInsets.symmetric(vertical: 15)
+            padding: const EdgeInsets.symmetric(vertical: 15)
         ),
         child:  const Text('Enviar', style: TextStyle(fontSize: 20)),
 
@@ -112,7 +109,9 @@ class _TicketsPageState extends State<TicketsPage> {
                 Container(child: _chatScreen()),
                 Expanded(
                     child: ListView.builder(
-                      itemCount: _con.ticketDetalle[0].ticketsMensajes.length,
+                        itemCount: _con.ticketDetalle.isNotEmpty && _con.ticketDetalle[0].ticketsMensajes.isNotEmpty
+                            ? _con.ticketDetalle[0].ticketsMensajes.length
+                            : 0,
                         itemBuilder:(context, index) {
                           final message = _con.ticketDetalle[0].ticketsMensajes[index];
                           String decodedMessage = decodeHtml(message.mensaje);
@@ -121,7 +120,7 @@ class _TicketsPageState extends State<TicketsPage> {
                               ? _mensajeSoporte(replacedMessage)
                               : _mensajeUser(replacedMessage );
                           })),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 _MessageFieldBox()
 
               ],
@@ -196,7 +195,7 @@ class _TicketsPageState extends State<TicketsPage> {
             )),
           ),
           Container(
-            margin: EdgeInsets.only(left: 10, right: 10),
+            margin: const EdgeInsets.only(left: 10, right: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -328,7 +327,7 @@ class _TicketsPageState extends State<TicketsPage> {
             items: _con.listaPersonal.map<DropdownMenuItem<String>>((Personal personal) {
               return DropdownMenuItem<String>(
                 value: personal.nombre,
-                child: Text(personal.nombre, style:  TextStyle(fontSize: 20)),
+                child: Text(personal.nombre, style:  const TextStyle(fontSize: 20)),
               );
             }).toList(),
           ),
@@ -404,8 +403,8 @@ class _TicketsPageState extends State<TicketsPage> {
 
             onChanged: (String? value) {
               refresh();
-              _con.valorFalla = value!;
 
+              _con.valorFalla = value!;
               _con.txtprioridad.text = _con.listaprioridad.firstWhere((p) => p.id == _con.listafallas.firstWhere((f) => f.falla == _con.valorFalla).prioridad).clave;
 
             },
@@ -430,13 +429,13 @@ class _TicketsPageState extends State<TicketsPage> {
           _con.selectedDate == null
               ? ''
               : DateFormat('dd/MM/yyyy').format(_con.selectedDate!.toLocal()),
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold
           ),
         ),
-        SizedBox(width: 1),
+        const SizedBox(width: 1),
         IconButton(
-          icon: Icon(Icons.date_range),
+          icon: const Icon(Icons.date_range),
           style: ElevatedButton.styleFrom(
               backgroundColor: MyColors.primaryColorDark,
               foregroundColor: Colors.white,
@@ -458,13 +457,13 @@ class _TicketsPageState extends State<TicketsPage> {
           _con.selectedDate == null
               ? ''
               : DateFormat('dd/MM/yyyy').format(_con.selectedDate!.toLocal()),
-          style: TextStyle(
+          style: const TextStyle(
               fontWeight: FontWeight.bold
           ),
         ),
-        SizedBox(width: 1),
+        const SizedBox(width: 1),
         IconButton(
-          icon: Icon(Icons.timer),
+          icon: const Icon(Icons.timer),
           style: ElevatedButton.styleFrom(
             backgroundColor: MyColors.primaryColor,
             foregroundColor: Colors.white,
@@ -547,12 +546,12 @@ class _TicketsPageState extends State<TicketsPage> {
 
   Widget _mensajeSoporte(String mensajeSoporte){
     return Container(
-      margin: EdgeInsets.only(top: 10),
-      padding:  EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.only(top: 10),
+      padding:  const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Container(
             decoration: BoxDecoration(
                 color: Colors.black, borderRadius: BorderRadius.circular(20)),
@@ -573,12 +572,11 @@ class _TicketsPageState extends State<TicketsPage> {
 
   Widget _mensajeUser(String mensajeUser){
     return Container(
-      padding:  EdgeInsets.symmetric(horizontal: 10),
+      padding:  const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          SizedBox(height: 20,),
-
+          const SizedBox(height: 20,),
           Container(
             decoration: BoxDecoration(
                 color: Colors.orange, borderRadius: BorderRadius.circular(20)),
@@ -605,7 +603,7 @@ class _TicketsPageState extends State<TicketsPage> {
 
       ),
       child:  TextField(
-        style: TextStyle( fontSize: 20),
+        style: const TextStyle( fontSize: 20),
         decoration: InputDecoration(
             hintText: 'Escribe aqui tus comentarios..',
             border: InputBorder.none,
@@ -630,11 +628,11 @@ class _TicketsPageState extends State<TicketsPage> {
           _con.selectedTime != null
               ? '${_con.selectedTime!.format(context)}'
               : '',
-          style: TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         IconButton(
-          icon: Icon(Icons.timer),
+          icon: const Icon(Icons.timer),
           style: ElevatedButton.styleFrom(
           backgroundColor: MyColors.primaryColorDark,
           foregroundColor: Colors.white,
