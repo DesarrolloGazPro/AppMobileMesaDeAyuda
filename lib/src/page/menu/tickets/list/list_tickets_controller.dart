@@ -16,8 +16,8 @@ class ListTicketsController {
   SharedPref _sharedPref  = new SharedPref();
   late Function refresh;
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
-  List<TicketsInfo> tickets = [TicketsInfo(id: 0, clave: "1", falla: "1")];
-  List<TicketsInfo> ticketsList = [TicketsInfo(id: 0, clave: "1", falla: "1")];
+  List<TicketsInfo> tickets = [TicketsInfo(id: 0, clave: "1", falla: "1", estatus:"")];
+  List<TicketsInfo> ticketsList = [TicketsInfo(id: 0, clave: "1", falla: "1", estatus:"")];
   late Usuario user;
   TextEditingController searchController = TextEditingController();
   late UserRespuestaLogin userLogin;
@@ -64,6 +64,8 @@ class ListTicketsController {
     }
     refresh();
   }
+
+
 
   void openDrawer(){
     key.currentState?.openDrawer();

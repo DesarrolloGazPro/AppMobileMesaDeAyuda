@@ -436,10 +436,9 @@ class _TicketsPageState extends State<TicketsPage> {
 
             onChanged: (String? value) {
               refresh();
-
               _con.valorFalla = value!;
               _con.txtprioridad.text = _con.listaprioridad.firstWhere((p) => p.id == _con.listafallas.firstWhere((f) => f.falla == _con.valorFalla).prioridad).clave;
-
+              _con.tiempoFalla = _con.listafallas.firstWhere((f) => f.falla == _con.valorFalla).tiempo.toString();
             },
             isExpanded: true,
             items: _con.listafallas.map<DropdownMenuItem<String>>((Fallas falla) {

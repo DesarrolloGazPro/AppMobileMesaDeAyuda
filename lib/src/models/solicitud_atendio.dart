@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 SolicitudAtendio solicitudAtendioFromJson(String str) => SolicitudAtendio.fromJson(json.decode(str));
@@ -6,6 +5,7 @@ SolicitudAtendio solicitudAtendioFromJson(String str) => SolicitudAtendio.fromJs
 String solicitudAtendioToJson(SolicitudAtendio data) => json.encode(data.toJson());
 
 class SolicitudAtendio {
+
   String id;
   String estatus;
   String atendio;
@@ -14,6 +14,12 @@ class SolicitudAtendio {
   String fechacreado;
   String tiemporespuesta;
   String solicitudreabrir;
+  String reasignarticket;
+  String tiempoFalla;
+  String servicio;
+  String falla;
+  String prioridad;
+  String usuarioasignado;
 
   SolicitudAtendio({
     required this.id,
@@ -24,6 +30,12 @@ class SolicitudAtendio {
     required this.fechacreado,
     required this.tiemporespuesta,
     required this.solicitudreabrir,
+    required this.reasignarticket,
+    required this.tiempoFalla,
+    required this.servicio,
+    required this.falla,
+    required this.prioridad,
+    required this.usuarioasignado,
   });
 
   factory SolicitudAtendio.fromJson(Map<String, dynamic> json) => SolicitudAtendio(
@@ -35,6 +47,12 @@ class SolicitudAtendio {
     fechacreado: json["fechacreado"],
     tiemporespuesta: json["tiemporespuesta"],
     solicitudreabrir: json["solicitudreabrir"],
+    reasignarticket: json["reasignarticket"],
+    tiempoFalla: json["tiempoFalla"],
+    servicio: json["servicio"],
+    falla: json["falla"],
+    prioridad: json["prioridad"],
+    usuarioasignado: json["usuarioasignado"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -46,5 +64,11 @@ class SolicitudAtendio {
     "fechacreado": fechacreado,
     "tiemporespuesta": tiemporespuesta,
     "solicitudreabrir": solicitudreabrir,
+    "reasignarticket": reasignarticket,
+    "tiempoFalla": tiempoFalla,
+    "servicio": servicio,
+    "falla": falla,
+    "prioridad": prioridad,
+    "usuarioasignado": usuarioasignado,
   };
 }

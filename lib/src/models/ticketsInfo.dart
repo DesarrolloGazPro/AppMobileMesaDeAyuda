@@ -9,22 +9,26 @@ class TicketsInfo {
   int id;
   String clave;
   String falla;
+  String estatus;
 
   TicketsInfo({
     required this.id,
     required this.clave,
     required this.falla,
+    required this.estatus,
   });
 
   factory TicketsInfo.fromJson(Map<String, dynamic> json) => TicketsInfo(
     id: json["id"],
     clave: json["clave"],
     falla: json["falla"],
+    estatus: json["estatus"],
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "clave": clave,
     "falla": falla,
+    "estatus": estatus,
   };
 }

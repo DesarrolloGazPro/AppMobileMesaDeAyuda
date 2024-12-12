@@ -1,17 +1,15 @@
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:mesadeayuda/src/models/Prioridad.dart';
 import 'package:mesadeayuda/src/models/area_servicios.dart';
 import 'package:mesadeayuda/src/models/fallas.dart';
 import 'package:mesadeayuda/src/models/personal.dart';
 import 'package:mesadeayuda/src/models/user_respuesta_login.dart';
+import 'package:mesadeayuda/src/models/usuario.dart';
 import 'package:mesadeayuda/src/utils/shared_pref.dart';
 import 'package:sn_progress_dialog/enums/value_position.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
-
 import '../../../models/Message.dart';
 import '../../../models/TicketsInfo.dart';
 import '../../../models/solicitud_atendio.dart';
@@ -19,7 +17,6 @@ import '../../../models/ticket_detalle.dart';
 import '../../../providers/tickets_providers.dart';
 import '../../../utils/my_snackbar.dart';
 import 'list/list_tickets_page.dart';
-
 
 class TicketsController {
   late BuildContext context;
@@ -29,20 +26,21 @@ class TicketsController {
   List<String> taps = ['Detalles', 'Chat'];
   List<String> reasignarTicket = <String>['No','Si'];
   List<String> cambiarEstatus = <String>['abierto','cerrado','respondido','reabierto'];
-  String valorReasignar='No';
-  String valorcambiarEstatus='abierto';
-  String valorAtendio='Selecciona';
-  String valorAreaServicio='Selecciona';
-  String valorAreaServicioId='0';
-  String valorFalla='Selecciona'; // en al cinsulta aplcia run order by para que depues concuerde
+
+  String valorReasignar = 'No',
+         valorcambiarEstatus = 'abierto',
+         valorAtendio = 'Selecciona',
+         valorAreaServicio = 'Selecciona',
+         valorAreaServicioId = '0',
+         valorFalla = 'Selecciona',
+         tiempoFalla = '',
+         valorAreaServicioPrevio= '';
 
   List<Personal> listaPersonal = [Personal(nombre: "Selecciona", departamento: "Selecciona")];
   List<AreaServicios> listaareaServicio = [AreaServicios(id: 0, clave: "Selecciona")];
   List<Fallas> listafallas = [Fallas(id: 0, falla: 'Selecciona', prioridad: 0, tiempo: 0, departamentoId: 0, categoriaId: 0, clasificacionId: 0)];
   List<Prioridad> listaprioridad = [];
-
   late TicketsInfo ticket;
-
   List<TicketDetalle> ticketDetalle = [];
 
   List<Message> messageList = [
@@ -67,12 +65,13 @@ class TicketsController {
   String tiemporespuesta='';
   String solicitudreabrir='';
   late ProgressDialog _progressDialog;
-
+  late Usuario user;
   Future<void> init(BuildContext context, Function refresh, String clave, String idTicket) async {
      this.context=context;
      this.refresh=refresh;
      idticket=idTicket;
      await ticketsProviders.init(context);
+     user = Usuario.fromJson(await _sharedPref.read('userLogin'));
      _progressDialog=ProgressDialog(context: context);
      consultarTicket(clave, idTicket);
      consultarPersonal();
@@ -100,6 +99,16 @@ class TicketsController {
       return;
     }
 
+
+    if(valorAreaServicio == valorAreaServicioPrevio && valorReasignar == 'Si'){
+      MySnackBar.show(context, 'No puede seleccionar la misma área a la que ya está asignada');
+      return;
+    }
+
+    if (valorReasignar == 'No'){
+      fecha='';
+    }
+
     SolicitudAtendio solicitudAtendio = new SolicitudAtendio(
         id: id,
         estatus: dropEstatus,
@@ -108,7 +117,14 @@ class TicketsController {
         hora: hora,
         fechacreado: fechacreado,
         tiemporespuesta: tiemporespuesta,
-        solicitudreabrir: solicitudreabrir
+        solicitudreabrir: solicitudreabrir,
+        reasignarticket: valorReasignar,
+        tiempoFalla: tiempoFalla,
+        servicio: valorAreaServicio,
+        falla: valorFalla,
+        prioridad: txtprioridad.text,
+        usuarioasignado: user.usuarios!.departamentoClave
+
     );
     _progressDialog.show(max: 100, msg: 'Espera un momento...' ,
         backgroundColor: Colors.orange , msgColor: Colors.black,
@@ -130,6 +146,8 @@ class TicketsController {
 
   }
   void consultarTicket(String clave, String ticketId) async {
+
+    try{
     _progressDialog.show(max: 100, msg: 'Espera un momento...' ,
         backgroundColor: Colors.orange , msgColor: Colors.black,
         progressBgColor: Colors.black,  msgTextAlign: TextAlign.center,
@@ -155,7 +173,7 @@ class TicketsController {
 
     valorAreaServicio=(ticketDetalle[0].tickets[0].servicio != null &&
                       ticketDetalle[0].tickets[0].servicio.isNotEmpty)
-                  ? ticketDetalle[0].tickets[0].servicio
+                      ? ticketDetalle[0].tickets[0].servicio
                       : 'Selecciona';
 
 
@@ -163,41 +181,47 @@ class TicketsController {
         .firstWhere((area) => area.clave == valorAreaServicio)
         .id.toString();
 
-    consultaFallas(valorAreaServicioId);
+    listafallas = await consultaFallas(valorAreaServicioId);
 
     valorFalla=(ticketDetalle[0].tickets[0].falla != null &&
                       ticketDetalle[0].tickets[0].falla.isNotEmpty)
-                  ? ticketDetalle[0].tickets[0].falla
+                      ? ticketDetalle[0].tickets[0].falla
                       : 'Selecciona';
 
 
-    txtareencargada.text= valorAreaServicio;
+    txtareencargada.text = valorAreaServicio;
     txtprioridad.text = (ticketDetalle[0].tickets[0].prioridad != null &&
-                      ticketDetalle[0].tickets[0].prioridad.isNotEmpty)
-                  ? ticketDetalle[0].tickets[0].prioridad
-                      : '';
+                         ticketDetalle[0].tickets[0].prioridad.isNotEmpty)
+                         ? ticketDetalle[0].tickets[0].prioridad
+                         : '';
 
-    fechacreado=(ticketDetalle[0].tickets[0].fecha_creado != null &&
-        ticketDetalle[0].tickets[0].fecha_creado.isNotEmpty)
-        ? ticketDetalle[0].tickets[0].fecha_creado
-        : '';
+    fechacreado = (ticketDetalle[0].tickets[0].fecha_creado != null &&
+                  ticketDetalle[0].tickets[0].fecha_creado.isNotEmpty)
+                  ? ticketDetalle[0].tickets[0].fecha_creado
+                  : '';
 
-    tiemporespuesta = (ticketDetalle[0].tickets[0].tiempo_respuesta!= null &&
-        ticketDetalle[0].tickets[0].tiempo_respuesta.isNotEmpty)
-        ? ticketDetalle[0].tickets[0].tiempo_respuesta
-        : '';
+    tiemporespuesta = (ticketDetalle[0].tickets[0].tiempo_respuesta != null &&
+                       ticketDetalle[0].tickets[0].tiempo_respuesta.isNotEmpty)
+                       ? ticketDetalle[0].tickets[0].tiempo_respuesta
+                       : '';
 
-    solicitudreabrir = (ticketDetalle[0].tickets[0].solicitud_reabrir!= null &&
-        ticketDetalle[0].tickets[0].solicitud_reabrir.isNotEmpty)
-        ? ticketDetalle[0].tickets[0].solicitud_reabrir
-        : '';
+    solicitudreabrir = (ticketDetalle[0].tickets[0].solicitud_reabrir != null &&
+                        ticketDetalle[0].tickets[0].solicitud_reabrir.isNotEmpty)
+                        ? ticketDetalle[0].tickets[0].solicitud_reabrir
+                        : '';
+
+    tiempoFalla = listafallas.firstWhere((f) => f.falla == valorFalla).tiempo.toString();
+    valorAreaServicioPrevio=valorAreaServicio;
     _progressDialog.close();
-
 
     if (ticketDetalle.isEmpty){
       MySnackBar.show(context, 'No existen ticket');
     }
     refresh();
+    }
+        catch(e){
+       _progressDialog.close();
+        }
   }
 
 
@@ -213,7 +237,6 @@ class TicketsController {
   void addMessageList(String mensaje, String  fromWO){
     Message message = new Message(text: mensaje, fromWho: fromWO );
     messageList.add(message);
-
     refresh();
   }
 
@@ -275,13 +298,14 @@ class TicketsController {
     }
     refresh();
   }
-  void consultaFallas(String clasificacion) async {
+   Future<List<Fallas>> consultaFallas(String clasificacion) async {
     listafallas.clear();
     listafallas = await ticketsProviders.consulTaFallas(clasificacion);
     if (listafallas.isEmpty){
       MySnackBar.show(context, 'No existen datos');
     }
     refresh();
+    return listafallas;
   }
 
   void prioridades() async {

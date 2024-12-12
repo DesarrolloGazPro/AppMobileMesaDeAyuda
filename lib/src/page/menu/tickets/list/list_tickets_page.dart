@@ -53,7 +53,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
               const SizedBox(height: 5),
 
               Text(
-            'Total Abiertos: ${_con.tickets.length}',
+            'Total de Tickets: ${_con.tickets.length}',
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -258,18 +258,56 @@ class TicketTile extends StatelessWidget {
       },
       child: Container(
         color: Colors.white,
-        height: 150,
-        child: Card(
-          elevation: 5,
-          color: Colors.white,
-          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          child: ListTile(
-            title: Text('Clave: ${ticket.clave ?? ''}', style: TextStyle(fontSize: 20, color: Colors.blue.shade900)),
-            subtitle: Text('Descripción: ${ticket.falla ?? ''}', style: TextStyle(fontSize: 20, color: Colors.green.shade900)),
-            trailing: Icon(Icons.info, color: Colors.orange.shade900),
-          ),
+        height: 210,
+        child: Column(
+          children: [
+            Card(
+              elevation: 5,
+              color: Colors.white,
+              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              child: Column(
+                children: [
+                  ListTile(
+                    title: Text(
+                      'Clave: ${ticket.clave ?? ''}',
+                      style: TextStyle(fontSize: 20, color: Colors.blue.shade900),
+                    ),
+                    subtitle: Text(
+                      'Descripción: ${ticket.falla ?? ''}',
+                      style: TextStyle(fontSize: 20, color: Colors.green.shade900),
+                    ),
+                    trailing: Icon(Icons.info, color: Colors.orange.shade900),
+                  ),
+                  ListTile(
+                    title: Text(
+                      '${ticket.estatus ?? ''}',
+                      style: TextStyle(fontSize: 20,
+                          color: getColorForStatus(ticket.estatus),
+                    ),
+                  ),)
+
+                ],
+              ),
+            ),
+          ],
         ),
       ),
+
     );
+  }
+
+  Color getColorForStatus(String? status) {
+    switch (status?.toLowerCase()) {
+      case 'abierto':
+        return Colors.blue.shade900; // Verde para abierto
+      case 'cerrado':
+        return Colors.red.shade900; // Rojo para cerrado
+      case 'respondido':
+        return Colors.brown.shade900; // Azul para respondido
+      case 'reabierto':
+        return Colors.orange.shade900; // Naranja para reabierto
+      default:
+        return Colors.black; // Color predeterminado
+    }
   }
 }
