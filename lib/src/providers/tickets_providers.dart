@@ -153,7 +153,7 @@ class TicketsProviders {
       Map<String, dynamic> headers = {
         'Content-type': 'application/json',
       };
-      var res = await dio.post(url, data: bodyParams, options: Options(headers: headers));
+      var res = await dio.put(url, data: bodyParams, options: Options(headers: headers));
       if (res.statusCode == 200) {
         return true;
       } else {

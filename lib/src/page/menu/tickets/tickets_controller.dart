@@ -9,6 +9,7 @@ import 'package:mesadeayuda/src/models/fallas.dart';
 import 'package:mesadeayuda/src/models/personal.dart';
 import 'package:mesadeayuda/src/models/user_respuesta_login.dart';
 import 'package:mesadeayuda/src/utils/shared_pref.dart';
+import 'package:sn_progress_dialog/enums/value_position.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
 import '../../../models/Message.dart';
@@ -100,9 +101,13 @@ class TicketsController {
         estatus: dropEstatus,
         atendio: dropAtendio,
         fecha: fecha,
-        hora: fecha
+        hora: hora
     );
-    _progressDialog.show(max: 100, msg: 'Espera un momento...');
+    _progressDialog.show(max: 100, msg: 'Espera un momento...' ,
+        backgroundColor: Colors.white , msgColor: Colors.black,
+      progressBgColor: Colors.white,  msgTextAlign: TextAlign.center,
+        msgFontWeight: FontWeight.bold, msgFontSize: 20,
+        valuePosition: ValuePosition.center  );
 
     final res =  await ticketsProviders.updateTicket(solicitudAtendio);
     if (res){

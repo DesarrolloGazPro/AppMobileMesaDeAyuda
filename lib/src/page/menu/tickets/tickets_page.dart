@@ -173,7 +173,7 @@ class _TicketsPageState extends State<TicketsPage> {
                   _visbleAtendioYfechaHora(),
                   const SizedBox(height: 10),
                   _visibleSelectAreafalla(),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   _btnGuardar(),
                 ],
               )
