@@ -18,6 +18,7 @@ import '../../../models/solicitud_atendio.dart';
 import '../../../models/ticket_detalle.dart';
 import '../../../providers/tickets_providers.dart';
 import '../../../utils/my_snackbar.dart';
+import 'list/list_tickets_page.dart';
 
 
 class TicketsController {
@@ -61,8 +62,10 @@ class TicketsController {
   TicketsProviders ticketsProviders = new TicketsProviders();
   XFile? pickedFile;
   File? imageFile;
-
   String idticket='';
+  String fechacreado='';
+  String tiemporespuesta='';
+  String solicitudreabrir='';
   late ProgressDialog _progressDialog;
   bool isEnable = true;
   Future<void> init(BuildContext context, Function refresh, String clave, String idTicket) async {
@@ -80,28 +83,32 @@ class TicketsController {
      refresh();
 
   }
-
+  String formatTimeOfDay(TimeOfDay time) {
+    final hours = time.hour.toString().padLeft(2, '0');
+    final minutes = time.minute.toString().padLeft(2, '0');
+    return '$hours:$minutes';
+  }
   void guardar() async {
     String id = idticket;
     String dropEstatus = valorcambiarEstatus;
     String dropAtendio = valorAtendio;
     String fecha = selectedDate.toString();
-    String hora = selectedTime.toString();
+    String hora = formatTimeOfDay(selectedTime!);
 
-    if (dropEstatus == 'Selecciona' || dropAtendio== 'Selecciona'||
-        fecha == '' || hora == '') {
+    if ([dropEstatus, dropAtendio, fecha, hora].contains('Selecciona') || fecha.isEmpty || hora.isEmpty) {
       MySnackBar.show(context, 'Debes ingresar todos los campos');
       return;
     }
-
-
 
     SolicitudAtendio solicitudAtendio = new SolicitudAtendio(
         id: id,
         estatus: dropEstatus,
         atendio: dropAtendio,
         fecha: fecha,
-        hora: hora
+        hora: hora,
+        fechacreado: fechacreado,
+        tiemporespuesta: tiemporespuesta,
+        solicitudreabrir: solicitudreabrir
     );
     _progressDialog.show(max: 100, msg: 'Espera un momento...' ,
         backgroundColor: Colors.white , msgColor: Colors.black,
@@ -112,8 +119,11 @@ class TicketsController {
     final res =  await ticketsProviders.updateTicket(solicitudAtendio);
     if (res){
       _progressDialog.close();
-      MySnackBar.show(context, 'Usuarioa agregado correctamente');
+      MySnackBar.show(context, 'Ticket Actualizado');
       isEnable=true;
+      await Future.delayed(Duration(seconds: 3));
+      Navigator.push( context, MaterialPageRoute(builder: (context) => const ListTicketsPage()),
+      );
     }else{
       _progressDialog.close();
       isEnable=true;
@@ -162,6 +172,21 @@ class TicketsController {
                       ticketDetalle[0].tickets[0].prioridad.isNotEmpty)
                   ? ticketDetalle[0].tickets[0].prioridad
                       : '';
+
+    fechacreado=(ticketDetalle[0].tickets[0].fecha_creado != null &&
+        ticketDetalle[0].tickets[0].fecha_creado.isNotEmpty)
+        ? ticketDetalle[0].tickets[0].fecha_creado
+        : '';
+
+    tiemporespuesta = (ticketDetalle[0].tickets[0].tiempo_respuesta!= null &&
+        ticketDetalle[0].tickets[0].tiempo_respuesta.isNotEmpty)
+        ? ticketDetalle[0].tickets[0].tiempo_respuesta
+        : '';
+
+    solicitudreabrir = (ticketDetalle[0].tickets[0].solicitud_reabrir!= null &&
+        ticketDetalle[0].tickets[0].solicitud_reabrir.isNotEmpty)
+        ? ticketDetalle[0].tickets[0].solicitud_reabrir
+        : '';
 
 
     if (ticketDetalle.isEmpty){

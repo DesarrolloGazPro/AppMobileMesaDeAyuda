@@ -11,6 +11,9 @@ class SolicitudAtendio {
   String atendio;
   String fecha;
   String hora;
+  String fechacreado;
+  String tiemporespuesta;
+  String solicitudreabrir;
 
   SolicitudAtendio({
     required this.id,
@@ -18,6 +21,9 @@ class SolicitudAtendio {
     required this.atendio,
     required this.fecha,
     required this.hora,
+    required this.fechacreado,
+    required this.tiemporespuesta,
+    required this.solicitudreabrir,
   });
 
   factory SolicitudAtendio.fromJson(Map<String, dynamic> json) => SolicitudAtendio(
@@ -26,6 +32,9 @@ class SolicitudAtendio {
     atendio: json["atendio"],
     fecha: json["fecha"],
     hora: json["hora"],
+    fechacreado: json["fechacreado"],
+    tiemporespuesta: json["tiemporespuesta"],
+    solicitudreabrir: json["solicitudreabrir"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -34,5 +43,8 @@ class SolicitudAtendio {
     "atendio": atendio,
     "fecha": fecha,
     "hora": hora,
+    "fechacreado": fechacreado,
+    "tiemporespuesta": tiemporespuesta,
+    "solicitudreabrir": solicitudreabrir,
   };
 }

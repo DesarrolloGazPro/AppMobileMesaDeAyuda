@@ -17,7 +17,7 @@ class MySnackBar{
             fontSize: 20
           ),
         ),
-          backgroundColor: MyColors.primaryColorDark,
+          backgroundColor: Colors.blue,
           duration: const Duration(seconds: 3),
     )
     );

@@ -75,6 +75,9 @@ class Ticket {
   String nivel;
   String atendio;
   String fecha_atendido;
+  String fecha_creado;
+  String tiempo_respuesta;
+  String solicitud_reabrir;
 
   Ticket({
     required this.id,
@@ -91,23 +94,30 @@ class Ticket {
     required this.nivel,
     required this.atendio,
     required this.fecha_atendido,
+    required this.fecha_creado,
+    required this.tiempo_respuesta,
+    required this.solicitud_reabrir
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) => Ticket(
-    id: json["id"] ?? 0,  // Valor por defecto si es null
-    clave: json["clave"] ?? "",  // Valor por defecto si es null
-    estatus: json["estatus"] ?? "",  // Valor por defecto si es null
-    servicio: json["servicio"] ?? "",  // Valor por defecto si es null
-    falla: json["falla"] ?? "",  // Valor por defecto si es null
-    prioridad: json["prioridad"] ?? "",  // Valor por defecto si es null
-    asunto: json["asunto"] ?? "",  // Valor por defecto si es null
-    mensaje: json["mensaje"] ?? "",  // Valor por defecto si es null
-    usuario: json["usuario"] ?? "",  // Valor por defecto si es null
-    reabierto: json["reabierto"] ?? "",  // Valor por defecto si es null
-    condicion: json["condicion"] ?? "",  // Valor por defecto si es null
+    id: json["id"] ?? 0,
+    clave: json["clave"] ?? "",
+    estatus: json["estatus"] ?? "",
+    servicio: json["servicio"] ?? "",
+    falla: json["falla"] ?? "",
+    prioridad: json["prioridad"] ?? "",
+    asunto: json["asunto"] ?? "",
+    mensaje: json["mensaje"] ?? "",
+    usuario: json["usuario"] ?? "",
+    reabierto: json["reabierto"] ?? "",
+    condicion: json["condicion"] ?? "",
     nivel: json["nivel"] ?? "",
     atendio: json["atendio"] ?? "",
-    fecha_atendido: json["fecha_atendido"] ?? "",// Valor por defecto si es null
+    fecha_atendido: json["fecha_atendido"] ?? "",
+    fecha_creado: json["fecha_creado"] ?? "",
+    tiempo_respuesta: json["tiempo_respuesta"] ?? "",
+    solicitud_reabrir: json["solicitud_reabrir"] ?? "",
+
   );
 
   Map<String, dynamic> toJson() => {
@@ -125,6 +135,9 @@ class Ticket {
     "nivel": nivel,
     "atendio": atendio,
     "fecha_atendido": fecha_atendido,
+    "fecha_creado": fecha_creado,
+    "tiempo_respuesta": tiempo_respuesta,
+    "solicitud_reabrir": solicitud_reabrir,
   };
 }
 
