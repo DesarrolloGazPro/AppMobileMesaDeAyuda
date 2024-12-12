@@ -67,7 +67,7 @@ class TicketsController {
   String tiemporespuesta='';
   String solicitudreabrir='';
   late ProgressDialog _progressDialog;
-  bool isEnable = true;
+  
   Future<void> init(BuildContext context, Function refresh, String clave, String idTicket) async {
      this.context=context;
      this.refresh=refresh;
@@ -120,13 +120,11 @@ class TicketsController {
     if (res){
       _progressDialog.close();
       MySnackBar.show(context, 'Ticket Actualizado');
-      isEnable=true;
       await Future.delayed(Duration(seconds: 3));
       Navigator.push( context, MaterialPageRoute(builder: (context) => const ListTicketsPage()),
       );
     }else{
       _progressDialog.close();
-      isEnable=true;
       MySnackBar.show(context, 'Ocurrio un error al actulizar el ticket');
     }
 

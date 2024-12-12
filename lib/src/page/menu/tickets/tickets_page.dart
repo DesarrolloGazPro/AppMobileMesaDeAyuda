@@ -98,7 +98,7 @@ class _TicketsPageState extends State<TicketsPage> {
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton(
-        onPressed: _con.isEnable ? _con.guardar : null,
+        onPressed: _con.guardar,
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red.shade900,
             foregroundColor: Colors.white,
