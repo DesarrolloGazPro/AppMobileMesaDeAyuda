@@ -67,7 +67,7 @@ class TicketsController {
   String tiemporespuesta='';
   String solicitudreabrir='';
   late ProgressDialog _progressDialog;
-  
+
   Future<void> init(BuildContext context, Function refresh, String clave, String idTicket) async {
      this.context=context;
      this.refresh=refresh;
@@ -111,8 +111,8 @@ class TicketsController {
         solicitudreabrir: solicitudreabrir
     );
     _progressDialog.show(max: 100, msg: 'Espera un momento...' ,
-        backgroundColor: Colors.white , msgColor: Colors.black,
-      progressBgColor: Colors.white,  msgTextAlign: TextAlign.center,
+        backgroundColor: Colors.orange , msgColor: Colors.black,
+        progressBgColor: Colors.black,  msgTextAlign: TextAlign.center,
         msgFontWeight: FontWeight.bold, msgFontSize: 20,
         valuePosition: ValuePosition.center  );
 
@@ -130,6 +130,12 @@ class TicketsController {
 
   }
   void consultarTicket(String clave, String ticketId) async {
+    _progressDialog.show(max: 100, msg: 'Espera un momento...' ,
+        backgroundColor: Colors.orange , msgColor: Colors.black,
+        progressBgColor: Colors.black,  msgTextAlign: TextAlign.center,
+        msgFontWeight: FontWeight.bold, msgFontSize: 20,
+        valuePosition: ValuePosition.center  );
+
     ticketDetalle.clear();
     ticketDetalle = await ticketsProviders.consultarTicket(clave,ticketId);
     valorcambiarEstatus= ticketDetalle[0].tickets[0].estatus;
@@ -185,6 +191,7 @@ class TicketsController {
         ticketDetalle[0].tickets[0].solicitud_reabrir.isNotEmpty)
         ? ticketDetalle[0].tickets[0].solicitud_reabrir
         : '';
+    _progressDialog.close();
 
 
     if (ticketDetalle.isEmpty){
