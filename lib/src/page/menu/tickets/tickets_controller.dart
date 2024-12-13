@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,6 +9,7 @@ import 'package:mesadeayuda/src/models/personal.dart';
 import 'package:mesadeayuda/src/models/user_respuesta_login.dart';
 import 'package:mesadeayuda/src/models/usuario.dart';
 import 'package:mesadeayuda/src/utils/shared_pref.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sn_progress_dialog/enums/value_position.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 import '../../../models/Message.dart';
@@ -386,4 +388,5 @@ class TicketsController {
           return alertDialog;
         });
   }
+
 }

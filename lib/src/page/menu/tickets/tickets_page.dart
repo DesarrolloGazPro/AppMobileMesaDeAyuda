@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
@@ -136,20 +140,17 @@ class _TicketsPageState extends State<TicketsPage> {
                           String decodedMessage = decodeHtml(message.mensaje);
                           String replacedMessage = decodedMessage.replaceAll('<br/>', '\n');
 
-                          // Buscar el archivo correspondiente al mensaje
                           var archivo = _con.ticketDetalle[0].archivosTickets
                               .firstWhere(
                                 (archivo) => archivo.ticket_mensaje_id == message.id,
                             orElse: () => ArchivosTicket(id: 0, archivo: '', archivo_nombre: '', ticketId: 0, ticket_mensaje_id: 0), // Devuelve un objeto predeterminado
                           );
-
-                          // Asignar el nombre del archivo o cadena vacía si no se encuentra
-                          String nombreArchivo = archivo?.archivo_nombre ?? '';
-
+                          String nombreArchivo = archivo.archivo_nombre ?? '';
+                          String archivobyte = archivo.archivo ?? '';
                           // Devolver el mensaje de soporte o usuario según el caso
                           return (message.esMensajeSoporte == 'SI')
                               ? _mensajeSoporte(replacedMessage, nombreArchivo)
-                              : _mensajeUser(replacedMessage, nombreArchivo);
+                              : _mensajeUser(replacedMessage, nombreArchivo, archivobyte);
                         },
 
 
@@ -614,9 +615,14 @@ class _TicketsPageState extends State<TicketsPage> {
             ),
           ),
           const SizedBox(height: 5),
-          Icon( (nombrearch != null  && nombrearch != '')
-                ? Icons.image_outlined // Si hay nombre de archivo, muestra el ícono de imagen
-                : null, // Si no hay nombre de archivo, muestra otro ícono
+          GestureDetector(
+            onTap: (){
+
+            },
+            child: Icon( (nombrearch != null  && nombrearch != '')
+                  ? Icons.image_outlined // Si hay nombre de archivo, muestra el ícono de imagen
+                  : null, // Si no hay nombre de archivo, muestra otro ícono
+            ),
           ),
           const SizedBox(height: 5),
 
@@ -626,7 +632,7 @@ class _TicketsPageState extends State<TicketsPage> {
   }
 
 
-  Widget _mensajeUser(String mensajeUser, String nombrearch){
+  Widget _mensajeUser(String mensajeUser, String nombrearch, String bytes){
     return Container(
       padding:  const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
@@ -646,9 +652,14 @@ class _TicketsPageState extends State<TicketsPage> {
           ),
 
           const SizedBox(height: 5),
-          Icon( (nombrearch != null  && nombrearch != '')
-              ? Icons.image_outlined // Si hay nombre de archivo, muestra el ícono de imagen
-              : null, // Si no hay nombre de archivo, muestra otro ícono
+          GestureDetector(
+            onTap: (){
+              showAlertDialog(context, bytes,nombrearch);
+            },
+            child: Icon( (nombrearch != null  && nombrearch != '')
+                ? Icons.image_outlined // Si hay nombre de archivo, muestra el ícono de imagen
+                : null, // Si no hay nombre de archivo, muestra otro ícono
+            ),
           ),
           const SizedBox(height: 5),
         ],
@@ -782,8 +793,87 @@ class _TicketsPageState extends State<TicketsPage> {
   String decodeHtml(String htmlText) {
     return parse(htmlText).documentElement?.text ?? htmlText;
   }
+
+
+  void showAlertDialog(BuildContext context, String base64Bytes, String nombreArchivo) {
+    AlertDialog alertDialog = AlertDialog(
+      title: Text('¿Desea descargar la imagen?'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(), // Cerrar el diálogo
+          child: Text('Cancelar'),
+        ),
+        TextButton(
+          onPressed: () async {
+            String? imagePath = await descargarImagen(base64Bytes, nombreArchivo);
+            Navigator.of(context).pop(); // Cerrar el diálogo después de completar la descarga
+            if (imagePath != null) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ImagenMostradaScreen(imagePath: imagePath),
+                ),
+              );
+            }
+          },
+          child: Text('Descargar'),
+        ),
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alertDialog;
+      },
+    );
+  }
+
+  Future<String?> descargarImagen(String base64Bytes, String nombreArchivo) async {
+    try {
+      List<int> bytes = base64Decode(base64Bytes);
+
+      // Guardar temporalmente
+      Directory tempDir = await getTemporaryDirectory();
+      String tempPath = '${tempDir.path}/$nombreArchivo';
+      File tempFile = File(tempPath);
+      await tempFile.writeAsBytes(bytes);
+
+      // Mover a la carpeta pública
+      Directory publicDir = Directory('/storage/emulated/0/Download');
+      if (!await publicDir.exists()) {
+        await publicDir.create(recursive: true);
+      }
+      String newPath = '${publicDir.path}/$nombreArchivo';
+      await tempFile.copy(newPath);
+
+      print('Imagen movida a: $newPath');
+      return tempPath; // Retornar la ruta de la imagen descargada
+    } catch (e) {
+      print('Error al guardar o mover la imagen: $e');
+      return null; // Retornar null en caso de error
+    }
+  }
+
+
   void refresh(){
     setState(() {});
   }
 }
 
+// Pantalla para mostrar la imagen descargada
+class ImagenMostradaScreen extends StatelessWidget {
+  final String imagePath;
+
+  const ImagenMostradaScreen({Key? key, required this.imagePath}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Imagen descargada')),
+      body: Center(
+        child: Image.file(File(imagePath)),
+      ),
+    );
+  }
+}
