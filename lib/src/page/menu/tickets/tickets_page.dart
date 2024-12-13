@@ -84,7 +84,7 @@ class _TicketsPageState extends State<TicketsPage> {
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton(
-        onPressed:(){},
+        onPressed:_con.crearMensaje,
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red.shade900,
             foregroundColor: Colors.white,
@@ -92,7 +92,7 @@ class _TicketsPageState extends State<TicketsPage> {
                 borderRadius: BorderRadius.circular(30)),
             padding: const EdgeInsets.symmetric(vertical: 15)
         ),
-        child:  const Text('Enviar', style: TextStyle(fontSize: 20)),
+        child:  const Text('Enviar', style: TextStyle(fontSize: 15)),
 
       ),
     );
@@ -111,7 +111,7 @@ class _TicketsPageState extends State<TicketsPage> {
                 borderRadius: BorderRadius.circular(30)),
             padding: const EdgeInsets.symmetric(vertical: 15)
         ),
-        child:  const Text('Guardar', style: TextStyle(fontSize: 20)),
+        child:  const Text('Guardar', style: TextStyle(fontSize: 15)),
 
       ),
     );
@@ -143,13 +143,13 @@ class _TicketsPageState extends State<TicketsPage> {
                           var archivo = _con.ticketDetalle[0].archivosTickets
                               .firstWhere(
                                 (archivo) => archivo.ticket_mensaje_id == message.id,
-                            orElse: () => ArchivosTicket(id: 0, archivo: '', archivo_nombre: '', ticketId: 0, ticket_mensaje_id: 0), // Devuelve un objeto predeterminado
+                            orElse: () => ArchivosTicket(id: 0, archivo: '', archivo_nombre: '', ticket_id: 0, ticket_mensaje_id: 0), // Devuelve un objeto predeterminado
                           );
                           String nombreArchivo = archivo.archivo_nombre ?? '';
                           String archivobyte = archivo.archivo ?? '';
                           // Devolver el mensaje de soporte o usuario según el caso
                           return (message.esMensajeSoporte == 'SI')
-                              ? _mensajeSoporte(replacedMessage, nombreArchivo)
+                              ? _mensajeSoporte(replacedMessage, nombreArchivo,archivobyte)
                               : _mensajeUser(replacedMessage, nombreArchivo, archivobyte);
                         },
 
@@ -231,7 +231,7 @@ class _TicketsPageState extends State<TicketsPage> {
           const Center(
             child: Text('Fecha y hora', style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 20,
+              fontSize: 15,
             )),
           ),
           Container(
@@ -258,7 +258,7 @@ class _TicketsPageState extends State<TicketsPage> {
           const Text('Reasignar ticket' , style: TextStyle(
               color: Colors.black, height: 2,
               fontWeight: FontWeight.bold,
-              fontSize: 20
+              fontSize: 15
           ),),
           Container(
             margin: const EdgeInsets.only(left: 10, right: 10),
@@ -283,7 +283,7 @@ class _TicketsPageState extends State<TicketsPage> {
              items: _con.reasignarTicket.map<DropdownMenuItem<String>>((String value) {
                return DropdownMenuItem<String>(
                  value: value,
-                 child: Text(value , style: TextStyle(fontSize: 20),),
+                 child: Text(value , style: TextStyle(fontSize: 15),),
                );
              }).toList(),
                ),
@@ -300,7 +300,7 @@ class _TicketsPageState extends State<TicketsPage> {
         const Text('Cambiar Estatus' , style: TextStyle(
             color: Colors.black, height: 2,
             fontWeight: FontWeight.bold,
-            fontSize: 20
+            fontSize: 15
         ),),
         Container(
           margin: const EdgeInsets.only(left: 10, right: 10),
@@ -327,7 +327,7 @@ class _TicketsPageState extends State<TicketsPage> {
             items: _con.cambiarEstatus.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
-                child: Text(value, style:  TextStyle(fontSize: 20),),
+                child: Text(value, style:  TextStyle(fontSize: 15),),
               );
             }).toList(),
           ),
@@ -343,7 +343,7 @@ class _TicketsPageState extends State<TicketsPage> {
         const Text('Atendió' , style: TextStyle(
             color: Colors.black, height: 2,
             fontWeight: FontWeight.bold,
-            fontSize: 20
+            fontSize: 15
         ),),
         Container(
           margin: const EdgeInsets.only(left: 10, right: 10),
@@ -367,7 +367,7 @@ class _TicketsPageState extends State<TicketsPage> {
             items: _con.listaPersonal.map<DropdownMenuItem<String>>((Personal personal) {
               return DropdownMenuItem<String>(
                 value: personal.nombre,
-                child: Text(personal.nombre, style:  const TextStyle(fontSize: 20)),
+                child: Text(personal.nombre, style:  const TextStyle(fontSize: 15)),
               );
             }).toList(),
           ),
@@ -383,7 +383,7 @@ class _TicketsPageState extends State<TicketsPage> {
         const Text('Área' , style: TextStyle(
             color: Colors.black, height: 2,
             fontWeight: FontWeight.bold,
-            fontSize: 20
+            fontSize: 15
         ),),
         Container(
           margin: const EdgeInsets.only(left: 10, right: 10),
@@ -420,7 +420,7 @@ class _TicketsPageState extends State<TicketsPage> {
             items: _con.listaareaServicio.map<DropdownMenuItem<String>>((AreaServicios area) {
               return DropdownMenuItem<String>(
                 value: area.clave,
-                child: Text(area.clave, style:  TextStyle(fontSize: 20)),
+                child: Text(area.clave, style:  TextStyle(fontSize: 15)),
               );
             }).toList(),
           ),
@@ -435,7 +435,7 @@ class _TicketsPageState extends State<TicketsPage> {
         const Text('Falla' , style: TextStyle(
             color: Colors.black, height: 2,
             fontWeight: FontWeight.bold,
-            fontSize: 20
+            fontSize: 15
         ),),
         Container(
           margin: const EdgeInsets.only(left: 10, right: 10),
@@ -463,7 +463,7 @@ class _TicketsPageState extends State<TicketsPage> {
             items: _con.listafallas.map<DropdownMenuItem<String>>((Fallas falla) {
               return DropdownMenuItem<String>(
                 value: falla.falla,
-                child: Text(falla.falla, style:  TextStyle(fontSize: 20)),
+                child: Text(falla.falla, style:  TextStyle(fontSize: 15)),
               );
             }).toList(),
           ),
@@ -595,7 +595,7 @@ class _TicketsPageState extends State<TicketsPage> {
     );
   }
 
-  Widget _mensajeSoporte(String mensajeSoporte, String nombrearch){
+  Widget _mensajeSoporte(String mensajeSoporte, String nombrearch, String bytes){
     return Container(
       margin: const EdgeInsets.only(top: 10),
       padding:  const EdgeInsets.symmetric(horizontal: 10),
@@ -610,18 +610,18 @@ class _TicketsPageState extends State<TicketsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
                 mensajeSoporte,
-                style: const TextStyle(color: Colors.white, fontSize: 20),
+                style: const TextStyle(color: Colors.white, fontSize: 15),
               ),
             ),
           ),
           const SizedBox(height: 5),
           GestureDetector(
             onTap: (){
-
+              showAlertDialog(context, bytes,nombrearch);
             },
             child: Icon( (nombrearch != null  && nombrearch != '')
-                  ? Icons.image_outlined // Si hay nombre de archivo, muestra el ícono de imagen
-                  : null, // Si no hay nombre de archivo, muestra otro ícono
+                ? Icons.image_outlined // Si hay nombre de archivo, muestra el ícono de imagen
+                : null, // Si no hay nombre de archivo, muestra otro ícono
             ),
           ),
           const SizedBox(height: 5),
@@ -646,7 +646,7 @@ class _TicketsPageState extends State<TicketsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
                 mensajeUser,
-                style: const TextStyle(color: Colors.white, fontSize: 20),
+                style: const TextStyle(color: Colors.white, fontSize: 15),
               ),
             ),
           ),
@@ -676,7 +676,8 @@ class _TicketsPageState extends State<TicketsPage> {
 
       ),
       child:  TextField(
-        style: const TextStyle( fontSize: 20),
+        controller: _con.txtMensaje,
+        style: const TextStyle( fontSize: 15),
         decoration: InputDecoration(
             hintText: 'Escribe aqui tus comentarios..',
             border: InputBorder.none,

@@ -8,6 +8,7 @@ import 'package:mesadeayuda/src/models/area_servicios.dart';
 import 'package:mesadeayuda/src/models/fallas.dart';
 import 'package:mesadeayuda/src/models/personal.dart';
 import 'package:mesadeayuda/src/models/solicitud_atendio.dart';
+import 'package:mesadeayuda/src/models/solicitud_mensaje.dart';
 import '../models/TicketsInfo.dart';
 import '../models/ticket_detalle.dart';
 
@@ -154,6 +155,24 @@ class TicketsProviders {
         'Content-type': 'application/json',
       };
       var res = await dio.put(url, data: bodyParams, options: Options(headers: headers));
+      if (res.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    }catch(e){
+      return false;
+    }
+  }
+
+  Future<bool> crearMensaje(SolicitudMensaje solicitudMensaje) async {
+    try{
+      String url = '$_url$_api/crearMensaje';
+      String bodyParams = json.encode(solicitudMensaje.toJson());
+      Map<String, dynamic> headers = {
+        'Content-type': 'application/json',
+      };
+      var res = await dio.post(url, data: bodyParams, options: Options(headers: headers));
       if (res.statusCode == 200) {
         return true;
       } else {

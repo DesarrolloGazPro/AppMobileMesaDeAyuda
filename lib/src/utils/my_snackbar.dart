@@ -14,7 +14,7 @@ class MySnackBar{
           textAlign: TextAlign.center,
           style: const TextStyle(
             color: Colors.white,
-            fontSize: 20
+            fontSize: 15
           ),
         ),
           backgroundColor: Colors.blue,

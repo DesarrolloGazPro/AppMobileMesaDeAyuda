@@ -32,14 +32,14 @@ class ArchivosTicket {
   int id;
   String archivo;
   String archivo_nombre;  // Campo opcional
-  int ticketId;
+  int ticket_id;
   int ticket_mensaje_id;
 
   ArchivosTicket({
     required this.id,
     required this.archivo,
     required this.archivo_nombre,  // Opcional
-    required this.ticketId,
+    required this.ticket_id,
     required this.ticket_mensaje_id,
   });
 
@@ -47,7 +47,7 @@ class ArchivosTicket {
     id: json["id"] ?? 0,  // Valor por defecto si es null
     archivo: json["archivo"] ?? "",  // Valor por defecto si es null
     archivo_nombre: json["archivo_nombre"],  // Puede ser null o String
-    ticketId: json["ticketId"] ?? 0,  // Valor por defecto si es null
+    ticket_id: json["ticket_id"] ?? 0,  // Valor por defecto si es null
     ticket_mensaje_id: json["ticket_mensaje_id"] ?? 0,  // Valor por defecto si es null
   );
 
@@ -55,7 +55,7 @@ class ArchivosTicket {
     "id": id,
     "archivo": archivo,
     "archivo_nombre": archivo_nombre,
-    "ticketId": ticketId,
+    "ticket_id": ticket_id,
     "ticket_mensaje_id": ticket_mensaje_id,
   };
 }
@@ -144,39 +144,43 @@ class Ticket {
 class TicketsMensaje {
   int id;
   String mensaje;
-  DateTime fechaCreado;
-  int ticketId;
+  DateTime fecha_creado;
+  int ticket_id;
   String esMensajeSoporte;
   String usuario;
-  int usuarioId;
+  int usuario_id;
+  String usuario_nombre;
 
   TicketsMensaje({
     required this.id,
     required this.mensaje,
-    required this.fechaCreado,
-    required this.ticketId,
+    required this.fecha_creado,
+    required this.ticket_id,
     required this.esMensajeSoporte,
     required this.usuario,
-    required this.usuarioId,
+    required this.usuario_id,
+    required this.usuario_nombre,
   });
 
   factory TicketsMensaje.fromJson(Map<String, dynamic> json) => TicketsMensaje(
     id: json["id"] ?? 0,  // Valor por defecto si es null
     mensaje: json["mensaje"] ?? "",  // Valor por defecto si es null
-    fechaCreado: json["fechaCreado"] != null ? DateTime.parse(json["fechaCreado"]) : DateTime.now(),  // Fecha por defecto si es null
-    ticketId: json["ticketId"] ?? 0,  // Valor por defecto si es null
+    fecha_creado: json["fecha_creado"] != null ? DateTime.parse(json["fecha_creado"]) : DateTime.now(),  // Fecha por defecto si es null
+    ticket_id: json["ticket_id"] ?? 0,  // Valor por defecto si es null
     esMensajeSoporte: json["esMensajeSoporte"] ?? "",  // Valor por defecto si es null
     usuario: json["usuario"] ?? "",  // Valor por defecto si es null
-    usuarioId: json["usuarioId"] ?? 0,  // Valor por defecto si es null
+    usuario_id: json["usuario_id"] ?? 0,
+    usuario_nombre: json["usuario_nombre"] ?? "",// Valor por defecto si es null
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "mensaje": mensaje,
-    "fechaCreado": fechaCreado.toIso8601String(),
-    "ticketId": ticketId,
+    "fecha_creado": fecha_creado.toIso8601String(),
+    "ticket_id": ticket_id,
     "esMensajeSoporte": esMensajeSoporte,
     "usuario": usuario,
-    "usuarioId": usuarioId,
+    "usuario_id": usuario_id,
+    "usuario_nombre": usuario_nombre,
   };
 }

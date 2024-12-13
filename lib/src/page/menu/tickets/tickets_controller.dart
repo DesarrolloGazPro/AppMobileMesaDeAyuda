@@ -6,13 +6,13 @@ import 'package:mesadeayuda/src/models/Prioridad.dart';
 import 'package:mesadeayuda/src/models/area_servicios.dart';
 import 'package:mesadeayuda/src/models/fallas.dart';
 import 'package:mesadeayuda/src/models/personal.dart';
+import 'package:mesadeayuda/src/models/solicitud_mensaje.dart';
 import 'package:mesadeayuda/src/models/user_respuesta_login.dart';
 import 'package:mesadeayuda/src/models/usuario.dart';
 import 'package:mesadeayuda/src/utils/shared_pref.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 import 'package:sn_progress_dialog/enums/value_position.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
-import '../../../models/Message.dart';
 import '../../../models/TicketsInfo.dart';
 import '../../../models/solicitud_atendio.dart';
 import '../../../models/ticket_detalle.dart';
@@ -45,15 +45,13 @@ class TicketsController {
   late TicketsInfo ticket;
   List<TicketDetalle> ticketDetalle = [];
 
-  List<Message> messageList = [
-    Message(text: 'Hola como estas!', fromWho: 'ella'),
-    Message(text: 'Bine y tu!', fromWho: 'yo'),
 
-  ];
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
   TextEditingController txtareencargada = TextEditingController();
   TextEditingController txtprioridad = TextEditingController();
+  TextEditingController txtMensaje = TextEditingController();
+
   bool mostrarAtendido=false;
   bool mostrarArea =false;
   bool mostrarReasignarTicket =false;
@@ -62,6 +60,7 @@ class TicketsController {
   TicketsProviders ticketsProviders = new TicketsProviders();
   XFile? pickedFile;
   File? imageFile;
+  String nombreArchivo='';
   String idticket='';
   String fechacreado='';
   String tiemporespuesta='';
@@ -129,9 +128,9 @@ class TicketsController {
 
     );
     _progressDialog.show(max: 100, msg: 'Espera un momento...' ,
-        backgroundColor: Colors.orange , msgColor: Colors.black,
+        backgroundColor: Colors.white , msgColor: Colors.black,
         progressBgColor: Colors.black,  msgTextAlign: TextAlign.center,
-        msgFontWeight: FontWeight.bold, msgFontSize: 20,
+        msgFontWeight: FontWeight.bold, msgFontSize: 15,
         valuePosition: ValuePosition.center  );
 
     final res =  await ticketsProviders.updateTicket(solicitudAtendio);
@@ -147,14 +146,73 @@ class TicketsController {
     }
 
   }
+
+  void crearMensaje() async {
+    String mensaje = txtMensaje.text;
+    String fecha_creado = DateTime.now().toString();
+    String ticket_id = idticket;
+    String esMensajeSoporte = user.usuarios?.perfilClave == 'soporte' ? 'SI' : 'NO';
+    String usuario= user.usuarios?.usuario ?? '';
+    String usuario_id=user.usuarios!.id.toString();
+    String usuario_nombre= user.usuarios?.nombre ?? '';
+
+    final bytes = await imageFile?.readAsBytes();
+    String imageBase64='';
+    if (bytes != null){
+      imageBase64 =  base64Encode(bytes);
+    }else{
+      imageBase64 = '';
+    }
+
+
+    String archivo = imageBase64;
+    String archivo_nombre = nombreArchivo;
+
+    SolicitudMensaje solicitudMensaje = new SolicitudMensaje(
+        mensaje: mensaje,
+        fecha_creado: fecha_creado,
+        ticket_id: ticket_id,
+        esMensajeSoporte: esMensajeSoporte,
+        usuario: usuario,
+        usuario_id: usuario_id,
+        usuario_nombre: usuario_nombre,
+        archivo: archivo,
+        archivo_nombre: archivo_nombre
+    );
+
+    if(txtMensaje.text == ''){
+      MySnackBar.show(context, 'Capture un comentario');
+      return;
+    }
+
+    _progressDialog.show(max: 100, msg: 'Espera un momento...' ,
+        backgroundColor: Colors.white , msgColor: Colors.black,
+        progressBgColor: Colors.black,  msgTextAlign: TextAlign.center,
+        msgFontWeight: FontWeight.bold, msgFontSize: 15,
+        valuePosition: ValuePosition.center  );
+
+    final res =  await ticketsProviders.crearMensaje(solicitudMensaje);
+
+    if (res){
+      _progressDialog.close();
+      MySnackBar.show(context, 'Mensaje enviado');
+      await Future.delayed(Duration(seconds: 3));
+      Navigator.push( context, MaterialPageRoute(builder: (context) => const ListTicketsPage()),
+      );
+    }else{
+      _progressDialog.close();
+      MySnackBar.show(context, 'Ocurrio un error al rnviar el ticket');
+    }
+
+  }
   void consultarTicket(String clave, String ticketId) async {
 
     try{
-    _progressDialog.show(max: 100, msg: 'Espera un momento...' ,
-        backgroundColor: Colors.orange , msgColor: Colors.black,
-        progressBgColor: Colors.black,  msgTextAlign: TextAlign.center,
-        msgFontWeight: FontWeight.bold, msgFontSize: 20,
-        valuePosition: ValuePosition.center  );
+      _progressDialog.show(max: 100, msg: 'Espera un momento...' ,
+          backgroundColor: Colors.white , msgColor: Colors.black,
+          progressBgColor: Colors.black,  msgTextAlign: TextAlign.center,
+          msgFontWeight: FontWeight.bold, msgFontSize: 15,
+          valuePosition: ValuePosition.center  );
 
     ticketDetalle.clear();
     ticketDetalle = await ticketsProviders.consultarTicket(clave,ticketId);
@@ -236,11 +294,6 @@ class TicketsController {
 
   }
 
-  void addMessageList(String mensaje, String  fromWO){
-    Message message = new Message(text: mensaje, fromWho: fromWO );
-    messageList.add(message);
-    refresh();
-  }
 
   Future<void> selectDate() async {
     final DateTime picked = await showDatePicker(
@@ -347,6 +400,7 @@ class TicketsController {
 
     if(pickedFile != null){
       imageFile=File(pickedFile!.path);
+      nombreArchivo= basename(pickedFile!.path);
     }
 
     Navigator.pop(context);

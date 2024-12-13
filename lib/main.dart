@@ -32,9 +32,6 @@ class _MyAppState extends State<MyApp> {
         'menu/list/update' : (BuildContext context) => const TicketsUpdatePage(),
         'menu/tickets/list' : (BuildContext context) => const ListTicketsPage(),
 
-
-
-
       },
       theme: ThemeData(
         primaryColor: Colors.red,
@@ -42,9 +39,6 @@ class _MyAppState extends State<MyApp> {
         appBarTheme: AppBarTheme(
           backgroundColor: MyColors.primaryColor,
           elevation: 0,
-
-
-
         )
       )
     );

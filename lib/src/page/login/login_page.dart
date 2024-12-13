@@ -112,27 +112,27 @@ class _LoginPageState extends State<LoginPage> {
    return Container(
      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
      decoration: BoxDecoration(
-       color:Colors.orange.shade700,
+       color:Colors.orange,
        borderRadius: BorderRadius.circular(30),
 
      ),
      child:  TextField(
        controller: _con.userNameController,
        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          hintText: 'Correo electronico',
+        decoration: const InputDecoration(
+          hintText: 'Usuario',
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.all(15),
+          contentPadding: EdgeInsets.all(15),
           hintStyle: TextStyle(
             color: Colors.white,
-            fontSize: 20
+            fontSize: 15
           ),
           prefixIcon: Icon(
             Icons.email,
             color: Colors.black,
           )
         ),
-       style: TextStyle( fontSize: 20, color: Colors.white),
+       style: TextStyle( fontSize: 15, color: Colors.white),
       ),
    );
   }
@@ -141,20 +141,20 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
-        color:Colors.orange.shade700,
+        color:Colors.orange,
         borderRadius: BorderRadius.circular(30),
 
       ),
       child:  TextField(
         controller: _con.passwordController,
         obscureText: true,
-        decoration: InputDecoration(
-            hintText: 'Passowrd',
+        decoration: const InputDecoration(
+            hintText: 'Contraseña',
             border: InputBorder.none,
-            contentPadding: const EdgeInsets.all(15),
+            contentPadding: EdgeInsets.all(15),
             hintStyle: TextStyle(
                 color: Colors.white,
-                 fontSize: 20
+                 fontSize: 15
             ),
             prefixIcon: Icon(
               Icons.lock_outline,
@@ -162,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
 
         ),
-         style: TextStyle( fontSize: 20, color: Colors.white),
+         style: TextStyle( fontSize: 15, color: Colors.white),
       ),
     );
   }
@@ -181,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.symmetric(vertical: 15)
       ),
           child:  const Text('Ingresar', style: TextStyle(
-            fontSize: 20
+            fontSize: 15
           ),),
 
       ),

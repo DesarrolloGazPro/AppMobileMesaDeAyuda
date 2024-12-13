@@ -164,7 +164,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
                   maxLines: 1,
                 ),
                 Text(
-                  'Email',
+                  _con.user.usuarios!.nombre,
                   style: TextStyle(
                       fontSize: 13,
                       color: Colors.grey.shade300,
@@ -175,7 +175,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
                 ),
 
                 Text(
-                  'Telefono',
+                    _con.user.usuarios!.correo,
                   style: TextStyle(
                       fontSize: 13,
                       color: Colors.grey.shade300,
@@ -198,13 +198,13 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
           ),
           ListTile(
             onTap: _con.gotoUpdateTicketPage,
-            title: Text('Mis Tickets', style: TextStyle( fontSize: 20, fontWeight: FontWeight.bold),),
+            title: Text('Mis Tickets', style: TextStyle( fontSize: 15, fontWeight: FontWeight.bold),),
             // trailing: Icon(Icons.airplane_ticket) ,
             leading: Icon(Icons.airplane_ticket),
           ),
           ListTile(
             onTap: _con.logout,
-            title: Text('Cerrar session', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            title: Text('Cerrar session', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
             // trailing: Icon(Icons.airplane_ticket) ,
             leading: Icon(Icons.power_settings_new),
           ),
@@ -270,18 +270,18 @@ class TicketTile extends StatelessWidget {
                   ListTile(
                     title: Text(
                       'Clave: ${ticket.clave ?? ''}',
-                      style: TextStyle(fontSize: 20, color: Colors.blue.shade900),
+                      style: TextStyle(fontSize: 15, color: Colors.blue.shade900),
                     ),
                     subtitle: Text(
                       'Descripción: ${ticket.falla ?? ''}',
-                      style: TextStyle(fontSize: 20, color: Colors.green.shade900),
+                      style: TextStyle(fontSize: 15, color: Colors.green.shade900),
                     ),
                     trailing: Icon(Icons.info, color: Colors.orange.shade900),
                   ),
                   ListTile(
                     title: Text(
                       '${ticket.estatus ?? ''}',
-                      style: TextStyle(fontSize: 20,
+                      style: TextStyle(fontSize: 15,
                           color: getColorForStatus(ticket.estatus),
                     ),
                   ),)

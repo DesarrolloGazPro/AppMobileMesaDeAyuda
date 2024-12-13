@@ -6,6 +6,8 @@ import 'package:mesadeayuda/src/models/usuario.dart';
 import 'package:mesadeayuda/src/providers/users_provider.dart';
 import 'package:mesadeayuda/src/utils/my_snackbar.dart';
 import 'package:mesadeayuda/src/utils/shared_pref.dart';
+import 'package:sn_progress_dialog/enums/value_position.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
 
 class LoginController {
   late BuildContext context;
@@ -14,11 +16,14 @@ class LoginController {
   TextEditingController passwordController =  TextEditingController();
   UsersProviders usersProviders = new UsersProviders();
   SharedPref _sharedPref  = new SharedPref();
+  late ProgressDialog _progressDialog;
 
 
   Future<void> init(BuildContext context) async {
      this.context=context;
      await usersProviders.init(context);
+     _progressDialog=ProgressDialog(context: context);
+
      UserRespuestaLogin login=
             UserRespuestaLogin.fromJson( await _sharedPref.read('userLogin') ?? {});
 
@@ -42,11 +47,26 @@ class LoginController {
         contrasena: password
     );
 
+    if(userName=='' || password==''){
+      MySnackBar.show(context, 'Capture sus credenciales de acceso');
+      return;
+    }
+
+    _progressDialog.show(max: 100, msg: 'Espera un momento...' ,
+        backgroundColor: Colors.white , msgColor: Colors.black,
+        progressBgColor: Colors.black,  msgTextAlign: TextAlign.center,
+        msgFontWeight: FontWeight.bold, msgFontSize: 15,
+        valuePosition: ValuePosition.center  );
+
+
+
       Usuario  res = await usersProviders.login(user);
-    if (res.token != null){
+    if (res.token != null && res.token !=''){
+      _progressDialog.close();
         _sharedPref.save('userLogin', res.toJson());
         Navigator.pushNamedAndRemoveUntil(context, 'menu/tickets/list', (route) =>false);
     }else{
+      _progressDialog.close();
       MySnackBar.show(context, 'Credenciales incorrectas');
     }
   }
