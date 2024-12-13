@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mesadeayuda/src/page/login/login_page.dart';
 import 'package:mesadeayuda/src/page/menu/list/tickets/menu_list_tickets_page.dart';
 import 'package:mesadeayuda/src/page/menu/list/update/tickets_update_page.dart';
@@ -20,28 +21,66 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       title: 'Mesa de Ayuda',
       color: MyColors.primaryColor,
       debugShowCheckedModeBanner: false,
-      initialRoute: 'login',
+      initialRoute: '/splash', // Cambiar la ruta inicial a SplashScreen
       routes: {
-        'login' : (BuildContext context) => const LoginPage(),
-        'register' : (BuildContext context) => const RegisterPage(),
-        'menu/list/tickets' : (BuildContext context) => const MenuListTicketsPage(),
-        'menu/list/update' : (BuildContext context) => const TicketsUpdatePage(),
-        'menu/tickets/list' : (BuildContext context) => const ListTicketsPage(),
-
+        '/splash': (BuildContext context) => const SplashScreen(), // Ruta de SplashScreen
+        'login': (BuildContext context) => const LoginPage(),
+        'register': (BuildContext context) => const RegisterPage(),
+        'menu/list/tickets': (BuildContext context) => const MenuListTicketsPage(),
+        'menu/list/update': (BuildContext context) => const TicketsUpdatePage(),
+        'menu/tickets/list': (BuildContext context) => const ListTicketsPage(),
       },
       theme: ThemeData(
         primaryColor: Colors.red,
-        //fontFamily: 'NimbusSans',
         appBarTheme: AppBarTheme(
           backgroundColor: MyColors.primaryColor,
           elevation: 0,
-        )
-      )
+        ),
+      ),
     );
   }
 }
 
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  // Función que simula la carga de datos o inicialización de la aplicación
+  _loadData() async {
+    await Future.delayed(const Duration(seconds: 5)); // Retraso de 3 segundos
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginPage()), // Navega al login
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return  Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Lottie.asset( 'assets/json/soporte.json',
+            width: 200,
+            height: 200,
+            fit: BoxFit.fill
+
+
+        ),
+      ),
+    );
+  }
+}

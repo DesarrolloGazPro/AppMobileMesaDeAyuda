@@ -111,29 +111,33 @@ class _LoginPageState extends State<LoginPage> {
   Widget _textFieldEmail(){
    return Container(
      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-     decoration: BoxDecoration(
-       color:Colors.orange,
-       borderRadius: BorderRadius.circular(30),
 
-     ),
-     child:  TextField(
-       controller: _con.userNameController,
-       keyboardType: TextInputType.emailAddress,
-        decoration: const InputDecoration(
-          hintText: 'Usuario',
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.all(15),
-          hintStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 15
+     child:  Container(
+
+       decoration: BoxDecoration(
+         color: Colors.orange.shade100,
+         borderRadius: BorderRadius.circular(30),
+       ),
+       child: TextField(
+
+         controller: _con.userNameController,
+         keyboardType: TextInputType.emailAddress,
+          decoration: const InputDecoration(
+            hintText: 'Usuario',
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.all(15),
+            hintStyle: TextStyle(
+              color: Colors.red,
+              fontSize: 15
+            ),
+            prefixIcon: Icon(
+              Icons.email,
+              color: Colors.black,
+            )
           ),
-          prefixIcon: Icon(
-            Icons.email,
-            color: Colors.black,
-          )
+         style: TextStyle( fontSize: 15, color: Colors.black),
         ),
-       style: TextStyle( fontSize: 15, color: Colors.white),
-      ),
+     ),
    );
   }
 
@@ -141,9 +145,8 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
-        color:Colors.orange,
+        color: Colors.orange.shade100,
         borderRadius: BorderRadius.circular(30),
-
       ),
       child:  TextField(
         controller: _con.passwordController,
@@ -153,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
             border: InputBorder.none,
             contentPadding: EdgeInsets.all(15),
             hintStyle: TextStyle(
-                color: Colors.white,
+                color: Colors.red,
                  fontSize: 15
             ),
             prefixIcon: Icon(
@@ -162,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
 
         ),
-         style: TextStyle( fontSize: 15, color: Colors.white),
+         style: TextStyle( fontSize: 15, color: Colors.black),
       ),
     );
   }
@@ -171,6 +174,7 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+
       child: ElevatedButton(
           onPressed: _con.login,
       style: ElevatedButton.styleFrom(
