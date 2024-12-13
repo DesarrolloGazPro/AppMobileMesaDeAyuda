@@ -31,32 +31,32 @@ class TicketDetalle {
 class ArchivosTicket {
   int id;
   String archivo;
-  String? archivoNombre;  // Campo opcional
+  String archivo_nombre;  // Campo opcional
   int ticketId;
-  int ticketMensajeId;
+  int ticket_mensaje_id;
 
   ArchivosTicket({
     required this.id,
     required this.archivo,
-    this.archivoNombre,  // Opcional
+    required this.archivo_nombre,  // Opcional
     required this.ticketId,
-    required this.ticketMensajeId,
+    required this.ticket_mensaje_id,
   });
 
   factory ArchivosTicket.fromJson(Map<String, dynamic> json) => ArchivosTicket(
     id: json["id"] ?? 0,  // Valor por defecto si es null
     archivo: json["archivo"] ?? "",  // Valor por defecto si es null
-    archivoNombre: json["archivoNombre"],  // Puede ser null o String
+    archivo_nombre: json["archivo_nombre"],  // Puede ser null o String
     ticketId: json["ticketId"] ?? 0,  // Valor por defecto si es null
-    ticketMensajeId: json["ticketMensajeId"] ?? 0,  // Valor por defecto si es null
+    ticket_mensaje_id: json["ticket_mensaje_id"] ?? 0,  // Valor por defecto si es null
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "archivo": archivo,
-    "archivoNombre": archivoNombre,
+    "archivo_nombre": archivo_nombre,
     "ticketId": ticketId,
-    "ticketMensajeId": ticketMensajeId,
+    "ticket_mensaje_id": ticket_mensaje_id,
   };
 }
 

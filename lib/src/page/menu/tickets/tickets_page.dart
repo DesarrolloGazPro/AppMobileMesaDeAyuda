@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:mesadeayuda/src/models/area_servicios.dart';
 import 'package:mesadeayuda/src/models/fallas.dart';
 import 'package:mesadeayuda/src/models/personal.dart';
+import 'package:mesadeayuda/src/models/ticket_detalle.dart';
 import 'package:mesadeayuda/src/page/menu/tickets/tickets_controller.dart';
 import 'package:mesadeayuda/src/utils/my_colors.dart';
 
@@ -134,10 +135,27 @@ class _TicketsPageState extends State<TicketsPage> {
                           final message = _con.ticketDetalle[0].ticketsMensajes[index];
                           String decodedMessage = decodeHtml(message.mensaje);
                           String replacedMessage = decodedMessage.replaceAll('<br/>', '\n');
+
+                          // Buscar el archivo correspondiente al mensaje
+                          var archivo = _con.ticketDetalle[0].archivosTickets
+                              .firstWhere(
+                                (archivo) => archivo.ticket_mensaje_id == message.id,
+                            orElse: () => ArchivosTicket(id: 0, archivo: '', archivo_nombre: '', ticketId: 0, ticket_mensaje_id: 0), // Devuelve un objeto predeterminado
+                          );
+
+                          // Asignar el nombre del archivo o cadena vacía si no se encuentra
+                          String nombreArchivo = archivo?.archivo_nombre ?? '';
+
+                          // Devolver el mensaje de soporte o usuario según el caso
                           return (message.esMensajeSoporte == 'SI')
-                              ? _mensajeSoporte(replacedMessage)
-                              : _mensajeUser(replacedMessage );
-                          })),
+                              ? _mensajeSoporte(replacedMessage, nombreArchivo)
+                              : _mensajeUser(replacedMessage, nombreArchivo);
+                        },
+
+
+                          )
+
+                ),
                 const SizedBox(height: 10),
                 _MessageFieldBox(),
                 const SizedBox(height: 20),
@@ -576,7 +594,7 @@ class _TicketsPageState extends State<TicketsPage> {
     );
   }
 
-  Widget _mensajeSoporte(String mensajeSoporte){
+  Widget _mensajeSoporte(String mensajeSoporte, String nombrearch){
     return Container(
       margin: const EdgeInsets.only(top: 10),
       padding:  const EdgeInsets.symmetric(horizontal: 10),
@@ -595,14 +613,20 @@ class _TicketsPageState extends State<TicketsPage> {
               ),
             ),
           ),
-          const SizedBox(height: 5)
+          const SizedBox(height: 5),
+          Icon( (nombrearch != null  && nombrearch != '')
+                ? Icons.image_outlined // Si hay nombre de archivo, muestra el ícono de imagen
+                : null, // Si no hay nombre de archivo, muestra otro ícono
+          ),
+          const SizedBox(height: 5),
+
         ],
       ),
     );
   }
 
 
-  Widget _mensajeUser(String mensajeUser){
+  Widget _mensajeUser(String mensajeUser, String nombrearch){
     return Container(
       padding:  const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
@@ -620,7 +644,13 @@ class _TicketsPageState extends State<TicketsPage> {
               ),
             ),
           ),
-          const SizedBox(height: 5)
+
+          const SizedBox(height: 5),
+          Icon( (nombrearch != null  && nombrearch != '')
+              ? Icons.image_outlined // Si hay nombre de archivo, muestra el ícono de imagen
+              : null, // Si no hay nombre de archivo, muestra otro ícono
+          ),
+          const SizedBox(height: 5),
         ],
       ),
     );
