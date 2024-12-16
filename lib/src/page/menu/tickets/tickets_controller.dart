@@ -40,6 +40,8 @@ class TicketsController {
 
   List<Personal> listaPersonal = [Personal(nombre: "Selecciona", departamento: "Selecciona")];
   List<AreaServicios> listaareaServicio = [AreaServicios(id: 0, clave: "Selecciona")];
+  List<AreaServicios> listaareaServicioCopy = [AreaServicios(id: 0, clave: "Selecciona")];
+
   List<Fallas> listafallas = [Fallas(id: 0, falla: 'Selecciona', prioridad: 0, tiempo: 0, departamentoId: 0, categoriaId: 0, clasificacionId: 0)];
   List<Prioridad> listaprioridad = [];
   late TicketsInfo ticket;
@@ -346,6 +348,7 @@ class TicketsController {
   void consultarArea() async {
     listaareaServicio.clear();
     listaareaServicio = await ticketsProviders.consulTaArea();
+    listaareaServicioCopy=listaareaServicio;
     if (listaareaServicio.isEmpty){
       MySnackBar.show(context, 'No existen datos');
     }
