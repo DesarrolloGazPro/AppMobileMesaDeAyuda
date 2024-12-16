@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -34,7 +33,6 @@ class _TicketsPageState extends State<TicketsPage> {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _con.init(context,refresh, widget.clave, widget.idTicket);
     });
-
   }
   @override
   Widget build(BuildContext context) {
@@ -103,7 +101,7 @@ class _TicketsPageState extends State<TicketsPage> {
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton(
-        onPressed: _con.guardar,
+        onPressed: _con.btnGuardar == false ? null : _con.guardar,
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red.shade900,
             foregroundColor: Colors.white,
@@ -278,7 +276,7 @@ class _TicketsPageState extends State<TicketsPage> {
                  _con.valorReasignar = value!;
                  _con.mostraAreaFalla();
                  _con.consultaFallas(_con.listaareaServicio.firstWhere((l) => l.clave== _con.valorAreaServicio).id.toString());
-
+                 _con.btnGuardar = true;
 
              },
               isExpanded: true,
@@ -321,7 +319,7 @@ class _TicketsPageState extends State<TicketsPage> {
               refresh();
               _con.valorcambiarEstatus = value!;
               _con.mostraAtendidoFecha();
-             
+              _con.btnGuardar = true;
 
 
             },
@@ -447,10 +445,10 @@ class _TicketsPageState extends State<TicketsPage> {
           ),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: DropdownButton<String>(
-            value:  (_con.valorFalla != null && _con.valorFalla.isNotEmpty)
-                     ? _con.valorFalla
-                     : 'Selecciona'
-            ,
+            value: (_con.valorFalla != '')
+                           ? _con.valorFalla
+                            : 'Selecciona',
+
             icon: const Icon(Icons.arrow_downward),
             elevation: 16,
             style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),

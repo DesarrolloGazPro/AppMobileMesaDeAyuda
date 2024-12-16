@@ -57,7 +57,7 @@ class TicketsController {
   bool mostrarAtendido=false;
   bool mostrarArea =false;
   bool mostrarReasignarTicket =false;
-
+  bool btnGuardar = false;
   late UserRespuestaLogin userLogin;
   TicketsProviders ticketsProviders = new TicketsProviders();
   XFile? pickedFile;
@@ -77,7 +77,7 @@ class TicketsController {
      _progressDialog=ProgressDialog(context: context);
      consultarTicket(idTicket);
      consultarPersonal();
-     consultarArea();     
+     //consultarArea();
      prioridades();
      mostraAtendidoFecha();
      mostraAreaFalla();
@@ -93,29 +93,25 @@ class TicketsController {
     String id = idticket;
     String dropEstatus = valorcambiarEstatus;
     String dropAtendio = valorAtendio;
-    String fecha = selectedDate.toString();
+    String fechaselec =   selectedDate.toString();
     String hora = formatTimeOfDay(selectedTime!);
-
-    if ([dropEstatus, dropAtendio, fecha, hora].contains('Selecciona') || fecha.isEmpty || hora.isEmpty) {
+    fechacreado= ticketDetalle[0].tickets[0].fecha_creado;
+    tiemporespuesta =ticketDetalle[0].tickets[0].tiempo_respuesta.toString();
+    if ([dropEstatus, dropAtendio].contains('Selecciona') || fechaselec.isEmpty || hora.isEmpty) {
       MySnackBar.show(context, 'Debes ingresar todos los campos');
       return;
     }
 
-
-    if(valorAreaServicio == valorAreaServicioPrevio && valorReasignar == 'Si'){
+    if((valorAreaServicio == valorAreaServicioPrevio) && valorReasignar == 'Si'){
       MySnackBar.show(context, 'No puede seleccionar la misma área a la que ya está asignada');
       return;
-    }
-
-    if (valorReasignar == 'No'){
-      fecha='';
     }
 
     SolicitudAtendio solicitudAtendio = new SolicitudAtendio(
         id: id,
         estatus: dropEstatus,
         atendio: dropAtendio,
-        fecha: fecha,
+        fecha: fechaselec,
         hora: hora,
         fechacreado: fechacreado,
         tiemporespuesta: tiemporespuesta,
@@ -236,24 +232,26 @@ class TicketsController {
                       ? ticketDetalle[0].tickets[0].servicio
                       : 'Selecciona';
 
+    valorAreaServicioPrevio=valorAreaServicio;
+    txtareencargada.text = valorAreaServicio;
+      txtprioridad.text = (ticketDetalle[0].tickets[0].prioridad != null &&
+          ticketDetalle[0].tickets[0].prioridad.isNotEmpty)
+          ? ticketDetalle[0].tickets[0].prioridad
+          : '';
 
+
+
+      listaareaServicio = await  consultarArea();
     valorAreaServicioId = listaareaServicio
         .firstWhere((area) => area.clave == valorAreaServicio)
         .id.toString();
 
     listafallas = await consultaFallas(valorAreaServicioId);
 
-    valorFalla=(ticketDetalle[0].tickets[0].falla != null &&
-                      ticketDetalle[0].tickets[0].falla.isNotEmpty)
-                      ? ticketDetalle[0].tickets[0].falla
-                      : 'Selecciona';
-
-
-    txtareencargada.text = valorAreaServicio;
-    txtprioridad.text = (ticketDetalle[0].tickets[0].prioridad != null &&
-                         ticketDetalle[0].tickets[0].prioridad.isNotEmpty)
-                         ? ticketDetalle[0].tickets[0].prioridad
-                         : '';
+      valorFalla=(ticketDetalle[0].tickets[0].falla != null &&
+          ticketDetalle[0].tickets[0].falla.isNotEmpty)
+          ? ticketDetalle[0].tickets[0].falla
+          : 'Selecciona';
 
     fechacreado = (ticketDetalle[0].tickets[0].fecha_creado != null &&
                   ticketDetalle[0].tickets[0].fecha_creado.isNotEmpty)
@@ -271,7 +269,6 @@ class TicketsController {
                         : '';
 
     tiempoFalla = listafallas.firstWhere((f) => f.falla == valorFalla).tiempo.toString();
-    valorAreaServicioPrevio=valorAreaServicio;
     _progressDialog.close();
 
     if (ticketDetalle.isEmpty){
@@ -345,14 +342,14 @@ class TicketsController {
     refresh();
   }
 
-  void consultarArea() async {
+  Future<List<AreaServicios>> consultarArea() async {
     listaareaServicio.clear();
     listaareaServicio = await ticketsProviders.consulTaArea();
     listaareaServicioCopy=listaareaServicio;
     if (listaareaServicio.isEmpty){
       MySnackBar.show(context, 'No existen datos');
     }
-    refresh();
+    return listaareaServicio;
   }
    Future<List<Fallas>> consultaFallas(String clasificacion) async {
     listafallas.clear();
