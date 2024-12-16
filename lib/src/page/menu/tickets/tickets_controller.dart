@@ -60,7 +60,6 @@ class TicketsController {
   TicketsProviders ticketsProviders = new TicketsProviders();
   XFile? pickedFile;
   File? imageFile;
-  String nombreArchivo='';
   String idticket='';
   String fechacreado='';
   String tiemporespuesta='';
@@ -74,7 +73,7 @@ class TicketsController {
      await ticketsProviders.init(context);
      user = Usuario.fromJson(await _sharedPref.read('userLogin'));
      _progressDialog=ProgressDialog(context: context);
-     consultarTicket(clave, idTicket);
+     consultarTicket(idTicket);
      consultarPersonal();
      consultarArea();     
      prioridades();
@@ -166,7 +165,6 @@ class TicketsController {
 
 
     String archivo = imageBase64;
-    String archivo_nombre = nombreArchivo;
 
     SolicitudMensaje solicitudMensaje = new SolicitudMensaje(
         mensaje: mensaje,
@@ -177,7 +175,7 @@ class TicketsController {
         usuario_id: usuario_id,
         usuario_nombre: usuario_nombre,
         archivo: archivo,
-        archivo_nombre: archivo_nombre
+        archivo_nombre: ''
     );
 
     if(txtMensaje.text == ''){
@@ -205,7 +203,7 @@ class TicketsController {
     }
 
   }
-  void consultarTicket(String clave, String ticketId) async {
+  void consultarTicket(String ticketId) async {
 
     try{
       _progressDialog.show(max: 100, msg: 'Espera un momento...' ,
@@ -215,7 +213,7 @@ class TicketsController {
           valuePosition: ValuePosition.center  );
 
     ticketDetalle.clear();
-    ticketDetalle = await ticketsProviders.consultarTicket(clave,ticketId);
+    ticketDetalle = await ticketsProviders.consultarTicket(ticketId);
     valorcambiarEstatus= ticketDetalle[0].tickets[0].estatus;
     valorAtendio = (ticketDetalle[0].tickets[0].atendio != null && ticketDetalle[0].tickets[0].atendio.isNotEmpty)
         ? ticketDetalle[0].tickets[0].atendio
@@ -393,6 +391,16 @@ class TicketsController {
     refresh;
   }
 
+  Future<List<ArchivosTicket>> consultarArchivo(String idArchivo) async {
+
+    List<ArchivosTicket> archivo = await ticketsProviders.consultarArchivos(idArchivo);
+
+      if (archivo == null) {
+        MySnackBar.show(context, 'No existen datos');
+      }
+      return archivo;
+
+  }
 
 
   Future selectImage(ImageSource imageSource) async{
@@ -400,7 +408,6 @@ class TicketsController {
 
     if(pickedFile != null){
       imageFile=File(pickedFile!.path);
-      nombreArchivo= basename(pickedFile!.path);
     }
 
     Navigator.pop(context);

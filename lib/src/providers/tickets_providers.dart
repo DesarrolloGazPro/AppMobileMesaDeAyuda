@@ -23,10 +23,10 @@ class TicketsProviders {
     this.context= context;
   }
 
-  Future<List<TicketDetalle>> consultarTicket(String clave, String ticketId) async {
+  Future<List<TicketDetalle>> consultarTicket(String ticketId) async {
     try {
       List<TicketDetalle> ticket =[];
-      String url = '$_url$_api/consultaTiket/$clave/$ticketId';
+      String url = '$_url$_api/consultaTiket/$ticketId';
       Map<String, dynamic> headers = {
         'Content-type': 'application/json',
       };
@@ -52,7 +52,7 @@ class TicketsProviders {
     }
   }
 
-  Future<List<TicketsInfo>> consultarTickets(departamento) async {
+  Future<List<TicketsInfo>> consultarTickets(String departamento) async {
     try {
       List<TicketsInfo> tickets = [];
       String url = '$_url$_api/consultaTikets/$departamento';
@@ -68,6 +68,26 @@ class TicketsProviders {
      return tickets;
     } catch (e) {
       return [];
+    }
+  }
+
+  Future<List<ArchivosTicket>> consultarArchivos(String idArchivo) async {
+    try {
+      List<ArchivosTicket> archivos = [];
+      String url = '$_url$_api/consultaArchivo/$idArchivo';
+      Map<String, dynamic> headers = {
+        'Content-type': 'application/json',
+      };
+
+      var res = await dio.get(url, options: Options(headers: headers));
+
+      if (res.statusCode == 200) {
+        List<dynamic> data = res.data;
+        archivos = data.map((item) => ArchivosTicket.fromJson(item)).toList();
+      }
+      return archivos;
+    } catch (e) {
+      return [ArchivosTicket(id: 0, archivo: '', archivo_nombre: '', ticket_id: 0, ticket_mensaje_id: 0)];
     }
   }
 

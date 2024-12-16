@@ -150,7 +150,7 @@ class _TicketsPageState extends State<TicketsPage> {
                           // Devolver el mensaje de soporte o usuario según el caso
                           return (message.esMensajeSoporte == 'SI')
                               ? _mensajeSoporte(replacedMessage, nombreArchivo,archivobyte)
-                              : _mensajeUser(replacedMessage, nombreArchivo, archivobyte);
+                              : _mensajeUser(replacedMessage, nombreArchivo, archivobyte, message.id.toString());
                         },
 
 
@@ -632,7 +632,7 @@ class _TicketsPageState extends State<TicketsPage> {
   }
 
 
-  Widget _mensajeUser(String mensajeUser, String nombrearch, String bytes){
+  Widget _mensajeUser(String mensajeUser, String nombrearch, String bytes, String idMensaje) {
     return Container(
       padding:  const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
@@ -653,8 +653,9 @@ class _TicketsPageState extends State<TicketsPage> {
 
           const SizedBox(height: 5),
           GestureDetector(
-            onTap: (){
-              showAlertDialog(context, bytes,nombrearch);
+            onTap: () async {
+             List<ArchivosTicket> arch = await _con.consultarArchivo(idMensaje);
+              showAlertDialog(context, arch[0].archivo, arch[0].archivo_nombre);
             },
             child: Icon( (nombrearch != null  && nombrearch != '')
                 ? Icons.image_outlined // Si hay nombre de archivo, muestra el ícono de imagen
@@ -832,6 +833,7 @@ class _TicketsPageState extends State<TicketsPage> {
 
   Future<String?> descargarImagen(String base64Bytes, String nombreArchivo) async {
     try {
+
       List<int> bytes = base64Decode(base64Bytes);
 
       // Guardar temporalmente
