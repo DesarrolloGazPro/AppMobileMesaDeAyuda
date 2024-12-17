@@ -212,11 +212,11 @@ class _TicketsPageState extends State<TicketsPage> {
       child: Column(
         children: [
           _dropArea(),
-          const SizedBox(height: 30),
-          _dropFalla(),
-          const SizedBox(height: 5),
-          _AreaEncargada(),
-          const SizedBox(height: 5),
+         const SizedBox(height: 30),
+         _dropFalla(),
+         const SizedBox(height: 5),
+         _AreaEncargada(),
+         const SizedBox(height: 5),
           _Prioridad(),
         ],
       ),
@@ -400,7 +400,9 @@ class _TicketsPageState extends State<TicketsPage> {
           child: DropdownButton<String>(
 
             value: (_con.valorAreaServicio != '')
-                ? _con.valorAreaServicio
+                ? (_con.valorAreaServicio == 'Soporte sistemas CISTEM'
+                ? 'CISTEM'
+                : _con.valorAreaServicio)
                 : 'Selecciona',
 
             icon: const Icon(Icons.arrow_downward),

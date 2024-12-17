@@ -234,8 +234,8 @@ class TicketsController {
                       ? ticketDetalle[0].tickets[0].servicio
                       : 'Selecciona';
 
-    valorAreaServicioPrevio=valorAreaServicio;
-    txtareencargada.text  = await ticketsProviders.consultaareAignada(valorAreaServicio);
+    valorAreaServicioPrevio = valorAreaServicio == 'Soporte sistemas CISTEM' ? 'CISTEM' : valorAreaServicio ;
+    txtareencargada.text  = await ticketsProviders.consultaareAignada(valorAreaServicioPrevio);
 
     txtprioridad.text = (ticketDetalle[0].tickets[0].prioridad != null &&
           ticketDetalle[0].tickets[0].prioridad.isNotEmpty)
@@ -246,7 +246,7 @@ class TicketsController {
 
       listaareaServicio = await  consultarArea();
     valorAreaServicioId = listaareaServicio
-        .firstWhere((area) => area.clave == valorAreaServicio)
+        .firstWhere((area) => area.clave == valorAreaServicioPrevio)
         .id.toString();
 
     listafallas = await consultaFallas(valorAreaServicioId);
