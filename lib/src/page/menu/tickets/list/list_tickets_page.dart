@@ -259,7 +259,7 @@ class TicketTile extends StatelessWidget {
       },
       child: Container(
         color: Colors.white,
-        height: 300,
+        height: 280,
         child: Column(
           children: [
             Card(
@@ -279,7 +279,6 @@ class TicketTile extends StatelessWidget {
                     ),
                     trailing: Icon(Icons.info, color: Colors.orange.shade900),
                   ),
-                  const SizedBox(height: 10,),
                   Container(
                     margin: const EdgeInsets.only(left: 15),
                     child: Row( 
@@ -290,7 +289,7 @@ class TicketTile extends StatelessWidget {
                             Text(ticket.tiempo_respuesta),
                           ],
                         ),
-                        const SizedBox(width: 10,),
+                        const SizedBox(width: 30,),
                         Column(
                           children: [
                             Text('T.T',
@@ -299,7 +298,7 @@ class TicketTile extends StatelessWidget {
                             Text(calcularTiempoTranscurrido() + " hrs"),
                           ],
                         ),
-                        const SizedBox(width: 10,),
+                        const SizedBox(width: 50,),
                         Column(
                           children: [
                             Text('Estacion/Departamento', style: TextStyle(color: Colors.blue.shade900)),
@@ -308,18 +307,32 @@ class TicketTile extends StatelessWidget {
                           ],
                         ),
 
+
                       ],
                     ),
                   ),
 
-                  ListTile(
-                    title: Text(
-                      'Area que atiende',
-                      style: TextStyle( color: Colors.blue.shade900),
-                    ),
-                    subtitle: Text(
-                      '${ticket.usuario_asignado ?? ''}',
-                      style: TextStyle( color: Colors.green.shade900),
+                  SizedBox(height: 20,),
+                  Container(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Row(
+                      children: [
+                        Column(
+                          children: [
+                            Text('Area que atiende', style: TextStyle(color: Colors.blue.shade900)),
+                            Text(ticket.usuario_asignado)
+                            //Text(ticket.usuario_sucursal_nombre),
+                          ],
+                        ),
+                        SizedBox(width: 80),
+                        Column(
+                          children: [
+                            Text('Fecha Creado', style: TextStyle(color: Colors.blue.shade900)),
+                            Text(ticket.fecha_creado)
+                            //Text(ticket.usuario_sucursal_nombre),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
 
@@ -328,7 +341,7 @@ class TicketTile extends StatelessWidget {
                   ListTile(
                     title: Text(
                       '${ticket.estatus ?? ''}',
-                      style: TextStyle(fontSize: 15,
+                      style: TextStyle(
                           color: getColorForStatus(ticket.estatus),
                     ),
                   ),)

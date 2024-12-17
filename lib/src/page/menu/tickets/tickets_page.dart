@@ -342,7 +342,11 @@ class _TicketsPageState extends State<TicketsPage> {
   }
 
   Widget _dropAtendio(){
-    String dropdownValue = (_con.listaPersonal.isNotEmpty) ? _con.listaPersonal.first.nombre : '';
+    // Verifica y agrega el valor inicial a la lista si no existe
+    if (_con.valorAtendio.isNotEmpty &&
+        !_con.listaPersonal.any((personal) => personal.nombre == _con.valorAtendio)) {
+      _con.listaPersonal.add(Personal(nombre: _con.valorAtendio, departamento: '')); // Agrega si no está en la lista
+    }
     return Column(
       children: [
         const Text('Atendió' , style: TextStyle(
