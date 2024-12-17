@@ -10,7 +10,6 @@ import 'package:mesadeayuda/src/models/solicitud_mensaje.dart';
 import 'package:mesadeayuda/src/models/user_respuesta_login.dart';
 import 'package:mesadeayuda/src/models/usuario.dart';
 import 'package:mesadeayuda/src/utils/shared_pref.dart';
-import 'package:path/path.dart';
 import 'package:sn_progress_dialog/enums/value_position.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 import '../../../models/TicketsInfo.dart';
@@ -25,7 +24,7 @@ class TicketsController {
   SharedPref _sharedPref = new SharedPref();
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
   late Function refresh;
-  List<String> taps = ['Detalles', 'Chat'];
+  List<String> taps = ['Detalles', 'Historial'];
   List<String> reasignarTicket = <String>['No','Si'];
   List<String> cambiarEstatus = <String>['abierto','cerrado','respondido','reabierto'];
 
@@ -66,12 +65,14 @@ class TicketsController {
   String fechacreado='';
   String tiemporespuesta='';
   String solicitudreabrir='';
+  String numeroDeTicket='';
   late ProgressDialog _progressDialog;
   late Usuario user;
   Future<void> init(BuildContext context, Function refresh, String clave, String idTicket) async {
      this.context=context;
      this.refresh=refresh;
      idticket=idTicket;
+     numeroDeTicket=clave;
      await ticketsProviders.init(context);
      user = Usuario.fromJson(await _sharedPref.read('userLogin'));
      _progressDialog=ProgressDialog(context: context);

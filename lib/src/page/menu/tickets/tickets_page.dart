@@ -44,6 +44,11 @@ class _TicketsPageState extends State<TicketsPage> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(90),
           child: AppBar(
+            title: Center(
+              child: Text('No. Ticket: ${_con.numeroDeTicket}', style: const TextStyle(
+                color: Colors.white
+              ),),
+            ),
             leading:  _Atras(),
             automaticallyImplyLeading: false,
             backgroundColor: MyColors.primaryColor,

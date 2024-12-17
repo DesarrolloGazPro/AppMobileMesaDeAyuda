@@ -270,7 +270,7 @@ class TicketTile extends StatelessWidget {
                 children: [
                   ListTile(
                     title: Text(
-                      'Clave: ${ticket.clave ?? ''}',
+                      'No. Ticket: ${ticket.clave ?? ''}',
                       style: TextStyle(fontSize: 15, color: Colors.blue.shade900),
                     ),
                     subtitle: Text(
