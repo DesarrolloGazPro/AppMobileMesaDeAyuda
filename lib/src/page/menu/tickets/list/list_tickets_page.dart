@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:intl/intl.dart';
 import 'package:mesadeayuda/src/models/TicketsInfo.dart';
 import 'package:mesadeayuda/src/page/menu/tickets/tickets_page.dart';
 import 'package:mesadeayuda/src/utils/my_colors.dart';
@@ -295,7 +296,7 @@ class TicketTile extends StatelessWidget {
                             Text('T.T',
                               style: TextStyle(color: Colors.blue.shade900),
                             ),
-                            Text('5 horas'),
+                            Text(calcularTiempoTranscurrido() + " hrs"),
                           ],
                         ),
                         const SizedBox(width: 10,),
@@ -355,5 +356,20 @@ class TicketTile extends StatelessWidget {
       default:
         return Colors.black; // Color predeterminado
     }
+  }
+
+  String calcularTiempoTranscurrido(){
+
+    if (ticket.fecha_creado=="") return "";
+
+    DateFormat formato= DateFormat("MM/dd/yyyy HH:mm");
+
+    DateTime actual= DateTime.now();
+    DateTime fechacreado= formato.parse(ticket.fecha_creado);
+     Duration diferencia= actual.difference(fechacreado);
+     int horas= diferencia.inHours;
+     return horas.toString();
+
+
   }
 }

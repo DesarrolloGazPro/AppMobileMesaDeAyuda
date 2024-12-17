@@ -16,8 +16,8 @@ class ListTicketsController {
   SharedPref _sharedPref  = new SharedPref();
   late Function refresh;
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
-  List<TicketsInfo> tickets = [TicketsInfo(id: 0, clave: "1", falla: "1", estatus:"", tiempo_respuesta: "", usuario_sucursal_nombre:"", usuario_asignado:"")];
-  List<TicketsInfo> ticketsList = [TicketsInfo(id: 0, clave: "1", falla: "1", estatus:"", tiempo_respuesta:"", usuario_sucursal_nombre:"", usuario_asignado:"")];
+  List<TicketsInfo> tickets = [TicketsInfo(id: 0, clave: "1", falla: "1", estatus:"", tiempo_respuesta: "", usuario_sucursal_nombre:"", usuario_asignado:"", fecha_creado:"")];
+  List<TicketsInfo> ticketsList = [TicketsInfo(id: 0, clave: "1", falla: "1", estatus:"", tiempo_respuesta:"", usuario_sucursal_nombre:"", usuario_asignado:"", fecha_creado:"")];
   Usuario user=  Usuario();
   TextEditingController searchController = TextEditingController();
   late UserRespuestaLogin userLogin;
@@ -39,6 +39,8 @@ class ListTicketsController {
   void gotoUpdateTicketPage(){
     Navigator.pushNamed(context, 'menu/tickets/list');
   }
+
+
 
 
   void consultarTickets(String departamento) async {

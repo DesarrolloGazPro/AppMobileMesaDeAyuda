@@ -13,6 +13,7 @@ class TicketsInfo {
   String tiempo_respuesta;
   String usuario_sucursal_nombre;
   String usuario_asignado;
+  String fecha_creado;
   TicketsInfo({
     required this.id,
     required this.clave,
@@ -21,6 +22,7 @@ class TicketsInfo {
     required this.tiempo_respuesta,
     required this.usuario_sucursal_nombre,
     required this.usuario_asignado,
+    required this.fecha_creado,
   });
 
   factory TicketsInfo.fromJson(Map<String, dynamic> json) => TicketsInfo(
@@ -31,6 +33,8 @@ class TicketsInfo {
     tiempo_respuesta: json["tiempo_respuesta"],
     usuario_sucursal_nombre: json["usuario_sucursal_nombre"],
     usuario_asignado: json["usuario_asignado"],
+    fecha_creado: json["fecha_creado"],
+
 
   );
 
@@ -42,5 +46,7 @@ class TicketsInfo {
     "tiempo_respuesta": tiempo_respuesta,
     "usuario_sucursal_nombre": usuario_sucursal_nombre,
     "usuario_asignado": usuario_asignado,
+    "fecha_creado": fecha_creado,
+
   };
 }
