@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mesadeayuda/src/page/login/login_page.dart';
 import 'package:mesadeayuda/src/page/menu/list/tickets/menu_list_tickets_page.dart';
-import 'package:mesadeayuda/src/page/menu/list/update/tickets_update_page.dart';
 import 'package:mesadeayuda/src/page/menu/tickets/list/list_tickets_page.dart';
-import 'package:mesadeayuda/src/page/register/register_page.dart';
 import 'package:mesadeayuda/src/utils/my_colors.dart';
 
 void main() {
@@ -29,9 +27,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/splash': (BuildContext context) => const SplashScreen(), // Ruta de SplashScreen
         'login': (BuildContext context) => const LoginPage(),
-        'register': (BuildContext context) => const RegisterPage(),
         'menu/list/tickets': (BuildContext context) => const MenuListTicketsPage(),
-        'menu/list/update': (BuildContext context) => const TicketsUpdatePage(),
         'menu/tickets/list': (BuildContext context) => const ListTicketsPage(),
       },
       theme: ThemeData(

@@ -75,6 +75,7 @@ class TicketsController {
      await ticketsProviders.init(context);
      user = Usuario.fromJson(await _sharedPref.read('userLogin'));
      _progressDialog=ProgressDialog(context: context);
+     listaareaServicio = await  consultarArea();
      consultarTicket(idTicket);
      consultarPersonal();
      //consultarArea();
@@ -233,8 +234,9 @@ class TicketsController {
                       : 'Selecciona';
 
     valorAreaServicioPrevio=valorAreaServicio;
-    txtareencargada.text = valorAreaServicio;
-      txtprioridad.text = (ticketDetalle[0].tickets[0].prioridad != null &&
+    txtareencargada.text  = await ticketsProviders.consultaareAignada(valorAreaServicio);
+
+    txtprioridad.text = (ticketDetalle[0].tickets[0].prioridad != null &&
           ticketDetalle[0].tickets[0].prioridad.isNotEmpty)
           ? ticketDetalle[0].tickets[0].prioridad
           : '';
@@ -339,6 +341,11 @@ class TicketsController {
     if (listaPersonal.isEmpty){
       MySnackBar.show(context, 'No existen datos');
     }
+    refresh();
+  }
+
+  Future<void> consultaareAignada(String area) async {
+    txtareencargada.text  = await ticketsProviders.consultaareAignada(area);
     refresh();
   }
 

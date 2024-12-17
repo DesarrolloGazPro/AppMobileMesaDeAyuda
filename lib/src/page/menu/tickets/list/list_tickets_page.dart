@@ -48,7 +48,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
             children: [
               const SizedBox(height: 60),
               _menuDrawer(),
-              const SizedBox(height: 2),
+              const SizedBox(height: 20),
               _textFieldSearch(),
               const SizedBox(height: 5),
 
@@ -164,8 +164,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
                   maxLines: 1,
                 ),
                 Text(
-                  _con.user.usuarios!.nombre,
-                  style: TextStyle(
+                     _con.user?.usuarios?.nombre ?? '',                  style: TextStyle(
                       fontSize: 13,
                       color: Colors.grey.shade300,
                       fontWeight: FontWeight.bold,
@@ -175,7 +174,8 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
                 ),
 
                 Text(
-                    _con.user.usuarios!.correo,
+                   _con.user?.usuarios?.correo ?? '',
+                  
                   style: TextStyle(
                       fontSize: 13,
                       color: Colors.grey.shade300,
@@ -258,13 +258,13 @@ class TicketTile extends StatelessWidget {
       },
       child: Container(
         color: Colors.white,
-        height: 210,
+        height: 250,
         child: Column(
           children: [
             Card(
               elevation: 5,
               color: Colors.white,
-              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: Column(
                 children: [
                   ListTile(
@@ -278,6 +278,56 @@ class TicketTile extends StatelessWidget {
                     ),
                     trailing: Icon(Icons.info, color: Colors.orange.shade900),
                   ),
+                  const SizedBox(height: 10,),
+                  Container(
+                    margin: const EdgeInsets.only(left: 15),
+                    child: Row( 
+                      children: [ 
+                        Column(
+                          children: [
+                            Text('T.R', style: TextStyle(color: Colors.blue.shade900)),
+                            Text(ticket.tiempo_respuesta),
+                          ],
+                        ),
+                        const SizedBox(width: 10,),
+                        Column(
+                          children: [
+                            Text('T.T',
+                              style: TextStyle(color: Colors.blue.shade900),
+                            ),
+                            Text('5 horas'),
+                          ],
+                        ),
+                        const SizedBox(width: 10,),
+                        Column(
+                          children: [
+                            Text('Estacion/Departamento', style: TextStyle(color: Colors.blue.shade900)),
+                            Text('Gestion de talento y cultura y deporte')
+                            //Text(ticket.usuario_sucursal_nombre),
+                          ],
+                        ),
+
+                      ],
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      'Area que atiende: ${ticket.usuario_asignado?? ''}',
+                      style: const TextStyle(fontSize: 15,
+                        color: Colors.black
+                      ),
+                    ),),
+                  // SizedBox(height: 10,),
+                  // Column(
+                  //   ali
+                  //   children: [
+                  //     Text('A.A'),
+                  //     Text('Gestion de talento y cultura y deporte')
+                  //
+                  //     //Text(ticket.usuario_asignado),
+                  //   ],
+                  // ),
+
                   ListTile(
                     title: Text(
                       '${ticket.estatus ?? ''}',

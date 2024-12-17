@@ -123,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
          controller: _con.userNameController,
          keyboardType: TextInputType.emailAddress,
           decoration: const InputDecoration(
-            hintText: 'Usuario',
+            hintText: 'Id Empleado',
             border: InputBorder.none,
             contentPadding: EdgeInsets.all(15),
             hintStyle: TextStyle(

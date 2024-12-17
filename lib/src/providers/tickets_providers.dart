@@ -203,4 +203,34 @@ class TicketsProviders {
     }
   }
 
+  Future<String> consultaareAignada(String clave) async {
+    try {
+      // Construir la URL con el parámetro
+      String url = '$_url$_api/consultaareAignada/$clave';
+
+      // Configurar los encabezados
+      Map<String, dynamic> headers = {
+        'Content-type': 'application/json',
+      };
+
+      // Realizar la solicitud GET
+      var res = await dio.get(
+        url,
+        options: Options(headers: headers),
+      );
+
+      // Validar y retornar la respuesta
+      if (res.statusCode == 200 && res.data != null && res.data.isNotEmpty) {
+        return res.data.toString(); // Asegurar que es un string
+      } else {
+        return ''; // Respuesta vacía si no hay datos
+      }
+    } catch (e) {
+      // Manejar errores
+      print('Error en consultaAreaAsignada: $e');
+      return '';
+    }
+  }
+
+
 }

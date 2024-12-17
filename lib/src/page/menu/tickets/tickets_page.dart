@@ -12,6 +12,7 @@ import 'package:mesadeayuda/src/page/menu/tickets/tickets_controller.dart';
 import 'package:mesadeayuda/src/utils/my_colors.dart';
 
 import 'package:html/parser.dart' show parse;
+import 'package:permission_handler/permission_handler.dart';
 
 class TicketsPage extends StatefulWidget {
   String clave;
@@ -393,10 +394,10 @@ class _TicketsPageState extends State<TicketsPage> {
           ),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: DropdownButton<String>(
-            value: (_con.valorAreaServicio != null && _con.valorAreaServicio.isNotEmpty)
-                     ? _con.valorAreaServicio
-                     : 'Selecciona',
-           
+
+            value: (_con.valorAreaServicio != '')
+                ? _con.valorAreaServicio
+                : 'Selecciona',
 
             icon: const Icon(Icons.arrow_downward),
             elevation: 16,
@@ -405,7 +406,7 @@ class _TicketsPageState extends State<TicketsPage> {
             onChanged: (String? value) {
               refresh();
               _con.valorAreaServicio = value!;
-              _con.txtareencargada.text =  _con.valorAreaServicio;
+              _con.consultaareAignada(_con.valorAreaServicio.toString());
 
               _con.valorAreaServicioId =  _con.listaareaServicio
                   .firstWhere((area) => area.clave == value)
@@ -413,6 +414,8 @@ class _TicketsPageState extends State<TicketsPage> {
 
               _con.consultaFallas(_con.valorAreaServicioId);
               _con.valorFalla='Selecciona';
+
+
 
 
             },
@@ -848,7 +851,7 @@ class _TicketsPageState extends State<TicketsPage> {
         await publicDir.create(recursive: true);
       }
       String newPath = '${publicDir.path}/$nombreArchivo';
-      await tempFile.copy(newPath);
+     // await tempFile.copy(newPath);
 
       print('Imagen movida a: $newPath');
       return tempPath; // Retornar la ruta de la imagen descargada
