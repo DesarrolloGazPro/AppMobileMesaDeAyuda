@@ -280,8 +280,8 @@ class _TicketsPageState extends State<TicketsPage> {
                  refresh();
                  _con.valorReasignar = value!;
                  _con.mostraAreaFalla();
-                 _con.consultaFallas(_con.listaareaServicio.firstWhere((l) => l.clave== _con.valorAreaServicio).id.toString());
                  _con.btnGuardar = true;
+                 _con.consultaFallas(_con.listaareaServicio.firstWhere((l) => l.clave== _con.valorAreaServicio).id.toString());
 
              },
               isExpanded: true,
