@@ -12,7 +12,6 @@ import 'package:mesadeayuda/src/page/menu/tickets/tickets_controller.dart';
 import 'package:mesadeayuda/src/utils/my_colors.dart';
 
 import 'package:html/parser.dart' show parse;
-import 'package:permission_handler/permission_handler.dart';
 
 class TicketsPage extends StatefulWidget {
   String clave;

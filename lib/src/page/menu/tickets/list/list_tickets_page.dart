@@ -219,7 +219,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
   Widget _recargar(){
     return GestureDetector(
       onTap: (){
-        _con.consultarTickets(_con.departamentoClave);
+        _con.consultarTickets(_con.departamentoClave,_con.usuarioClavePerfil, _con.usuarioId);
       },
       child: Stack(
         children: [
@@ -259,7 +259,7 @@ class TicketTile extends StatelessWidget {
       },
       child: Container(
         color: Colors.white,
-        height: 280,
+        height: 300,
         child: Column(
           children: [
             Card(

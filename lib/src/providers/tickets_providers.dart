@@ -52,10 +52,10 @@ class TicketsProviders {
     }
   }
 
-  Future<List<TicketsInfo>> consultarTickets(String departamento) async {
+  Future<List<TicketsInfo>> consultarTickets(String departamento, String usuarioClavePerfil, String usuarioId) async {
     try {
       List<TicketsInfo> tickets = [];
-      String url = '$_url$_api/consultaTikets/$departamento';
+      String url = '$_url$_api/consultaTikets/$departamento/$usuarioClavePerfil/$usuarioId';
       Map<String, dynamic> headers = {
         'Content-type': 'application/json',
       };
