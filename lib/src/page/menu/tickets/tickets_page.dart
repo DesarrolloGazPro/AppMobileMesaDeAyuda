@@ -406,7 +406,9 @@ class _TicketsPageState extends State<TicketsPage> {
             value: (_con.valorAreaServicio != '')
                 ? (_con.valorAreaServicio == 'Soporte sistemas CISTEM'
                 ? 'CISTEM'
-                : _con.valorAreaServicio)
+                : (_con.valorAreaServicio == 'Soporte mantenimiento'
+                ? 'Mantenimiento'
+                : _con.valorAreaServicio))
                 : 'Selecciona',
 
             icon: const Icon(Icons.arrow_downward),
