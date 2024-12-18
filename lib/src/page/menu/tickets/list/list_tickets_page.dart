@@ -29,7 +29,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
     return Scaffold(
       key: _con.key,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(170),
+        preferredSize: const Size.fromHeight(190),
         child: AppBar(
           title: Container(
             alignment: Alignment.center,
@@ -230,7 +230,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
       child: Stack(
         children: [
           Container(
-            margin: const EdgeInsets.only(right: 15),
+            margin: const EdgeInsets.only(right: 10, top: 30),
             child: const Icon(
               Icons.refresh,
               color: Colors.white,
