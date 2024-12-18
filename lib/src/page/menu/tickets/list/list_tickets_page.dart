@@ -268,7 +268,7 @@ class TicketTile extends StatelessWidget {
           Card(
             elevation: 5,
             color: Colors.white,
-            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
             child: Column(
               children: [
                 ListTile(
@@ -306,48 +306,37 @@ class TicketTile extends StatelessWidget {
                         children: [
                           Text('Estacion/Departamento', style: TextStyle(color: Colors.blue.shade900)),
                           Text(ticket.usuario_sucursal_nombre)
-                          //Text(ticket.usuario_sucursal_nombre),
                         ],
                       ),
-
-
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 10,),
                 Container(
-                  padding: const EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 15, bottom: 10),
                   child: Row(
                     children: [
                       Column(
                         children: [
                           Text('Area que atiende', style: TextStyle(color: Colors.blue.shade900)),
                           Text(ticket.usuario_asignado)
-                          //Text(ticket.usuario_sucursal_nombre),
                         ],
                       ),
-
+                      const SizedBox(width: 10,),
+                      Column(
+                        children: [
+                          Text('Estatus', style: TextStyle(color: Colors.blue.shade900)),
+                          Text(ticket.estatus)
+                        ],
+                      ),
                     ],
                   ),
                 ),
-
-
-
-                ListTile(
-                  title: Text(
-                    '${ticket.estatus ?? ''}',
-                    style: TextStyle(
-                        color: getColorForStatus(ticket.estatus),
-                  ),
-                ),)
-
               ],
             ),
           ),
         ],
       ),
-
     );
   }
 
