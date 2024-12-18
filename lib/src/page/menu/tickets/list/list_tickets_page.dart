@@ -263,92 +263,89 @@ class TicketTile extends StatelessWidget {
 
         ));
       },
-      child: Container(
-        height: 270,
-        child: Column(
-          children: [
-            Card(
-              elevation: 5,
-              color: Colors.white,
-              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              child: Column(
-                children: [
-                  ListTile(
-                    title: Text(
-                      'No. Ticket: ${ticket.clave ?? ''}',
-                      style: TextStyle(fontSize: 15, color: Colors.blue.shade900),
-                    ),
-                    subtitle: Text(
-                      'Descripción: ${ticket.falla ?? ''}',
-                      style: TextStyle(fontSize: 15, color: Colors.green.shade900),
-                    ),
-                    trailing: Icon(Icons.info, color: getColorForStatus(ticket.estatus)),
+      child: Column(
+        children: [
+          Card(
+            elevation: 5,
+            color: Colors.white,
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: Column(
+              children: [
+                ListTile(
+                  title: Text(
+                    'No. Ticket: ${ticket.clave ?? ''}',
+                    style: TextStyle(fontSize: 15, color: Colors.blue.shade900),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 15),
-                    child: Row( 
-                      children: [ 
-                        Column(
-                          children: [
-                            Text('T.R', style: TextStyle(color: Colors.blue.shade900)),
-                            Text(ticket.tiempo_respuesta),
-                          ],
-                        ),
-                        const SizedBox(width: 10,),
-                        Column(
-                          children: [
-                            Text('T.T',
-                              style: TextStyle(color: Colors.blue.shade900),
-                            ),
-                            Text(calcularTiempoTranscurrido() + " hrs"),
-                          ],
-                        ),
-                        const SizedBox(width: 10,),
-                        Column(
-                          children: [
-                            Text('Estacion/Departamento', style: TextStyle(color: Colors.blue.shade900)),
-                            Text(ticket.usuario_sucursal_nombre)
-                            //Text(ticket.usuario_sucursal_nombre),
-                          ],
-                        ),
-
-
-                      ],
-                    ),
+                  subtitle: Text(
+                    'Descripción: ${ticket.falla ?? ''}',
+                    style: TextStyle(fontSize: 15, color: Colors.green.shade900),
                   ),
+                  trailing: Icon(Icons.info, color: getColorForStatus(ticket.estatus)),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 15),
+                  child: Row(
+                    children: [
+                      Column(
+                        children: [
+                          Text('T.R', style: TextStyle(color: Colors.blue.shade900)),
+                          Text(ticket.tiempo_respuesta),
+                        ],
+                      ),
+                      const SizedBox(width: 10,),
+                      Column(
+                        children: [
+                          Text('T.T',
+                            style: TextStyle(color: Colors.blue.shade900),
+                          ),
+                          Text(calcularTiempoTranscurrido() + " hrs"),
+                        ],
+                      ),
+                      const SizedBox(width: 10,),
+                      Column(
+                        children: [
+                          Text('Estacion/Departamento', style: TextStyle(color: Colors.blue.shade900)),
+                          Text(ticket.usuario_sucursal_nombre)
+                          //Text(ticket.usuario_sucursal_nombre),
+                        ],
+                      ),
 
-                  const SizedBox(height: 10,),
-                  Container(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Row(
-                      children: [
-                        Column(
-                          children: [
-                            Text('Area que atiende', style: TextStyle(color: Colors.blue.shade900)),
-                            Text(ticket.usuario_asignado)
-                            //Text(ticket.usuario_sucursal_nombre),
-                          ],
-                        ),
 
-                      ],
-                    ),
+                    ],
                   ),
+                ),
+
+                const SizedBox(height: 10,),
+                Container(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Row(
+                    children: [
+                      Column(
+                        children: [
+                          Text('Area que atiende', style: TextStyle(color: Colors.blue.shade900)),
+                          Text(ticket.usuario_asignado)
+                          //Text(ticket.usuario_sucursal_nombre),
+                        ],
+                      ),
+
+                    ],
+                  ),
+                ),
 
 
 
-                  ListTile(
-                    title: Text(
-                      '${ticket.estatus ?? ''}',
-                      style: TextStyle(
-                          color: getColorForStatus(ticket.estatus),
-                    ),
-                  ),)
+                ListTile(
+                  title: Text(
+                    '${ticket.estatus ?? ''}',
+                    style: TextStyle(
+                        color: getColorForStatus(ticket.estatus),
+                  ),
+                ),)
 
-                ],
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
 
     );

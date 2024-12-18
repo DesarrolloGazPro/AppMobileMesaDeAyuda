@@ -41,15 +41,13 @@ class _TicketsPageState extends State<TicketsPage> {
       child: Scaffold(
         key: _con.key,
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(90),
+          preferredSize: const Size.fromHeight(110),
           child: AppBar(
             title: Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Center(
-                child: Text('Ticket: ${_con.numeroDeTicket}', style: const TextStyle(
-                  color: Colors.white
-                ),),
-              ),
+              margin: const EdgeInsets.only(top: 10),
+              child: Text('Ticket: ${_con.numeroDeTicket}', style: const TextStyle(
+                color: Colors.white
+              ),),
             ),
             leading:  _Atras(),
             automaticallyImplyLeading: false,
