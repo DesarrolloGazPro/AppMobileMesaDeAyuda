@@ -37,7 +37,7 @@ class _TicketsPageState extends State<TicketsPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: _con.taps.length,
       child: Scaffold(
         key: _con.key,
         appBar: PreferredSize(
@@ -61,7 +61,7 @@ class _TicketsPageState extends State<TicketsPage> {
               labelColor: Colors.white,
               unselectedLabelColor: Colors.grey,
               isScrollable: true,
-                tabs: List<Widget>.generate(2, (index) {
+                tabs: List<Widget>.generate(_con.taps.length, (index) {
                   return Tab(
                     child: _con.taps.isNotEmpty
                         ? Text(_con.taps[index].toString())
@@ -74,6 +74,7 @@ class _TicketsPageState extends State<TicketsPage> {
 
         body: TabBarView(
               children: [
+                _carInformacion(),
                 _cardDetalle(),
                 _cardChat(),
 
@@ -122,7 +123,7 @@ class _TicketsPageState extends State<TicketsPage> {
 
   Widget _cardChat() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 100, left: 10, right: 10, top: 10),
+      margin: const EdgeInsets.only(bottom: 10, left: 10, right: 10, top: 10),
       child: Card(
         color: Colors.white,
         elevation: 3.0,
@@ -171,6 +172,134 @@ class _TicketsPageState extends State<TicketsPage> {
             )
           ],
         ),
+      ),
+    );
+  }
+  Widget _carInformacion() {
+    return SingleChildScrollView(
+      child: Container(
+        margin: const EdgeInsets.all(15),
+        child: Card(
+          color: Colors.white,
+          elevation: 5.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                // Título Estatus
+                _buildInfoRow('Estatus:', _con.ticketDetalle?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets[0].estatus?.isNotEmpty == true
+                    ? _con.ticketDetalle[0].tickets[0].estatus!
+                    : '',),
+
+                // Título Prioridad
+                _buildInfoRow('Prioridad:', _con.ticketDetalle?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets[0].prioridad?.isNotEmpty == true
+                    ? _con.ticketDetalle[0].tickets[0].prioridad!
+                    : '',),
+
+                // Título Servicio
+                _buildInfoRow('Servicio:', _con.ticketDetalle?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets[0].servicio?.isNotEmpty == true
+                    ? _con.ticketDetalle[0].tickets[0].servicio!
+                    : '',),
+
+                // Título Falla
+                _buildInfoRow('Falla:', _con.ticketDetalle?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets[0].falla?.isNotEmpty == true
+                    ? _con.ticketDetalle[0].tickets[0].falla.trim()!
+                    : '',),
+
+                // Título Nombre
+                _buildInfoRow('Nombre:', _con.ticketDetalle?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets[0].cliente_nombre?.isNotEmpty == true
+                    ? _con.ticketDetalle[0].tickets[0].cliente_nombre!
+                    : '',),
+
+                // Título Est/Depto
+                _buildInfoRow('Est/Depto:', _con.ticketDetalle?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets[0].usuario_sucursal_nombre?.isNotEmpty == true
+                    ? _con.ticketDetalle[0].tickets[0].usuario_sucursal_nombre!
+                    : '',),
+
+                // Correo
+                _buildInfoRow('Correo:', _con.ticketDetalle?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets[0].cliente_correo?.isNotEmpty == true
+                    ? _con.ticketDetalle[0].tickets[0].cliente_correo!
+                    : '',),
+
+                // Título Asignado
+                _buildInfoRow('Asignado:', _con.ticketDetalle?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets[0].esta_asignado?.isNotEmpty == true
+                    ? _con.ticketDetalle[0].tickets[0].esta_asignado!
+                    : '',),
+
+                // Título Asignado a
+                _buildInfoRow('Asignado a:', _con.ticketDetalle?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets[0].usuario_asignado?.isNotEmpty == true
+                    ? _con.ticketDetalle[0].tickets[0].usuario_asignado!
+                    : '',),
+
+                // Título Creado
+                _buildInfoRow('Creado:', _con.ticketDetalle?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets[0].fecha_creado?.isNotEmpty == true
+                    ? _con.ticketDetalle[0].tickets[0].fecha_creado!
+                    : '',),
+
+                // Título Cerrado
+                _buildInfoRow('Cerrado:', _con.ticketDetalle?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                    _con.ticketDetalle[0].tickets[0].fecha_cerrado?.isNotEmpty == true
+                    ? _con.ticketDetalle[0].tickets[0].fecha_cerrado!
+                    : '',),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+// Función para crear un row más limpio y reutilizable
+  Widget _buildInfoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: MyColors.colortext,
+            ),
+          ),
+          SizedBox(width: 20),
+          Expanded(
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.grey[700],
+              ),
+              textAlign: TextAlign.end,
+            ),
+          ),
+        ],
       ),
     );
   }

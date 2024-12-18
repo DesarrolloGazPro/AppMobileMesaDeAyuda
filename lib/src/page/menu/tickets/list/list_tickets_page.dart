@@ -284,7 +284,7 @@ class TicketTile extends StatelessWidget {
                       'Descripción: ${ticket.falla ?? ''}',
                       style: TextStyle(fontSize: 15, color: Colors.green.shade900),
                     ),
-                    trailing: Icon(Icons.info, color: Colors.orange.shade900),
+                    trailing: Icon(Icons.info, color: getColorForStatus(ticket.estatus)),
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 15),
@@ -331,14 +331,7 @@ class TicketTile extends StatelessWidget {
                             //Text(ticket.usuario_sucursal_nombre),
                           ],
                         ),
-                        SizedBox(width: 20),
-                        Column(
-                          children: [
-                            Text('Fecha Creado', style: TextStyle(color: Colors.blue.shade900)),
-                            Text(ticket.fecha_creado)
-                            //Text(ticket.usuario_sucursal_nombre),
-                          ],
-                        ),
+
                       ],
                     ),
                   ),

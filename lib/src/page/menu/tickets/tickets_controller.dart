@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:mesadeayuda/src/models/Prioridad.dart';
 import 'package:mesadeayuda/src/models/area_servicios.dart';
 import 'package:mesadeayuda/src/models/fallas.dart';
@@ -24,7 +25,7 @@ class TicketsController {
   SharedPref _sharedPref = new SharedPref();
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
   late Function refresh;
-  List<String> taps = ['Detalles', 'Historial'];
+  List<String> taps = ['Información','Estatus', 'Historial'];
   List<String> reasignarTicket = <String>['No','Si'];
   List<String> cambiarEstatus = <String>['abierto','cerrado','respondido','reabierto'];
 
@@ -219,22 +220,29 @@ class TicketsController {
         ? ticketDetalle[0].tickets[0].atendio
         : 'Selecciona';
 
-    selectedDate = (ticketDetalle[0].tickets[0].fecha_atendido != null &&
-        ticketDetalle[0].tickets[0].fecha_atendido.isNotEmpty)
-        ? DateTime.parse(ticketDetalle[0].tickets[0].fecha_atendido)
-        : DateTime.now();
+      selectedDate = (ticketDetalle[0].tickets[0].fecha_atendido != null &&
+          ticketDetalle[0].tickets[0].fecha_atendido.isNotEmpty)
+          ? DateFormat('MM/dd/yyyy HH:mm:ss').parse(ticketDetalle[0].tickets[0].fecha_atendido)
+          : DateTime.now();
 
     selectedTime = (ticketDetalle[0].tickets[0].fecha_atendido != null &&
         ticketDetalle[0].tickets[0].fecha_atendido.isNotEmpty)
-        ? TimeOfDay.fromDateTime(DateTime.parse(ticketDetalle[0].tickets[0].fecha_atendido))
+        ? TimeOfDay.fromDateTime(DateFormat('MM/dd/yyyy HH:mm:ss').parse(ticketDetalle[0].tickets[0].fecha_atendido))
         : TimeOfDay.fromDateTime(DateTime.now());
 
-    valorAreaServicio=(ticketDetalle[0].tickets[0].servicio != null &&
-                      ticketDetalle[0].tickets[0].servicio.isNotEmpty)
-                      ? ticketDetalle[0].tickets[0].servicio
-                      : 'Selecciona';
+      valorAreaServicio = (ticketDetalle[0].tickets[0].servicio != null &&
+          ticketDetalle[0].tickets[0].servicio.isNotEmpty)
+          ? (ticketDetalle[0].tickets[0].servicio == 'Soporte sistemas CISTEM'
+          ? 'CISTEM'
+          : (ticketDetalle[0].tickets[0].servicio == 'Soporte mantenimiento'
+          ? 'Mantenimiento'
+          : ticketDetalle[0].tickets[0].servicio))
+          : 'Selecciona';
 
-    valorAreaServicioPrevio = valorAreaServicio == 'Soporte sistemas CISTEM' ? 'CISTEM' : valorAreaServicio ;
+
+
+
+    valorAreaServicioPrevio = valorAreaServicio;
     txtareencargada.text  = await ticketsProviders.consultaareAignada(valorAreaServicioPrevio);
 
     txtprioridad.text = (ticketDetalle[0].tickets[0].prioridad != null &&
@@ -271,7 +279,9 @@ class TicketsController {
                         ? ticketDetalle[0].tickets[0].solicitud_reabrir
                         : '';
 
-    tiempoFalla = listafallas.firstWhere((f) => f.falla == valorFalla).tiempo.toString();
+    try{    tiempoFalla = listafallas.firstWhere((f) => f.falla == valorFalla).tiempo.toString();
+    }catch(e){     tiempoFalla = ''; valorFalla='Selecciona';
+    }
     _progressDialog.close();
 
     if (ticketDetalle.isEmpty){

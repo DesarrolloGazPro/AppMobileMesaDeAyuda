@@ -78,6 +78,13 @@ class Ticket {
   String fecha_creado;
   String tiempo_respuesta;
   String solicitud_reabrir;
+  String cliente_nombre;
+  String usuario_sucursal_nombre;
+  String cliente_correo;
+  String esta_asignado;
+  String usuario_asignado;
+  String fecha_cerrado;
+
 
   Ticket({
     required this.id,
@@ -96,7 +103,13 @@ class Ticket {
     required this.fecha_atendido,
     required this.fecha_creado,
     required this.tiempo_respuesta,
-    required this.solicitud_reabrir
+    required this.solicitud_reabrir,
+    required this.cliente_nombre,
+    required this.usuario_sucursal_nombre,
+    required this.cliente_correo,
+    required this.esta_asignado,
+    required this.usuario_asignado,
+    required this.fecha_cerrado,
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) => Ticket(
@@ -117,6 +130,12 @@ class Ticket {
     fecha_creado: json["fecha_creado"] ?? "",
     tiempo_respuesta: json["tiempo_respuesta"] ?? "",
     solicitud_reabrir: json["solicitud_reabrir"] ?? "",
+    cliente_nombre: json["cliente_nombre"] ?? "",
+    usuario_sucursal_nombre: json["usuario_sucursal_nombre"] ?? "",
+    cliente_correo: json["cliente_correo"] ?? "",
+    esta_asignado: json["esta_asignado"] ?? "",
+    usuario_asignado: json["usuario_asignado"] ?? "",
+    fecha_cerrado: json["fecha_cerrado"] ?? "",
 
   );
 
@@ -138,6 +157,12 @@ class Ticket {
     "fecha_creado": fecha_creado,
     "tiempo_respuesta": tiempo_respuesta,
     "solicitud_reabrir": solicitud_reabrir,
+    "cliente_nombre": cliente_nombre,
+    "usuario_sucursal_nombre": usuario_sucursal_nombre,
+    "cliente_correo": cliente_correo,
+    "esta_asignado": esta_asignado,
+    "usuario_asignado": usuario_asignado,
+    "fecha_cerrado": fecha_cerrado,
   };
 }
 

@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mesadeayuda/src/page/login/login_page.dart';
 import 'package:mesadeayuda/src/page/menu/list/tickets/menu_list_tickets_page.dart';
 import 'package:mesadeayuda/src/page/menu/tickets/list/list_tickets_page.dart';
 import 'package:mesadeayuda/src/utils/my_colors.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+  runApp(new MyApp());
 }
+
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
