@@ -323,11 +323,14 @@ class TicketTile extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(width: 10,),
-                      Column(
-                        children: [
-                          Text('Estatus', style: TextStyle(color: Colors.blue.shade900)),
-                          Text(ticket.estatus)
-                        ],
+                      Expanded(
+
+                        child: Column(
+                          children: [
+                            Text('Estatus', style: TextStyle(color: Colors.blue.shade900)),
+                            Text(ticket.estatus)
+                          ],
+                        ),
                       ),
                     ],
                   ),
