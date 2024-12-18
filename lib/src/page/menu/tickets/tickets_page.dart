@@ -260,10 +260,13 @@ class _TicketsPageState extends State<TicketsPage> {
                     : '',),
 
                 // Título Cerrado
-                _buildInfoRow('Cerrado:', _con.ticketDetalle?.isNotEmpty == true &&
+                _buildInfoRow('Cerrado:', (_con.ticketDetalle?.isNotEmpty == true &&
                     _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
                     _con.ticketDetalle[0].tickets[0].fecha_cerrado?.isNotEmpty == true
-                    ? _con.ticketDetalle[0].tickets[0].fecha_cerrado!
+                       )
+                    ? (_con.ticketDetalle[0].tickets[0].fecha_cerrado == '01/01/1900 00:00:00')
+                     ? ''
+                    :_con.ticketDetalle[0].tickets[0].fecha_cerrado!
                     : '',),
               ],
             ),
@@ -943,11 +946,11 @@ class _TicketsPageState extends State<TicketsPage> {
 
   void showAlertDialog(BuildContext context, String base64Bytes, String nombreArchivo) {
     AlertDialog alertDialog = AlertDialog(
-      title: Text('¿Desea descargar la imagen?'),
+      title: const Text('¿Desea descargar la imagen?'),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(), // Cerrar el diálogo
-          child: Text('Cancelar'),
+          child: const Text('Cancelar'),
         ),
         TextButton(
           onPressed: () async {
@@ -962,7 +965,7 @@ class _TicketsPageState extends State<TicketsPage> {
               );
             }
           },
-          child: Text('Descargar'),
+          child: const Text('Descargar'),
         ),
       ],
     );
@@ -977,16 +980,12 @@ class _TicketsPageState extends State<TicketsPage> {
 
   Future<String?> descargarImagen(String base64Bytes, String nombreArchivo) async {
     try {
-
       List<int> bytes = base64Decode(base64Bytes);
-
-      // Guardar temporalmente
       Directory tempDir = await getTemporaryDirectory();
       String tempPath = '${tempDir.path}/$nombreArchivo';
       File tempFile = File(tempPath);
       await tempFile.writeAsBytes(bytes);
 
-      // Mover a la carpeta pública
       Directory publicDir = Directory('/storage/emulated/0/Download');
       if (!await publicDir.exists()) {
         await publicDir.create(recursive: true);
@@ -995,10 +994,9 @@ class _TicketsPageState extends State<TicketsPage> {
      // await tempFile.copy(newPath);
 
       print('Imagen movida a: $newPath');
-      return tempPath; // Retornar la ruta de la imagen descargada
+      return tempPath;
     } catch (e) {
-      print('Error al guardar o mover la imagen: $e');
-      return null; // Retornar null en caso de error
+      return null;
     }
   }
 

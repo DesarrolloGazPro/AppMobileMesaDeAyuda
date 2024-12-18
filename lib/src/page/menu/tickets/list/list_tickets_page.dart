@@ -69,7 +69,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
       ) ,
       drawer: _drawer(),
         body: _con.tickets.isEmpty
-            ? Center(child: Text('No se encontraron resultados'))
+            ? const Center(child: Text('No se encontraron resultados'))
             : Scrollbar(
           thumbVisibility: true,
               thickness:10,
@@ -99,7 +99,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
           ),
         ],
       ),
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       child: TextField(
         controller: _con.searchController,
         onChanged: (value) {
@@ -127,7 +127,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
               color: MyColors.primaryColor,
             ),
           ),
-          contentPadding: EdgeInsets.all(15),
+          contentPadding: const EdgeInsets.all(15),
         ),
       ),
     );
@@ -205,15 +205,15 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
           ),
           ListTile(
             onTap: _con.gotoUpdateTicketPage,
-            title: Text('Mis Tickets', style: TextStyle( fontSize: 15, fontWeight: FontWeight.bold),),
+            title: const Text('Mis Tickets', style: TextStyle( fontSize: 15, fontWeight: FontWeight.bold),),
             // trailing: Icon(Icons.airplane_ticket) ,
-            leading: Icon(Icons.airplane_ticket),
+            leading: const Icon(Icons.airplane_ticket),
           ),
           ListTile(
             onTap: _con.logout,
-            title: Text('Cerrar session', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+            title: const Text('Cerrar session', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
             // trailing: Icon(Icons.airplane_ticket) ,
-            leading: Icon(Icons.power_settings_new),
+            leading: const Icon(Icons.power_settings_new),
           ),
         ],
       ),
@@ -264,13 +264,11 @@ class TicketTile extends StatelessWidget {
         ));
       },
       child: Container(
-
-        color: Colors.white,
-        height: 300,
+        height: 270,
         child: Column(
           children: [
             Card(
-              elevation: 10,
+              elevation: 5,
               color: Colors.white,
               margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: Column(
@@ -319,9 +317,9 @@ class TicketTile extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 10,),
                   Container(
-                    padding: EdgeInsets.only(left: 10),
+                    padding: const EdgeInsets.only(left: 10),
                     child: Row(
                       children: [
                         Column(
