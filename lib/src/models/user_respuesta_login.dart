@@ -29,14 +29,14 @@ class Usuarios {
   String? nombre;
   String? correo;
   String? usuario;
-  String passwword;
+  String contrasena;
   String? image;
 
   Usuarios({
     required this.nombre,
     required this.correo,
     required this.usuario,
-    required this.passwword,
+    required this.contrasena,
     this.image,
   });
 
@@ -44,7 +44,7 @@ class Usuarios {
     nombre: json["nombre"] ?? '',
     correo: json["correo"] ?? '',
     usuario: json["usuario"] ?? '',
-    passwword: json["passwword"] ?? '' ,
+    contrasena: json["contrasena"] ?? '' ,
     image: json["image"] ?? '' ,
   );
 
@@ -52,7 +52,7 @@ class Usuarios {
     "nombre": nombre,
     "correo": correo,
     "usuario": usuario,
-    "passwword": passwword,
+    "contrasena": contrasena,
     "image": image,
   };
 }
