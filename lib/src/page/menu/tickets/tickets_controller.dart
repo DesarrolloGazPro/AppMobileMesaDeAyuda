@@ -348,7 +348,7 @@ class TicketsController {
 
   void consultarPersonal() async {
     listaPersonal.clear();
-    listaPersonal = await ticketsProviders.consulTaPersonal('Gerencia de Desarrollo');
+    listaPersonal = await ticketsProviders.consulTaPersonal(user.usuarios!.depto_biotime);
     if (listaPersonal.isEmpty){
       MySnackBar.show(context, 'No existen datos');
     }
