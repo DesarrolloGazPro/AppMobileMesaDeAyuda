@@ -17,20 +17,28 @@ class LoginController {
   UsersProviders usersProviders = new UsersProviders();
   SharedPref _sharedPref  = new SharedPref();
   late ProgressDialog _progressDialog;
-
-
-  Future<void> init(BuildContext context) async {
+  bool isPasswordObscured = true;
+  String origenD='';
+  Future<void> init(BuildContext context, String origen ) async {
      this.context=context;
+
      await usersProviders.init(context);
      _progressDialog=ProgressDialog(context: context);
 
      UserRespuestaLogin login=
             UserRespuestaLogin.fromJson( await _sharedPref.read('userLogin') ?? {});
 
+     if(origen=="menu"){
+       userNameController.text = login.usuarios!.empleadoID.toString();
+       passwordController.text = login.usuarios!.contrasena;
+       return;
+     }
+     else {
      if(login.token != null){
        if (context.mounted) {
          Navigator.pushNamedAndRemoveUntil(context, 'menu/tickets/list', (route) => false);
        }
+      }
      }
   }
 

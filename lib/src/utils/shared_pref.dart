@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mesadeayuda/src/page/login/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPref{
@@ -34,7 +35,11 @@ class SharedPref{
   }
 
   void logout( BuildContext context) async{
-   await remove('userLogin');
-   Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
+   //await remove('userLogin');
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context) => LoginPage(origen: 'menu')
+
+    ));
+  // Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
   }
 }

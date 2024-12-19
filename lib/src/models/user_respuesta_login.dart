@@ -31,13 +31,14 @@ class Usuarios {
   String? usuario;
   String contrasena;
   String? image;
-
+  int empleadoID;
   Usuarios({
     required this.nombre,
     required this.correo,
     required this.usuario,
     required this.contrasena,
     this.image,
+    required this.empleadoID,
   });
 
   factory Usuarios.fromJson(Map<String, dynamic> json) => Usuarios(
@@ -46,6 +47,7 @@ class Usuarios {
     usuario: json["usuario"] ?? '',
     contrasena: json["contrasena"] ?? '' ,
     image: json["image"] ?? '' ,
+    empleadoID: json["empleadoID"] ?? 0 ,
   );
 
   Map<String, dynamic> toJson() => {
@@ -54,5 +56,6 @@ class Usuarios {
     "usuario": usuario,
     "contrasena": contrasena,
     "image": image,
+    "empleadoID": empleadoID,
   };
 }

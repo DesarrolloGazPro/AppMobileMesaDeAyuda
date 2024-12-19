@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/splash', // Cambiar la ruta inicial a SplashScreen
       routes: {
         '/splash': (BuildContext context) => const SplashScreen(), // Ruta de SplashScreen
-        'login': (BuildContext context) => const LoginPage(),
+        'login': (BuildContext context) =>  LoginPage(origen: ''),
         'menu/tickets/list': (BuildContext context) => const ListTicketsPage(),
       },
       theme: ThemeData(
@@ -64,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 5)); // Retraso de 3 segundos
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const LoginPage()), // Navega al login
+      MaterialPageRoute(builder: (context) => LoginPage(origen: '')), // Navega al login
     );
   }
 

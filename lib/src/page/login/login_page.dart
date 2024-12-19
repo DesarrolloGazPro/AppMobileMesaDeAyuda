@@ -5,7 +5,11 @@ import 'package:mesadeayuda/src/page/login/login_controller.dart';
 import 'package:mesadeayuda/src/utils/my_colors.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  String origen;
+
+      LoginPage({Key? key,
+      required this.origen,
+      }) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -14,11 +18,12 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final LoginController _con = LoginController();
 
+
   @override
   void initState(){
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _con.init(context);
+      _con.init(context, widget.origen);
     });
 
   }
@@ -141,31 +146,41 @@ class _LoginPageState extends State<LoginPage> {
    );
   }
 
-  Widget _textFieldPassword(){
+  Widget _textFieldPassword() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
         color: Colors.orange.shade100,
         borderRadius: BorderRadius.circular(30),
       ),
-      child:  TextField(
+      child: TextField(
         controller: _con.passwordController,
-        obscureText: true,
-        decoration: const InputDecoration(
-            hintText: 'Contraseña',
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            hintStyle: TextStyle(
-                color: Colors.red,
-                 fontSize: 15
-            ),
-            prefixIcon: Icon(
-              Icons.lock_outline,
+        obscureText: _con.isPasswordObscured,
+        decoration: InputDecoration(
+          hintText: 'Contraseña',
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.all(15),
+          hintStyle: const TextStyle(
+            color: Colors.red,
+            fontSize: 15,
+          ),
+          prefixIcon: const Icon(
+            Icons.lock_outline,
+            color: Colors.black,
+          ),
+          suffixIcon: IconButton(
+            icon: Icon(
+              _con.isPasswordObscured ? Icons.visibility : Icons.visibility_off,
               color: Colors.black,
             ),
-
+            onPressed: () {
+              setState(() {
+                _con.isPasswordObscured = !_con.isPasswordObscured;
+              });
+            },
+          ),
         ),
-         style: TextStyle( fontSize: 15, color: Colors.black),
+        style: const TextStyle(fontSize: 15, color: Colors.black),
       ),
     );
   }

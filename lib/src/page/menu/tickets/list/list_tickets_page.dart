@@ -29,7 +29,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
     return Scaffold(
       key: _con.key,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(200),
+        preferredSize: const Size.fromHeight(230),
         child: AppBar(
           title: Container(
             alignment: Alignment.center,
