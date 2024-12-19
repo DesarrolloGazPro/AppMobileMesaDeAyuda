@@ -27,6 +27,10 @@ class ListTicketsController {
   String usuarioClavePerfil="";
   String usuarioId="";
   late ProgressDialog _progressDialog;
+  List<String> cambiarEstatus = <String>['todos','abierto','respondido','reabierto'];
+  String valorcambiarEstatus = 'todos';
+  List<TicketsInfo> ticketPorestatus = [TicketsInfo(id: 0, clave: "1", falla: "1", estatus:"", tiempo_respuesta:"", usuario_sucursal_nombre:"", usuario_asignado:"", fecha_creado:"")];
+
 
   Future<void> init(BuildContext context, Function refresh) async {
     this.context=context;
@@ -63,6 +67,8 @@ class ListTicketsController {
     tickets = await ticketsProviders.consultarTickets(departamento,usuarioClavePerfil,usuarioId);
     ticketsList.clear();
     ticketsList=tickets;
+    ticketPorestatus.clear();
+    ticketPorestatus=tickets;
 
     if (tickets.isEmpty){
       _progressDialog.close();
@@ -80,6 +86,17 @@ class ListTicketsController {
       tickets = ticketsList
           .where((ticket) => ticket.clave.toLowerCase().contains(valor.toLowerCase()) ||
           ticket.falla.toLowerCase().contains(valor.toLowerCase()))
+          .toList();
+    }
+    refresh();
+  }
+
+  void searchTicketsPorEstatus(String valor) {
+    if (valor=='todos') {
+      tickets = List.from(ticketPorestatus); // Muestra todos los tickets si no hay búsqueda
+    } else {
+      tickets = ticketPorestatus
+          .where((ticket) => ticket.estatus.toLowerCase() == (valor.toLowerCase()))
           .toList();
     }
     refresh();

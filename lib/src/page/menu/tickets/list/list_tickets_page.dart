@@ -29,7 +29,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
     return Scaffold(
       key: _con.key,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(190),
+        preferredSize: const Size.fromHeight(200),
         child: AppBar(
           title: Container(
             alignment: Alignment.center,
@@ -38,12 +38,10 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
             ),),
           ),
           automaticallyImplyLeading: false,
-          backgroundColor: MyColors.primaryColor,
+          backgroundColor: Colors.black,
 
           actions: [
-
             _recargar(),
-
           ],
           flexibleSpace: Column(
             children: [
@@ -51,18 +49,28 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
               _menuDrawer(),
               const SizedBox(height: 20),
               _textFieldSearch(),
-              const SizedBox(height: 5),
 
-              Text(
-            'Total de Tickets: ${_con.tickets.length}',
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20
-            ),
-          ),
+              const SizedBox(height: 10),
 
-              // _texFieldSerach(),
+              Row(
+
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                                ''
+                                    'Tickets: ${_con.tickets.length}',
+                                style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20
+                                ),
+                              ),
+                  ),
+                const Spacer(),
+                  _dropCambiarestatus()
+                ],
+              ),
             ],
           ),
         ),
@@ -82,6 +90,41 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
                         },
                       ),
             ),
+    );
+  }
+  Widget _dropCambiarestatus(){
+    String dropdownValue = _con.cambiarEstatus.first;
+    return Column(
+      children: [
+        Container(
+          width: 180,
+          decoration: BoxDecoration(
+            color:MyColors.primaryOpacityColor,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: DropdownButton<String>(
+            value: _con.valorcambiarEstatus,
+            icon: const Icon(Icons.arrow_downward, color: Colors.white,),
+            elevation: 16,
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+
+            onChanged: (String? value) {
+              setState(() { });
+            _con.valorcambiarEstatus=value!;
+              _con.searchTicketsPorEstatus(_con.valorcambiarEstatus);
+
+            },
+            isExpanded: true,
+            items: _con.cambiarEstatus.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value, style:  TextStyle(fontSize: 20, color: Colors.orange),),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
     );
   }
 
@@ -226,6 +269,9 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
     return GestureDetector(
       onTap: (){
         _con.consultarTickets(_con.departamentoClave,_con.usuarioClavePerfil, _con.usuarioId);
+        _con.valorcambiarEstatus='todos';
+
+
       },
       child: Stack(
         children: [
