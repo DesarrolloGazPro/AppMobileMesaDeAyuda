@@ -51,7 +51,7 @@ class _TicketsPageState extends State<TicketsPage> {
             ),
             leading:  _Atras(),
             automaticallyImplyLeading: false,
-            backgroundColor: MyColors.primaryColor,
+            backgroundColor: const Color.fromARGB(255, 42, 40, 40),
             bottom: TabBar(
               labelStyle: const TextStyle(
                 fontSize: 20,

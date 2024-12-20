@@ -38,7 +38,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
             ),),
           ),
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.black,
+          backgroundColor: const Color.fromARGB(255, 42, 40, 40),
 
           actions: [
             _recargar(),
@@ -196,8 +196,8 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(
-                color: MyColors.primaryColor
+            decoration: const BoxDecoration(
+                color:  Color.fromARGB(255, 42, 40, 40),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
