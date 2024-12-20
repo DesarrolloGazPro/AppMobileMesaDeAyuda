@@ -320,11 +320,11 @@ class TicketTile extends StatelessWidget {
                 ListTile(
                   title: Text(
                     'No. Ticket: ${ticket.clave ?? ''}',
-                    style: TextStyle(fontSize: 15, color: Colors.blue.shade900),
+                    style: TextStyle(fontSize: 15, color: Colors.blue.shade900,   fontFamily: 'Roboto'),
                   ),
                   subtitle: Text(
                     'Descripción: ${ticket.falla ?? ''}',
-                    style: TextStyle(fontSize: 15, color: Colors.green.shade900),
+                    style: TextStyle(fontSize: 15, color: Colors.green.shade900,   fontFamily: 'Roboto'),
                   ),
                   trailing: Icon(Icons.info, color: getColorForStatus(ticket.estatus)),
                 ),
@@ -334,24 +334,24 @@ class TicketTile extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          Text('T.R', style: TextStyle(color: Colors.blue.shade900)),
-                          Text(ticket.tiempo_respuesta),
+                          Text('T.R', style: TextStyle(color: Colors.blue.shade900,   fontFamily: 'Roboto')),
+                          Text(ticket.tiempo_respuesta, style: TextStyle(  fontFamily: 'Roboto'),),
                         ],
                       ),
                       const SizedBox(width: 10,),
                       Column(
                         children: [
                           Text('T.T',
-                            style: TextStyle(color: Colors.blue.shade900),
+                            style: TextStyle(color: Colors.blue.shade900,   fontFamily: 'Roboto'),
                           ),
-                          Text(calcularTiempoTranscurrido() + " hrs"),
+                          Text(calcularTiempoTranscurrido() + " hrs", style: TextStyle(  fontFamily: 'Roboto'),)
                         ],
                       ),
                       const SizedBox(width: 10,),
                       Column(
                         children: [
-                          Text('Estacion/Departamento', style: TextStyle(color: Colors.blue.shade900)),
-                          Text(ticket.usuario_sucursal_nombre)
+                          Text('Estacion/Departamento', style: TextStyle(color: Colors.blue.shade900,   fontFamily: 'Roboto')),
+                          Text(ticket.usuario_sucursal_nombre, style: TextStyle(  fontFamily: 'Roboto'),)
                         ],
                       ),
                     ],
@@ -364,8 +364,8 @@ class TicketTile extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          Text('Area que atiende', style: TextStyle(color: Colors.blue.shade900)),
-                          Text(ticket.usuario_asignado)
+                          Text('Area que atiende', style: TextStyle(color: Colors.blue.shade900,   fontFamily: 'Roboto')),
+                          Text(ticket.usuario_asignado, style: TextStyle(  fontFamily: 'Roboto'),)
                         ],
                       ),
                       const SizedBox(width: 10,),
@@ -373,8 +373,8 @@ class TicketTile extends StatelessWidget {
 
                         child: Column(
                           children: [
-                            Text('Estatus', style: TextStyle(color: Colors.blue.shade900)),
-                            Text(ticket.estatus)
+                            Text('Estatus', style: TextStyle(color: Colors.blue.shade900,   fontFamily: 'Roboto')),
+                            Text(ticket.estatus, style: TextStyle(  fontFamily: 'Roboto'),)
                           ],
                         ),
                       ),

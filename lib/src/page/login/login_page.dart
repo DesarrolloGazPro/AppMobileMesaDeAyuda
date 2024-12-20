@@ -31,33 +31,50 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        color:  const Color.fromARGB(255, 42, 40, 40),
         width: double.infinity,
+        height: double.infinity,
         child: Stack(
           children: [
-            Positioned(
-              top: -80,
-                left: -100,
-                child: _circleLogin()),
-            Positioned(
-             top: 60,
-              left: 25,
-              child: _textLogin(),
-            ),
+
             SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                
+
                 children: [
                   _lottieAnimation(),
+                  _textMesadeayuda(),
+                  const SizedBox(height: 50),
                   //_imageBanner(),
-                  _textFieldEmail(),
+                  _textFieldUser(),
+                  const SizedBox(height: 20),
                   _textFieldPassword(),
                   _buttonLogin(),
+                   const SizedBox(height: 20),
+                  const Text('GAZPRO@ Derechos reservados 2024', style: TextStyle(color: Colors.white,
+                  fontFamily: 'NimbusSans'),),
+                  const SizedBox(height: 20),
 
                 ],
               ),
             ),
           ],
         ),
-      )
+      ),
+
+    );
+  }
+
+  Widget _textMesadeayuda(){
+    return const Text(
+      'MESA DE AYUDA',
+      style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 40,
+          fontFamily: 'Roboto'
+      ),
     );
   }
 
@@ -65,10 +82,10 @@ class _LoginPageState extends State<LoginPage> {
     return const Text(
         'Mesa de Ayuda',
       style: TextStyle(
-        color: Colors.white,
+        color: Colors.black,
         fontWeight: FontWeight.bold,
         fontSize: 22,
-        fontFamily: 'NimbusSans'
+       
       ),
     );
   }
@@ -79,7 +96,18 @@ class _LoginPageState extends State<LoginPage> {
       height: 230,
       decoration: BoxDecoration( 
         borderRadius: BorderRadius.circular(90),
-        color: MyColors.primaryColor
+        color: Colors.white
+      ),
+    );
+  }
+
+  Widget _circle(){
+    return Container(
+      width: 250,
+      height: 230,
+      decoration: BoxDecoration(
+          borderRadius:  BorderRadius.circular(30),
+          color: Colors.orange.shade900
       ),
     );
   }
@@ -91,8 +119,8 @@ class _LoginPageState extends State<LoginPage> {
        bottom: MediaQuery.of(context).size.height * 0.10,
      ),
      child: Lottie.asset( 'assets/json/soporte.json',
-       width: 200,
-       height: 200,
+       width: 150,
+       height: 150,
        fit: BoxFit.fill
 
 
@@ -113,15 +141,15 @@ class _LoginPageState extends State<LoginPage> {
    );
   }
 
-  Widget _textFieldEmail(){
+  Widget _textFieldUser(){
    return Container(
+     height: 50,
      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
 
      child:  Container(
-
        decoration: BoxDecoration(
-         color: Colors.orange.shade100,
-         borderRadius: BorderRadius.circular(30),
+         color: Colors.white,
+         borderRadius: BorderRadius.circular(5),
        ),
        child: TextField(
 
@@ -148,10 +176,11 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _textFieldPassword() {
     return Container(
+      height: 50,
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
-        color: Colors.orange.shade100,
-        borderRadius: BorderRadius.circular(30),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(5),
       ),
       child: TextField(
         controller: _con.passwordController,
@@ -170,8 +199,8 @@ class _LoginPageState extends State<LoginPage> {
           ),
           suffixIcon: IconButton(
             icon: Icon(
-              _con.isPasswordObscured ? Icons.visibility : Icons.visibility_off,
-              color: Colors.black,
+              _con.isPasswordObscured ? Icons.visibility_off_outlined : Icons.visibility_off_rounded,
+              color: Colors.orange,
             ),
             onPressed: () {
               setState(() {
@@ -187,20 +216,23 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buttonLogin(){
     return Container(
-      width: double.infinity,
+      height: 60,
+      width: 200,
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
 
       child: ElevatedButton(
           onPressed: _con.login,
       style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.red.shade900,
+      backgroundColor: Colors.orange.shade800,
       foregroundColor: Colors.white,
       shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(30)),
+      borderRadius: BorderRadius.circular(10)),
         padding: EdgeInsets.symmetric(vertical: 15)
       ),
-          child:  const Text('Ingresar', style: TextStyle(
-            fontSize: 15
+          child:  const Text('INGRESAR', style: TextStyle(
+            fontSize: 25,
+            fontFamily: 'Roboto'
+           
           ),),
 
       ),
