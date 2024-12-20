@@ -49,9 +49,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
               _menuDrawer(),
               const SizedBox(height: 20),
               _textFieldSearch(),
-
               const SizedBox(height: 10),
-
               Row(
 
                 children: [
@@ -283,7 +281,6 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
                size: 30,
             ),
           ),
-
         ],
       ),
     );
