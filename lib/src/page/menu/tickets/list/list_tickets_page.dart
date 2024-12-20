@@ -268,8 +268,6 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
       onTap: (){
         _con.consultarTickets(_con.departamentoClave,_con.usuarioClavePerfil, _con.usuarioId);
         _con.valorcambiarEstatus='todos';
-
-
       },
       child: Stack(
         children: [
@@ -389,30 +387,25 @@ class TicketTile extends StatelessWidget {
   Color getColorForStatus(String? status) {
     switch (status?.toLowerCase()) {
       case 'abierto':
-        return Colors.blue.shade900; // Verde para abierto
+        return Colors.blue.shade900;
       case 'cerrado':
-        return Colors.red.shade900; // Rojo para cerrado
+        return Colors.red.shade900;
       case 'respondido':
-        return Colors.brown.shade900; // Azul para respondido
+        return Colors.brown.shade900;
       case 'reabierto':
-        return Colors.orange.shade900; // Naranja para reabierto
+        return Colors.orange.shade900;
       default:
-        return Colors.black; // Color predeterminado
+        return Colors.black;
     }
   }
 
   String calcularTiempoTranscurrido(){
-
     if (ticket.fecha_creado=="") return "";
-
     DateFormat formato= DateFormat("MM/dd/yyyy HH:mm");
-
     DateTime actual= DateTime.now();
     DateTime fechacreado= formato.parse(ticket.fecha_creado);
      Duration diferencia= actual.difference(fechacreado);
      int horas= diferencia.inHours;
      return horas.toString();
-
-
   }
 }
