@@ -291,7 +291,7 @@ class _TicketsPageState extends State<TicketsPage> {
               color: MyColors.colortext,
             ),
           ),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           Expanded(
             child: Text(
               value,
