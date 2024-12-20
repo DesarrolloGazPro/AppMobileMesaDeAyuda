@@ -51,10 +51,8 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 20),
                   _textFieldPassword(),
                   _buttonLogin(),
-                   const SizedBox(height: 20),
-                  const Text('GAZPRO@ Derechos reservados 2024', style: TextStyle(color: Colors.white,
-                  fontFamily: 'NimbusSans'),),
-                  const SizedBox(height: 20),
+                   const SizedBox(height: 50),
+                  Text( 'GAZPRO@ Derechos reservados ${DateTime.now().year}', style: TextStyle( color: Colors.white, fontFamily: 'NimbusSans', ), ),                  const SizedBox(height: 20),
 
                 ],
               ),
