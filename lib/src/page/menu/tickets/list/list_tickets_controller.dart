@@ -53,9 +53,6 @@ class ListTicketsController {
     Navigator.pushNamed(context, 'menu/tickets/list');
   }
 
-
-
-
   void consultarTickets(String departamento, String usuarioClavePerfil, String usuarioId ) async {
     _progressDialog.show(max: 100, msg: 'Espera un momento...' ,
         backgroundColor: Colors.white , msgColor: Colors.black,

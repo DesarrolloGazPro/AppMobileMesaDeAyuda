@@ -21,13 +21,10 @@ class LoginController {
   String origenD='';
   Future<void> init(BuildContext context, String origen ) async {
      this.context=context;
-
      await usersProviders.init(context);
      _progressDialog=ProgressDialog(context: context);
-
      UserRespuestaLogin login=
             UserRespuestaLogin.fromJson( await _sharedPref.read('userLogin') ?? {});
-
      if(origen=="menu"){
        userNameController.text = login.usuarios!.empleadoID.toString();
        passwordController.text = login.usuarios!.contrasena;
@@ -65,8 +62,6 @@ class LoginController {
         progressBgColor: Colors.black,  msgTextAlign: TextAlign.center,
         msgFontWeight: FontWeight.bold, msgFontSize: 15,
         valuePosition: ValuePosition.center  );
-
-
 
       Usuario  res = await usersProviders.login(user);
     if (res.token != null && res.token !=''){

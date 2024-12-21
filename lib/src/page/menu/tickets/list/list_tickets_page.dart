@@ -4,12 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:mesadeayuda/src/models/TicketsInfo.dart';
 import 'package:mesadeayuda/src/page/menu/tickets/tickets_page.dart';
 import 'package:mesadeayuda/src/utils/my_colors.dart';
-
 import 'list_tickets_controller.dart';
 
 class ListTicketsPage extends StatefulWidget {
   const ListTicketsPage({super.key});
-
   @override
   State<ListTicketsPage> createState() => _ListTicketsPageState();
 }
@@ -39,7 +37,6 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
           ),
           automaticallyImplyLeading: false,
           backgroundColor: const Color.fromARGB(255, 42, 40, 40),
-
           actions: [
             _recargar(),
           ],
@@ -261,8 +258,6 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
     );
   }
 
-
-
   Widget _recargar(){
     return GestureDetector(
       onTap: (){
@@ -289,7 +284,6 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
   }
 }
 
-
 class TicketTile extends StatelessWidget {
   final TicketsInfo ticket;
 
@@ -301,7 +295,6 @@ class TicketTile extends StatelessWidget {
       onTap: () {
         Navigator.push(context, MaterialPageRoute(
             builder: (context) => TicketsPage(clave: ticket.clave, idTicket: ticket.id.toString(),)
-
         ));
       },
       child: Column(

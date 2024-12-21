@@ -5,7 +5,6 @@ import 'package:mesadeayuda/src/page/login/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
   String origen;
-
       LoginPage({super.key,
       required this.origen,
       });
@@ -16,15 +15,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final LoginController _con = LoginController();
-
-
   @override
   void initState(){
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _con.init(context, widget.origen);
     });
-
   }
   @override
   Widget build(BuildContext context) {
@@ -48,15 +44,14 @@ class _LoginPageState extends State<LoginPage> {
                   _textFieldPassword(),
                   _buttonLogin(),
                    const SizedBox(height: 50),
-                  Text( 'GAZPRO@ Derechos reservados ${DateTime.now().year}', style: TextStyle( color: Colors.white, fontFamily: 'NimbusSans', ), ),                  const SizedBox(height: 20),
-
+                  Text( 'GAZPRO@ Derechos reservados ${DateTime.now().year}', style: const TextStyle( color: Colors.white, fontFamily: 'NimbusSans', ), ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
           ],
         ),
       ),
-
     );
   }
 
@@ -139,14 +134,12 @@ class _LoginPageState extends State<LoginPage> {
    return Container(
      height: 50,
      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-
      child:  Container(
        decoration: BoxDecoration(
          color: Colors.white,
          borderRadius: BorderRadius.circular(5),
        ),
        child: TextField(
-
          controller: _con.userNameController,
          keyboardType: TextInputType.emailAddress,
           decoration: const InputDecoration(
@@ -213,7 +206,6 @@ class _LoginPageState extends State<LoginPage> {
       height: 60,
       width: 200,
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
-
       child: ElevatedButton(
           onPressed: _con.login,
       style: ElevatedButton.styleFrom(
@@ -226,9 +218,7 @@ class _LoginPageState extends State<LoginPage> {
           child:  const Text('INGRESAR', style: TextStyle(
             fontSize: 25,
             fontFamily: 'Roboto'
-           
           ),),
-
       ),
     );
   }

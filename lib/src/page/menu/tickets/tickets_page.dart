@@ -10,7 +10,6 @@ import 'package:mesadeayuda/src/models/personal.dart';
 import 'package:mesadeayuda/src/models/ticket_detalle.dart';
 import 'package:mesadeayuda/src/page/menu/tickets/tickets_controller.dart';
 import 'package:mesadeayuda/src/utils/my_colors.dart';
-
 import 'package:html/parser.dart' show parse;
 
 class TicketsPage extends StatefulWidget {
@@ -71,7 +70,6 @@ class _TicketsPageState extends State<TicketsPage> {
             ),
           ),
         ) ,
-
         body: TabBarView(
               children: [
                 _carInformacion(),
@@ -97,7 +95,6 @@ class _TicketsPageState extends State<TicketsPage> {
             padding: const EdgeInsets.symmetric(vertical: 15)
         ),
         child:  const Text('Enviar', style: TextStyle(fontSize: 15)),
-
       ),
     );
   }
@@ -116,7 +113,6 @@ class _TicketsPageState extends State<TicketsPage> {
             padding: const EdgeInsets.symmetric(vertical: 15)
         ),
         child:  const Text('Guardar', style: TextStyle(fontSize: 15)),
-
       ),
     );
   }
@@ -156,10 +152,7 @@ class _TicketsPageState extends State<TicketsPage> {
                               ? _mensajeSoporte(replacedMessage, nombreArchivo,archivobyte)
                               : _mensajeUser(replacedMessage, nombreArchivo, archivobyte, message.id.toString());
                         },
-
-
                           )
-
                 ),
                 const SizedBox(height: 10),
                 _MessageFieldBox(),
@@ -167,7 +160,6 @@ class _TicketsPageState extends State<TicketsPage> {
                 _imagen(),
                 const SizedBox(height: 10),
                 _btnEnviar(),
-
               ],
             )
           ],
@@ -306,7 +298,6 @@ class _TicketsPageState extends State<TicketsPage> {
       ),
     );
   }
-
   Widget _cardDetalle() {
     return SingleChildScrollView(
       child: Container(
@@ -429,7 +420,6 @@ class _TicketsPageState extends State<TicketsPage> {
       ),
     );
   }
-
   Widget _dropCambiarestatus(){
     String dropdownValue = _con.cambiarEstatus.first;
     return Column(
@@ -457,8 +447,6 @@ class _TicketsPageState extends State<TicketsPage> {
               _con.valorcambiarEstatus = value!;
               _con.mostraAtendidoFecha();
               _con.btnGuardar = true;
-
-
             },
             isExpanded: true,
             items: _con.cambiarEstatus.map<DropdownMenuItem<String>>((String value) {
@@ -498,11 +486,9 @@ class _TicketsPageState extends State<TicketsPage> {
             icon: const Icon(Icons.arrow_downward),
             elevation: 16,
             style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-
             onChanged: (String? value) {
               refresh();
               _con.valorAtendio = value!;
-
             },
             isExpanded: true,
             items: _con.listaPersonal.map<DropdownMenuItem<String>>((Personal personal) {
@@ -516,8 +502,6 @@ class _TicketsPageState extends State<TicketsPage> {
       ],
     );
   }
-
-
   Widget _dropArea(){
     return Column(
       children: [
@@ -542,26 +526,18 @@ class _TicketsPageState extends State<TicketsPage> {
                 ? 'Mantenimiento'
                 : _con.valorAreaServicio))
                 : 'Selecciona',
-
             icon: const Icon(Icons.arrow_downward),
             elevation: 16,
             style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-
             onChanged: (String? value) {
               refresh();
               _con.valorAreaServicio = value!;
               _con.consultaareAignada(_con.valorAreaServicio.toString());
-
               _con.valorAreaServicioId =  _con.listaareaServicio
                   .firstWhere((area) => area.clave == value)
                   .id.toString();
-
               _con.consultaFallas(_con.valorAreaServicioId);
               _con.valorFalla='Selecciona';
-
-
-
-
             },
             isExpanded: true,
             items: _con.listaareaServicio.map<DropdownMenuItem<String>>((AreaServicios area) {
@@ -718,8 +694,6 @@ class _TicketsPageState extends State<TicketsPage> {
           ),
           contentPadding: const EdgeInsets.all(15)
         ),
-
-
       ),
     );
   }
@@ -772,12 +746,10 @@ class _TicketsPageState extends State<TicketsPage> {
             ),
           ),
           const SizedBox(height: 5),
-
         ],
       ),
     );
   }
-
 
   Widget _mensajeUser(String mensajeUser, String nombrearch, String bytes, String idMensaje) {
     return Container(
@@ -873,7 +845,6 @@ class _TicketsPageState extends State<TicketsPage> {
       decoration: BoxDecoration(
         color:Colors.white,
         borderRadius: BorderRadius.circular(30),
-
       ),
       child:  TextField(
         enabled: false,
@@ -887,21 +858,17 @@ class _TicketsPageState extends State<TicketsPage> {
             )
         ),
         style: TextStyle( fontSize: 20, color: Colors.orange.shade900),
-
       ),
     );
   }
-
   Widget _Prioridad(){
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
         color:Colors.white,
         borderRadius: BorderRadius.circular(30),
-
       ),
       child:  TextField(
-
          enabled: false,
          controller: _con.txtprioridad,
         keyboardType: TextInputType.emailAddress,
@@ -917,7 +884,6 @@ class _TicketsPageState extends State<TicketsPage> {
       ),
     );
   }
-
   Widget _imagen() {
     return GestureDetector(
       onTap: _con.showAlertDialog,
@@ -942,8 +908,6 @@ class _TicketsPageState extends State<TicketsPage> {
   String decodeHtml(String htmlText) {
     return parse(htmlText).documentElement?.text ?? htmlText;
   }
-
-
   void showAlertDialog(BuildContext context, String base64Bytes, String nombreArchivo) {
     AlertDialog alertDialog = AlertDialog(
       title: const Text('¿Desea descargar la imagen?'),
@@ -991,27 +955,20 @@ class _TicketsPageState extends State<TicketsPage> {
         await publicDir.create(recursive: true);
       }
       String newPath = '${publicDir.path}/$nombreArchivo';
-     // await tempFile.copy(newPath);
-
       print('Imagen movida a: $newPath');
       return tempPath;
     } catch (e) {
       return null;
     }
   }
-
-
   void refresh(){
     setState(() {});
   }
 }
-
 // Pantalla para mostrar la imagen descargada
 class ImagenMostradaScreen extends StatelessWidget {
   final String imagePath;
-
   const ImagenMostradaScreen({Key? key, required this.imagePath}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

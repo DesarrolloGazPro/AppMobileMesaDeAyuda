@@ -41,19 +41,15 @@ class TicketsController {
   List<Personal> listaPersonal = [Personal(nombre: "Selecciona", departamento: "Selecciona")];
   List<AreaServicios> listaareaServicio = [AreaServicios(id: 0, clave: "Selecciona")];
   List<AreaServicios> listaareaServicioCopy = [AreaServicios(id: 0, clave: "Selecciona")];
-
   List<Fallas> listafallas = [Fallas(id: 0, falla: 'Selecciona', prioridad: 0, tiempo: 0, departamentoId: 0, categoriaId: 0, clasificacionId: 0)];
   List<Prioridad> listaprioridad = [];
   late TicketsInfo ticket;
   List<TicketDetalle> ticketDetalle = [];
-
-
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
   TextEditingController txtareencargada = TextEditingController();
   TextEditingController txtprioridad = TextEditingController();
   TextEditingController txtMensaje = TextEditingController();
-
   bool mostrarAtendido=false;
   bool mostrarArea =false;
   bool mostrarReasignarTicket =false;
@@ -69,6 +65,7 @@ class TicketsController {
   String numeroDeTicket='';
   late ProgressDialog _progressDialog;
   late Usuario user;
+
   Future<void> init(BuildContext context, Function refresh, String clave, String idTicket) async {
      this.context=context;
      this.refresh=refresh;
@@ -80,7 +77,6 @@ class TicketsController {
      listaareaServicio = await  consultarArea();
      consultarTicket(idTicket);
      consultarPersonal();
-     //consultarArea();
      prioridades();
      mostraAtendidoFecha();
      mostraAreaFalla();
@@ -164,9 +160,7 @@ class TicketsController {
       imageBase64 = '';
     }
 
-
     String archivo = imageBase64;
-
     SolicitudMensaje solicitudMensaje = new SolicitudMensaje(
         mensaje: mensaje,
         fecha_creado: fecha_creado,
@@ -202,10 +196,8 @@ class TicketsController {
       _progressDialog.close();
       MySnackBar.show(context, 'Ocurrio un error al rnviar el ticket');
     }
-
   }
   void consultarTicket(String ticketId) async {
-
     try{
       _progressDialog.show(max: 100, msg: 'Espera un momento...' ,
           backgroundColor: Colors.white , msgColor: Colors.black,
@@ -239,9 +231,6 @@ class TicketsController {
           : ticketDetalle[0].tickets[0].servicio))
           : 'Selecciona';
 
-
-
-
     valorAreaServicioPrevio = valorAreaServicio;
     txtareencargada.text  = await ticketsProviders.consultaareAignada(valorAreaServicioPrevio);
 
@@ -249,8 +238,6 @@ class TicketsController {
           ticketDetalle[0].tickets[0].prioridad.isNotEmpty)
           ? ticketDetalle[0].tickets[0].prioridad
           : '';
-
-
 
       listaareaServicio = await  consultarArea();
     valorAreaServicioId = listaareaServicio
@@ -294,17 +281,13 @@ class TicketsController {
         }
   }
 
-
   void logout(){
   _sharedPref.logout(context);
   }
-
   void goAtras(){
     Navigator.pushNamedAndRemoveUntil(context, 'menu/tickets/list', (route) =>false);
 
   }
-
-
   Future<void> selectDate() async {
     final DateTime picked = await showDatePicker(
       context: context,
@@ -320,7 +303,6 @@ class TicketsController {
 
     }
   }
-
   void openDrawer(){
    key.currentState?.openDrawer();
   }
@@ -342,7 +324,6 @@ class TicketsController {
     if (picked != null && picked != selectedTime) {
         refresh();
         selectedTime = picked;
-
     }
   }
 
@@ -410,26 +391,20 @@ class TicketsController {
   }
 
   Future<List<ArchivosTicket>> consultarArchivo(String idArchivo) async {
-
     List<ArchivosTicket> archivo = await ticketsProviders.consultarArchivos(idArchivo);
-
       if (archivo == null) {
         MySnackBar.show(context, 'No existen datos');
       }
       return archivo;
-
   }
 
 
   Future selectImage(ImageSource imageSource) async{
     pickedFile = await ImagePicker().pickImage(source: imageSource);
-
     if(pickedFile != null){
       imageFile=File(pickedFile!.path);
     }
-
     Navigator.pop(context);
-
     refresh();
   }
 
@@ -460,12 +435,10 @@ class TicketsController {
         camaraButton
       ],
     );
-
     showDialog(
         context: context,
         builder: (BuildContext context){
           return alertDialog;
         });
   }
-
 }
