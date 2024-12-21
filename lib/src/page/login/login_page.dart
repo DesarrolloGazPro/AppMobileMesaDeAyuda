@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mesadeayuda/src/page/login/login_controller.dart';
-import 'package:mesadeayuda/src/utils/my_colors.dart';
 
 class LoginPage extends StatefulWidget {
   String origen;
 
-      LoginPage({Key? key,
+      LoginPage({super.key,
       required this.origen,
-      }) : super(key: key);
+      });
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -36,12 +35,9 @@ class _LoginPageState extends State<LoginPage> {
         height: double.infinity,
         child: Stack(
           children: [
-
             SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                
-
                 children: [
                   _lottieAnimation(),
                   _textMesadeayuda(),
@@ -166,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
               color: Colors.black,
             )
           ),
-         style: TextStyle( fontSize: 15, color: Colors.black),
+         style: const TextStyle( fontSize: 15, color: Colors.black),
         ),
      ),
    );
@@ -225,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
       foregroundColor: Colors.white,
       shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10)),
-        padding: EdgeInsets.symmetric(vertical: 15)
+        padding: const EdgeInsets.symmetric(vertical: 15)
       ),
           child:  const Text('INGRESAR', style: TextStyle(
             fontSize: 25,
