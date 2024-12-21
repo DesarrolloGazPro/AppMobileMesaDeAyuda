@@ -99,8 +99,6 @@ class ListTicketsController {
     refresh();
   }
 
-
-
   void openDrawer(){
     key.currentState?.openDrawer();
   }
