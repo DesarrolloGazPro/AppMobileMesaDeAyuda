@@ -10,7 +10,7 @@ Future<void> main() async {
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  runApp(new MyApp());
+  runApp(const MyApp());
 }
 
 
@@ -28,9 +28,9 @@ class _MyAppState extends State<MyApp> {
       title: 'Mesa de Ayuda',
       color: MyColors.primaryColor,
       debugShowCheckedModeBanner: false,
-      initialRoute: '/splash', // Cambiar la ruta inicial a SplashScreen
+      initialRoute: '/splash',
       routes: {
-        '/splash': (BuildContext context) => const SplashScreen(), // Ruta de SplashScreen
+        '/splash': (BuildContext context) => const SplashScreen(),
         'login': (BuildContext context) =>  LoginPage(origen: ''),
         'menu/tickets/list': (BuildContext context) => const ListTicketsPage(),
       },
@@ -59,12 +59,11 @@ class _SplashScreenState extends State<SplashScreen> {
     _loadData();
   }
 
-  // Función que simula la carga de datos o inicialización de la aplicación
   _loadData() async {
-    await Future.delayed(const Duration(seconds: 5)); // Retraso de 3 segundos
+    await Future.delayed(const Duration(seconds: 5));
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => LoginPage(origen: '')), // Navega al login
+      MaterialPageRoute(builder: (context) => LoginPage(origen: '')),
     );
   }
 
@@ -77,8 +76,6 @@ class _SplashScreenState extends State<SplashScreen> {
             width: 200,
             height: 200,
             fit: BoxFit.fill
-
-
         ),
       ),
     );
