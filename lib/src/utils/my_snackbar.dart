@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mesadeayuda/src/utils/my_colors.dart';
 
 class MySnackBar{
   static void show(BuildContext context, String text){
