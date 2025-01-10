@@ -24,16 +24,22 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
   }
   @override
   Widget build(BuildContext context) {
+    // Obtener dimensiones de la pantalla
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       key: _con.key,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(230),
+        preferredSize: Size.fromHeight(screenHeight * 0.24), // Escalado adaptable
         child: AppBar(
           title: Container(
             alignment: Alignment.center,
-            child: const Text('Tickes', style: TextStyle(
-              color: Colors.white
-            ),),
+            child: const Text(
+              'Tickets',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
           automaticallyImplyLeading: false,
           backgroundColor: const Color.fromARGB(255, 42, 40, 40),
@@ -42,52 +48,62 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
           ],
           flexibleSpace: Column(
             children: [
-              const SizedBox(height: 60),
+              SizedBox(height: screenHeight * 0.08), // Espaciado proporcional
               _menuDrawer(),
-              const SizedBox(height: 20),
+              SizedBox(height: screenHeight * 0.03),
               _textFieldSearch(),
-              const SizedBox(height: 10),
+              SizedBox(height: screenHeight * 0.02),
               Row(
-
                 children: [
                   Container(
-                    margin: EdgeInsets.only(left: 10),
+                    margin: EdgeInsets.only(left: screenWidth * 0.03),
                     child: Text(
-                                ''
-                                    'Tickets: ${_con.tickets.length}',
-                                style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20
-                                ),
-                              ),
+                      'Tickets: ${_con.tickets.length}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: screenWidth * 0.05 / textScaleFactor, // Escalado de texto
+                      ),
+                    ),
                   ),
-                const Spacer(),
-                  _dropCambiarestatus()
+                  const Spacer(),
+                  _dropCambiarestatus(),
                 ],
               ),
             ],
           ),
         ),
-      ) ,
+      ),
       drawer: _drawer(),
-        body: _con.tickets.isEmpty
-            ? const Center(child: Text('No se encontraron resultados'))
-            : Scrollbar(
-          thumbVisibility: true,
-              thickness:10,
-              radius: const Radius.circular(10),
-              interactive: true,
-              child: ListView.builder(
-                        itemCount: _con.tickets.length,
-                        itemBuilder: (context, index) {
-              return TicketTile(ticket: _con.tickets[index]);
-                        },
-                      ),
-            ),
+      body: _con.tickets.isEmpty
+          ? Center(
+        child: Text(
+          'No se encontraron resultados',
+          style: TextStyle(fontSize: screenWidth * 0.045 / textScaleFactor), // Escalado de texto
+        ),
+      )
+          : Scrollbar(
+        thumbVisibility: true,
+        thickness: screenWidth * 0.03, // Grosor adaptable
+        radius: Radius.circular(screenWidth * 0.03),
+        interactive: true,
+        child: ListView.builder(
+          itemCount: _con.tickets.length,
+          itemBuilder: (context, index) {
+            return TicketTile(ticket: _con.tickets[index]);
+          },
+        ),
+      ),
     );
   }
+
+
   Widget _dropCambiarestatus(){
+    // Obtener dimensiones de la pantalla
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     String dropdownValue = _con.cambiarEstatus.first;
     return Column(
       children: [
@@ -114,7 +130,11 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
             items: _con.cambiarEstatus.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
-                child: Text(value, style:  TextStyle(fontSize: 20, color: Colors.orange),),
+                child: Text(value,
+                  style:  TextStyle(fontSize: screenWidth * 0.05 / textScaleFactor, color: Colors.orange),
+
+
+                ),
               );
             }).toList(),
           ),
@@ -124,7 +144,12 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
   }
 
   Widget _textFieldSearch() {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Container(
+      height: screenHeight * 0.07 / textScaleFactor,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(25),
@@ -133,7 +158,6 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
             color: Colors.grey.withOpacity(0.3),
             blurRadius: 5,
             offset: const Offset(0, 2),
-
           ),
         ],
       ),
@@ -150,7 +174,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
             color: Colors.grey[400],
           ),
           hintStyle: TextStyle(
-            fontSize: 20,
+            fontSize: screenWidth * 0.06 / textScaleFactor, // Escalado de texto
             color: Colors.grey[500],
           ),
           enabledBorder: OutlineInputBorder(
@@ -170,6 +194,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
       ),
     );
   }
+
 
   Widget _menuDrawer(){
     return GestureDetector(
@@ -259,6 +284,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
   }
 
   Widget _recargar(){
+    final screenWidth = MediaQuery.of(context).size.width; final screenHeight = MediaQuery.of(context).size.height; final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return GestureDetector(
       onTap: (){
         _con.consultarTickets(_con.departamentoClave,_con.usuarioClavePerfil, _con.usuarioId);
@@ -291,78 +317,172 @@ class TicketTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Obtener dimensiones de la pantalla
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) => TicketsPage(clave: ticket.clave, idTicket: ticket.id.toString(),)
-        ));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TicketsPage(
+              clave: ticket.clave,
+              idTicket: ticket.id.toString(),
+            ),
+          ),
+        );
       },
       child: Column(
         children: [
           Card(
             elevation: 5,
             color: Colors.white,
-            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+            margin: EdgeInsets.symmetric(
+              vertical: screenHeight * 0.01, // Ajuste proporcional al alto
+              horizontal: screenWidth * 0.04, // Ajuste proporcional al ancho
+            ),
             child: Column(
               children: [
                 ListTile(
                   title: Text(
                     'No. Ticket: ${ticket.clave ?? ''}',
-                    style: TextStyle(fontSize: 15, color: Colors.blue.shade900,   fontFamily: 'Roboto'),
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.04 / textScaleFactor, // Escalado de fuente
+                      color: Colors.blue.shade900,
+                      fontFamily: 'Roboto',
+                    ),
                   ),
                   subtitle: Text(
                     'Descripción: ${ticket.falla ?? ''}',
-                    style: TextStyle(fontSize: 15, color: Colors.green.shade900,   fontFamily: 'Roboto'),
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.035 / textScaleFactor, // Escalado de fuente
+                      color: Colors.green.shade900,
+                      fontFamily: 'Roboto',
+                    ),
                   ),
-                  trailing: Icon(Icons.info, color: getColorForStatus(ticket.estatus)),
+                  trailing: Icon(
+                    Icons.info,
+                    color: getColorForStatus(ticket.estatus),
+                    size: screenWidth * 0.07, // Tamaño del icono
+                  ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(left: 15),
+                  margin: EdgeInsets.only(left: screenWidth * 0.04),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
                         children: [
-                          Text('T.R', style: TextStyle(color: Colors.blue.shade900,   fontFamily: 'Roboto')),
-                          Text(ticket.tiempo_respuesta, style: TextStyle(  fontFamily: 'Roboto'),),
-                        ],
-                      ),
-                      const SizedBox(width: 10,),
-                      Column(
-                        children: [
-                          Text('T.T',
-                            style: TextStyle(color: Colors.blue.shade900,   fontFamily: 'Roboto'),
+                          Text(
+                            'T.R',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.035 / textScaleFactor, // Escalado de fuente
+                              color: Colors.blue.shade900,
+                              fontFamily: 'Roboto',
+                            ),
                           ),
-                          Text(calcularTiempoTranscurrido() + " hrs", style: TextStyle(  fontFamily: 'Roboto'),)
+                          Text(
+                            ticket.tiempo_respuesta,
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.03 / textScaleFactor, // Escalado de fuente
+                              fontFamily: 'Roboto',
+                            ),
+                          ),
                         ],
                       ),
-                      const SizedBox(width: 10,),
+                      const SizedBox(width: 10),
                       Column(
                         children: [
-                          Text('Estacion/Departamento', style: TextStyle(color: Colors.blue.shade900,   fontFamily: 'Roboto')),
-                          Text(ticket.usuario_sucursal_nombre, style: TextStyle(  fontFamily: 'Roboto'),)
+                          Text(
+                            'T.T',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.035 / textScaleFactor, // Escalado de fuente
+                              color: Colors.blue.shade900,
+                              fontFamily: 'Roboto',
+                            ),
+                          ),
+                          Text(
+                            '${calcularTiempoTranscurrido()} hrs',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.03 / textScaleFactor, // Escalado de fuente
+                              fontFamily: 'Roboto',
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 10),
+                      Column(
+                        children: [
+                          Text(
+                            'Área que atiende',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.035 / textScaleFactor, // Escalado de fuente
+                              color: Colors.blue.shade900,
+                              fontFamily: 'Roboto',
+                            ),
+                          ),
+                          Text(
+                            ticket.usuario_asignado,
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.03 / textScaleFactor, // Escalado de fuente
+                              fontFamily: 'Roboto',
+                            ),
+                          ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 10,),
+                SizedBox(height: screenHeight * 0.02), // Espaciado adaptable
                 Container(
-                  padding: const EdgeInsets.only(left: 15, bottom: 10),
+                  padding: EdgeInsets.only(
+                    left: screenWidth * 0.04,
+                    bottom: screenHeight * 0.01,
+                  ),
                   child: Row(
                     children: [
                       Column(
                         children: [
-                          Text('Area que atiende', style: TextStyle(color: Colors.blue.shade900,   fontFamily: 'Roboto')),
-                          Text(ticket.usuario_asignado, style: TextStyle(  fontFamily: 'Roboto'),)
+                          Text(
+                            'Estación/Departamento',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.035 / textScaleFactor, // Escalado de fuente
+                              color: Colors.blue.shade900,
+                              fontFamily: 'Roboto',
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                          Text(
+                            ticket.usuario_sucursal_nombre,
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.03 / textScaleFactor, // Escalado de fuente
+                              fontFamily: 'Roboto',
+                            ),
+                          ),
                         ],
                       ),
-                      const SizedBox(width: 10,),
+                      const SizedBox(width: 10),
                       Expanded(
-
                         child: Column(
                           children: [
-                            Text('Estatus', style: TextStyle(color: Colors.blue.shade900,   fontFamily: 'Roboto')),
-                            Text(ticket.estatus, style: TextStyle(  fontFamily: 'Roboto'),)
+                            Text(
+                              'Estatus',
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.035 / textScaleFactor, // Escalado de fuente
+                                color: Colors.blue.shade900,
+                                fontFamily: 'Roboto',
+                              ),
+                            ),
+                            Text(
+                              ticket.estatus,
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.03 / textScaleFactor, // Escalado de fuente
+                                fontFamily: 'Roboto',
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -376,6 +496,8 @@ class TicketTile extends StatelessWidget {
       ),
     );
   }
+
+
 
   Color getColorForStatus(String? status) {
     switch (status?.toLowerCase()) {

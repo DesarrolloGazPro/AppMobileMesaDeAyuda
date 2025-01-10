@@ -35,6 +35,9 @@ class _TicketsPageState extends State<TicketsPage> {
   }
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return DefaultTabController(
       length: _con.taps.length,
       child: Scaffold(
@@ -44,8 +47,9 @@ class _TicketsPageState extends State<TicketsPage> {
           child: AppBar(
             title: Container(
               margin: const EdgeInsets.only(top: 10),
-              child: Text('Ticket: ${_con.numeroDeTicket}', style: const TextStyle(
-                color: Colors.white
+              child: Text('Ticket: ${_con.numeroDeTicket}', style: TextStyle(
+                color: Colors.white,
+                  fontSize: screenWidth * 0.04
               ),),
             ),
             leading:  _Atras(),
@@ -63,7 +67,9 @@ class _TicketsPageState extends State<TicketsPage> {
                 tabs: List<Widget>.generate(_con.taps.length, (index) {
                   return Tab(
                     child: _con.taps.isNotEmpty
-                        ? Text(_con.taps[index].toString())
+                        ? Text(_con.taps[index].toString(), style: TextStyle(
+                          fontSize: screenWidth * 0.05 / textScaleFactor
+                    ),)
                         : const Text(''),
                   );
                 }),
@@ -81,28 +87,48 @@ class _TicketsPageState extends State<TicketsPage> {
       ),
     );
   }
-  Widget _btnEnviar(){
+  Widget _btnEnviar() {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+      margin: EdgeInsets.symmetric(
+        horizontal: screenWidth * 0.1 / textScaleFactor, // Ajuste del margen horizontal
+        vertical: screenHeight * 0.05 / textScaleFactor, // Ajuste del margen vertical
+      ),
       child: ElevatedButton(
-        onPressed:_con.crearMensaje,
+        onPressed: _con.crearMensaje,
         style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red.shade900,
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30)),
-            padding: const EdgeInsets.symmetric(vertical: 15)
+          backgroundColor: Colors.red.shade900,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          padding: EdgeInsets.symmetric(
+            vertical: screenHeight * 0.01 / textScaleFactor, // Ajuste del padding vertical
+          ),
         ),
-        child:  const Text('Enviar', style: TextStyle(fontSize: 15)),
+        child: Text(
+          'Enviar',
+          style: TextStyle(fontSize: screenWidth * 0.05 / textScaleFactor), // Ajuste del tamaño de la fuente
+        ),
       ),
     );
   }
 
+
   Widget _btnGuardar(){
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+      margin: EdgeInsets.symmetric(
+        horizontal: screenWidth * 0.1 / textScaleFactor, // Ajuste del margen horizontal
+        vertical: screenHeight * 0.05 / textScaleFactor, // Ajuste del margen vertical
+      ),
       child: ElevatedButton(
         onPressed: _con.btnGuardar == false ? null : _con.guardar,
         style: ElevatedButton.styleFrom(
@@ -110,9 +136,10 @@ class _TicketsPageState extends State<TicketsPage> {
             foregroundColor: Colors.white,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30)),
-            padding: const EdgeInsets.symmetric(vertical: 15)
-        ),
-        child:  const Text('Guardar', style: TextStyle(fontSize: 15)),
+          padding: EdgeInsets.symmetric(
+            vertical: screenHeight * 0.01 / textScaleFactor, // Ajuste del padding vertical
+          ),        ),
+        child: Text('Guardar', style: TextStyle(fontSize: screenWidth * 0.05 / textScaleFactor)),
       ),
     );
   }
@@ -167,7 +194,12 @@ class _TicketsPageState extends State<TicketsPage> {
       ),
     );
   }
+
   Widget _carInformacion() {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return SingleChildScrollView(
       child: Container(
         margin: const EdgeInsets.all(15),
@@ -182,84 +214,128 @@ class _TicketsPageState extends State<TicketsPage> {
             child: Column(
               children: [
                 // Título Estatus
-                _buildInfoRow('Estatus:', _con.ticketDetalle?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets[0].estatus?.isNotEmpty == true
-                    ? _con.ticketDetalle[0].tickets[0].estatus!
-                    : '',),
-
+                _buildInfoRow(
+                  'Estatus:',
+                  _con.ticketDetalle?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets[0].estatus?.isNotEmpty == true
+                      ? _con.ticketDetalle[0].tickets[0].estatus!
+                      : '',
+                  screenWidth,
+                  textScaleFactor,
+                ),
                 // Título Prioridad
-                _buildInfoRow('Prioridad:', _con.ticketDetalle?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets[0].prioridad?.isNotEmpty == true
-                    ? _con.ticketDetalle[0].tickets[0].prioridad!
-                    : '',),
-
+                _buildInfoRow(
+                  'Prioridad:',
+                  _con.ticketDetalle?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets[0].prioridad?.isNotEmpty == true
+                      ? _con.ticketDetalle[0].tickets[0].prioridad!
+                      : '',
+                  screenWidth,
+                  textScaleFactor,
+                ),
                 // Título Servicio
-                _buildInfoRow('Servicio:', _con.ticketDetalle?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets[0].servicio?.isNotEmpty == true
-                    ? _con.ticketDetalle[0].tickets[0].servicio!
-                    : '',),
-
+                _buildInfoRow(
+                  'Servicio:',
+                  _con.ticketDetalle?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets[0].servicio?.isNotEmpty == true
+                      ? _con.ticketDetalle[0].tickets[0].servicio!
+                      : '',
+                  screenWidth,
+                  textScaleFactor,
+                ),
                 // Título Falla
-                _buildInfoRow('Falla:', _con.ticketDetalle?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets[0].falla?.isNotEmpty == true
-                    ? _con.ticketDetalle[0].tickets[0].falla.trim()!
-                    : '',),
-
+                _buildInfoRow(
+                  'Falla:',
+                  _con.ticketDetalle?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets[0].falla?.isNotEmpty == true
+                      ? _con.ticketDetalle[0].tickets[0].falla.trim()!
+                      : '',
+                  screenWidth,
+                  textScaleFactor,
+                ),
                 // Título Nombre
-                _buildInfoRow('Nombre:', _con.ticketDetalle?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets[0].cliente_nombre?.isNotEmpty == true
-                    ? _con.ticketDetalle[0].tickets[0].cliente_nombre!
-                    : '',),
-
+                _buildInfoRow(
+                  'Nombre:',
+                  _con.ticketDetalle?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets[0].cliente_nombre?.isNotEmpty == true
+                      ? _con.ticketDetalle[0].tickets[0].cliente_nombre!
+                      : '',
+                  screenWidth,
+                  textScaleFactor,
+                ),
                 // Título Est/Depto
-                _buildInfoRow('Est/Depto:', _con.ticketDetalle?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets[0].usuario_sucursal_nombre?.isNotEmpty == true
-                    ? _con.ticketDetalle[0].tickets[0].usuario_sucursal_nombre!
-                    : '',),
-
+                _buildInfoRow(
+                  'Est/Depto:',
+                  _con.ticketDetalle?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets[0].usuario_sucursal_nombre?.isNotEmpty == true
+                      ? _con.ticketDetalle[0].tickets[0].usuario_sucursal_nombre!
+                      : '',
+                  screenWidth,
+                  textScaleFactor,
+                ),
                 // Correo
-                _buildInfoRow('Correo:', _con.ticketDetalle?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets[0].cliente_correo?.isNotEmpty == true
-                    ? _con.ticketDetalle[0].tickets[0].cliente_correo!
-                    : '',),
-
+                _buildInfoRow(
+                  'Correo:',
+                  _con.ticketDetalle?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets[0].cliente_correo?.isNotEmpty == true
+                      ? _con.ticketDetalle[0].tickets[0].cliente_correo!
+                      : '',
+                  screenWidth,
+                  textScaleFactor,
+                ),
                 // Título Asignado
-                _buildInfoRow('Asignado:', _con.ticketDetalle?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets[0].esta_asignado?.isNotEmpty == true
-                    ? _con.ticketDetalle[0].tickets[0].esta_asignado!
-                    : '',),
-
+                _buildInfoRow(
+                  'Asignado:',
+                  _con.ticketDetalle?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets[0].esta_asignado?.isNotEmpty == true
+                      ? _con.ticketDetalle[0].tickets[0].esta_asignado!
+                      : '',
+                  screenWidth,
+                  textScaleFactor,
+                ),
                 // Título Asignado a
-                _buildInfoRow('Asignado a:', _con.ticketDetalle?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets[0].usuario_asignado?.isNotEmpty == true
-                    ? _con.ticketDetalle[0].tickets[0].usuario_asignado!
-                    : '',),
-
+                _buildInfoRow(
+                  'Asignado a:',
+                  _con.ticketDetalle?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets[0].usuario_asignado?.isNotEmpty == true
+                      ? _con.ticketDetalle[0].tickets[0].usuario_asignado!
+                      : '',
+                  screenWidth,
+                  textScaleFactor,
+                ),
                 // Título Creado
-                _buildInfoRow('Creado:', _con.ticketDetalle?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets[0].fecha_creado?.isNotEmpty == true
-                    ? _con.ticketDetalle[0].tickets[0].fecha_creado!
-                    : '',),
-
+                _buildInfoRow(
+                  'Creado:',
+                  _con.ticketDetalle?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets[0].fecha_creado?.isNotEmpty == true
+                      ? _con.ticketDetalle[0].tickets[0].fecha_creado!
+                      : '',
+                  screenWidth,
+                  textScaleFactor,
+                ),
                 // Título Cerrado
-                _buildInfoRow('Cerrado:', (_con.ticketDetalle?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
-                    _con.ticketDetalle[0].tickets[0].fecha_cerrado?.isNotEmpty == true
-                       )
-                    ? (_con.ticketDetalle[0].tickets[0].fecha_cerrado == '01/01/1900 00:00:00')
-                     ? ''
-                    :_con.ticketDetalle[0].tickets[0].fecha_cerrado!
-                    : '',),
+                _buildInfoRow(
+                  'Cerrado:',
+                  (_con.ticketDetalle?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets?.isNotEmpty == true &&
+                      _con.ticketDetalle[0].tickets[0].fecha_cerrado?.isNotEmpty == true)
+                      ? (_con.ticketDetalle[0].tickets[0].fecha_cerrado == '01/01/1900 00:00:00'
+                      ? ''
+                      : _con.ticketDetalle[0].tickets[0].fecha_cerrado!)
+                      : '',
+                  screenWidth,
+                  textScaleFactor,
+                ),
               ],
             ),
           ),
@@ -268,36 +344,36 @@ class _TicketsPageState extends State<TicketsPage> {
     );
   }
 
-// Función para crear un row más limpio y reutilizable
-  Widget _buildInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
+  Widget _buildInfoRow(String title, String value, double screenWidth, double textScaleFactor) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: screenWidth * 0.05 / textScaleFactor,
+            fontWeight: FontWeight.bold,
+            color: Colors.orange.shade900
+          ),
+        ),
+        const SizedBox(width: 20,),
+        Flexible(
+          child: Text(
+            value,
             style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: MyColors.colortext,
+              fontSize: screenWidth * 0.04 / textScaleFactor,
+              color: Colors.grey.shade800
             ),
+            overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(width: 20),
-          Expanded(
-            child: Text(
-              value,
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.grey[700],
-              ),
-              textAlign: TextAlign.end,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
+
+
+
+
   Widget _cardDetalle() {
     return SingleChildScrollView(
       child: Container(
@@ -348,16 +424,20 @@ class _TicketsPageState extends State<TicketsPage> {
 
   Widget _visbleAtendioYfechaHora()
   {// solo se debe de mostrar cuando ele status es cerrado
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Visibility(
       visible: _con.mostrarAtendido,
       child: Column(
         children: [
           _dropAtendio(),
           const SizedBox(height: 30),
-          const Center(
+           Center(
             child: Text('Fecha y hora', style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 15,
+              fontSize:  screenWidth * 0.05 / textScaleFactor,
             )),
           ),
           Container(
@@ -376,15 +456,18 @@ class _TicketsPageState extends State<TicketsPage> {
   }
 
   Widget _dropReasignarTiket(){
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     String dropdownValue = _con.reasignarTicket.first;
     return Visibility(
     visible: _con.mostrarReasignarTicket,
       child: Column(
         children: [
-          const Text('Reasignar ticket' , style: TextStyle(
+           Text('Reasignar ticket' , style: TextStyle(
               color: Colors.black, height: 2,
               fontWeight: FontWeight.bold,
-              fontSize: 15
+            fontSize: screenWidth * 0.05 / textScaleFactor,
           ),),
           Container(
             margin: const EdgeInsets.only(left: 10, right: 10),
@@ -411,7 +494,7 @@ class _TicketsPageState extends State<TicketsPage> {
              items: _con.reasignarTicket.map<DropdownMenuItem<String>>((String value) {
                return DropdownMenuItem<String>(
                  value: value,
-                 child: Text(value , style: TextStyle(fontSize: 15),),
+                 child: Text(value , style: TextStyle( fontSize: screenWidth * 0.05 / textScaleFactor),),
                );
              }).toList(),
                ),
@@ -421,13 +504,17 @@ class _TicketsPageState extends State<TicketsPage> {
     );
   }
   Widget _dropCambiarestatus(){
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     String dropdownValue = _con.cambiarEstatus.first;
     return Column(
       children: [
-        const Text('Cambiar Estatus' , style: TextStyle(
+         Text('Cambiar Estatus' , style: TextStyle(
             color: Colors.black, height: 2,
             fontWeight: FontWeight.bold,
-            fontSize: 15
+            fontSize: screenWidth * 0.05 / textScaleFactor,
         ),),
         Container(
           margin: const EdgeInsets.only(left: 10, right: 10),
@@ -452,7 +539,7 @@ class _TicketsPageState extends State<TicketsPage> {
             items: _con.cambiarEstatus.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
-                child: Text(value, style:  TextStyle(fontSize: 15),),
+                child: Text(value, style:  TextStyle(fontSize: screenWidth * 0.05 / textScaleFactor),),
               );
             }).toList(),
           ),
@@ -462,6 +549,10 @@ class _TicketsPageState extends State<TicketsPage> {
   }
 
   Widget _dropAtendio(){
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     // Verifica y agrega el valor inicial a la lista si no existe
     if (_con.valorAtendio.isNotEmpty &&
         !_con.listaPersonal.any((personal) => personal.nombre == _con.valorAtendio)) {
@@ -469,10 +560,10 @@ class _TicketsPageState extends State<TicketsPage> {
     }
     return Column(
       children: [
-        const Text('Atendió' , style: TextStyle(
+         Text('Atendió' , style: TextStyle(
             color: Colors.black, height: 2,
             fontWeight: FontWeight.bold,
-            fontSize: 15
+            fontSize: screenWidth * 0.05 / textScaleFactor
         ),),
         Container(
           margin: const EdgeInsets.only(left: 10, right: 10),
@@ -494,7 +585,7 @@ class _TicketsPageState extends State<TicketsPage> {
             items: _con.listaPersonal.map<DropdownMenuItem<String>>((Personal personal) {
               return DropdownMenuItem<String>(
                 value: personal.nombre,
-                child: Text(personal.nombre, style:  const TextStyle(fontSize: 15)),
+                child: Text(personal.nombre, style:  TextStyle(fontSize: screenWidth * 0.05 / textScaleFactor)),
               );
             }).toList(),
           ),
@@ -502,13 +593,76 @@ class _TicketsPageState extends State<TicketsPage> {
       ],
     );
   }
+
+  Widget _Fecha() {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
+    return Row(
+      children: [
+        Text(
+          _con.selectedDate == null
+              ? ''
+              : DateFormat('dd/MM/yyyy').format(_con.selectedDate!.toLocal()),
+          style: TextStyle(
+            fontSize: screenWidth * 0.04 / textScaleFactor, // Ajuste del tamaño de la fuente
+          ),
+        ),
+        IconButton(
+          icon: const Icon(Icons.date_range),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: MyColors.primaryColorDark,
+            foregroundColor: Colors.white,
+          ),
+          onPressed: () {
+            _con.selectDate();
+          },
+        ),
+      ],
+    );
+  }
+
+
+  Widget _hora() {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    return Row(
+      children: [
+        Text(
+          _con.selectedTime != null
+              ? '${_con.selectedTime!.format(context)}'
+              : '',
+          style:  TextStyle(fontSize: screenWidth * 0.04/ textScaleFactor),
+        ),
+
+        IconButton(
+          icon: const Icon(Icons.timer),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: MyColors.primaryColorDark,
+            foregroundColor: Colors.white,
+          ),
+          onPressed: (){
+            _con.selectTime();
+          },
+        ),
+      ],
+    );
+  }
+
+
+
   Widget _dropArea(){
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Column(
       children: [
-        const Text('Área' , style: TextStyle(
+         Text('Área' , style: TextStyle(
             color: Colors.black, height: 2,
             fontWeight: FontWeight.bold,
-            fontSize: 15
+            fontSize: screenWidth * 0.04 / textScaleFactor
         ),),
         Container(
           margin: const EdgeInsets.only(left: 10, right: 10),
@@ -543,7 +697,7 @@ class _TicketsPageState extends State<TicketsPage> {
             items: _con.listaareaServicio.map<DropdownMenuItem<String>>((AreaServicios area) {
               return DropdownMenuItem<String>(
                 value: area.clave,
-                child: Text(area.clave, style:  TextStyle(fontSize: 15)),
+                child: Text(area.clave, style:  TextStyle(fontSize: screenWidth * 0.04 /textScaleFactor)),
               );
             }).toList(),
           ),
@@ -553,12 +707,15 @@ class _TicketsPageState extends State<TicketsPage> {
   }
 
   Widget _dropFalla(){
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Column(
       children: [
-        const Text('Falla' , style: TextStyle(
+         Text('Falla' , style: TextStyle(
             color: Colors.black, height: 2,
             fontWeight: FontWeight.bold,
-            fontSize: 15
+            fontSize: screenWidth * 0.04 / textScaleFactor
         ),),
         Container(
           margin: const EdgeInsets.only(left: 10, right: 10),
@@ -586,7 +743,7 @@ class _TicketsPageState extends State<TicketsPage> {
             items: _con.listafallas.map<DropdownMenuItem<String>>((Fallas falla) {
               return DropdownMenuItem<String>(
                 value: falla.falla,
-                child: Text(falla.falla, style:  TextStyle(fontSize: 15)),
+                child: Text(falla.falla, style:  TextStyle(fontSize: screenWidth * 0.04 / textScaleFactor)),
               );
             }).toList(),
           ),
@@ -595,61 +752,7 @@ class _TicketsPageState extends State<TicketsPage> {
     );
   }
 
-  Widget _Fecha() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          _con.selectedDate == null
-              ? ''
-              : DateFormat('dd/MM/yyyy').format(_con.selectedDate!.toLocal()),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold
-          ),
-        ),
-        const SizedBox(width: 1),
-        IconButton(
-          icon: const Icon(Icons.date_range),
-          style: ElevatedButton.styleFrom(
-              backgroundColor: MyColors.primaryColorDark,
-              foregroundColor: Colors.white,
-          ),
-          onPressed: (){
-            _con.selectDate();
-          },
 
-        ),
-      ],
-    );
-  }
-
-  Widget _dropHora() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          _con.selectedDate == null
-              ? ''
-              : DateFormat('dd/MM/yyyy').format(_con.selectedDate!.toLocal()),
-          style: const TextStyle(
-              fontWeight: FontWeight.bold
-          ),
-        ),
-        const SizedBox(width: 1),
-        IconButton(
-          icon: const Icon(Icons.timer),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: MyColors.primaryColor,
-            foregroundColor: Colors.white,
-          ),
-          onPressed: (){
-            _con.selectDate();
-          },
-
-        ),
-      ],
-    );
-  }
   Widget _Atras(){
     return GestureDetector(
       onTap: _con.goAtras,
@@ -699,17 +802,20 @@ class _TicketsPageState extends State<TicketsPage> {
   }
 
   Widget _chatScreen(){
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Container(
       margin: const EdgeInsets.only(top: 10, left: 10),
-      child:  const Row(
+      child:  Row(
         children: [
-          CircleAvatar(
+          const CircleAvatar(
             backgroundImage:  AssetImage('assets/img/profile.jpg'),
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Text('Soporte', style: TextStyle(
               fontWeight: FontWeight.bold,
-            fontSize: 20
+              fontSize: screenWidth * 0.04 / textScaleFactor
           ),),
         ],
       ),
@@ -717,6 +823,9 @@ class _TicketsPageState extends State<TicketsPage> {
   }
 
   Widget _mensajeSoporte(String mensajeSoporte, String nombrearch, String bytes){
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Container(
       margin: const EdgeInsets.only(top: 10),
       padding:  const EdgeInsets.symmetric(horizontal: 10),
@@ -731,7 +840,7 @@ class _TicketsPageState extends State<TicketsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
                 mensajeSoporte,
-                style: const TextStyle(color: Colors.white, fontSize: 15),
+                style:  TextStyle(color: Colors.white, fontSize: screenWidth * 0.04 /textScaleFactor),
               ),
             ),
           ),
@@ -752,6 +861,9 @@ class _TicketsPageState extends State<TicketsPage> {
   }
 
   Widget _mensajeUser(String mensajeUser, String nombrearch, String bytes, String idMensaje) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Container(
       padding:  const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
@@ -765,7 +877,7 @@ class _TicketsPageState extends State<TicketsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
                 mensajeUser,
-                style: const TextStyle(color: Colors.white, fontSize: 15),
+                style:  TextStyle(color: Colors.white, fontSize: screenWidth * 0.04 /textScaleFactor),
               ),
             ),
           ),
@@ -788,6 +900,9 @@ class _TicketsPageState extends State<TicketsPage> {
   }
 
   Widget _MessageFieldBox(){
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
@@ -797,7 +912,7 @@ class _TicketsPageState extends State<TicketsPage> {
       ),
       child:  TextField(
         controller: _con.txtMensaje,
-        style: const TextStyle( fontSize: 15),
+        style:  TextStyle( fontSize: screenWidth * 0.04 / textScaleFactor),
         decoration: InputDecoration(
             hintText: 'Escribe aqui tus comentarios..',
             border: InputBorder.none,
@@ -814,32 +929,12 @@ class _TicketsPageState extends State<TicketsPage> {
     );
   }
 
-  Widget _hora() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          _con.selectedTime != null
-              ? '${_con.selectedTime!.format(context)}'
-              : '',
-          style: const TextStyle(fontSize: 18),
-        ),
-        const SizedBox(height: 20),
-        IconButton(
-          icon: const Icon(Icons.timer),
-          style: ElevatedButton.styleFrom(
-          backgroundColor: MyColors.primaryColorDark,
-          foregroundColor: Colors.white,
-          ),
-          onPressed: (){
-            _con.selectTime();
-          },
-        ),
-      ],
-    );
-  }
+
 
   Widget _AreaEncargada(){
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
@@ -857,11 +952,14 @@ class _TicketsPageState extends State<TicketsPage> {
               color: MyColors.primaryColor,
             )
         ),
-        style: TextStyle( fontSize: 20, color: Colors.orange.shade900),
+        style: TextStyle( fontSize: screenWidth * 0.05 / textScaleFactor, color: Colors.orange.shade900),
       ),
     );
   }
   Widget _Prioridad(){
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
@@ -880,7 +978,7 @@ class _TicketsPageState extends State<TicketsPage> {
               color: MyColors.primaryColor,
             )
         ),
-        style: TextStyle( fontSize: 20, color: Colors.orange.shade900),
+        style: TextStyle( fontSize: screenWidth * 0.04 / textScaleFactor, color: Colors.orange.shade900),
       ),
     );
   }
