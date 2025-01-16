@@ -32,7 +32,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
     return Scaffold(
       key: _con.key,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(screenHeight * 0.24), // Escalado adaptable
+        preferredSize: Size.fromHeight(screenHeight * 0.29), // Escalado adaptable
         child: AppBar(
           title: Container(
             alignment: Alignment.center,
@@ -281,10 +281,13 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
         ],
       ),
     );
+    
   }
 
   Widget _recargar(){
-    final screenWidth = MediaQuery.of(context).size.width; final screenHeight = MediaQuery.of(context).size.height; final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return GestureDetector(
       onTap: (){
         _con.consultarTickets(_con.departamentoClave,_con.usuarioClavePerfil, _con.usuarioId);
@@ -293,7 +296,7 @@ class _ListTicketsPageState extends State<ListTicketsPage> {
       child: Stack(
         children: [
           Container(
-            margin: const EdgeInsets.only(right: 10, top: 30),
+            margin: const EdgeInsets.only(right: 10, top: 5),
             child: const Icon(
               Icons.refresh,
               color: Colors.white,
